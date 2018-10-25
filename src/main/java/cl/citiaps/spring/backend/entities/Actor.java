@@ -1,5 +1,8 @@
 package cl.citiaps.spring.backend.entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -16,6 +19,7 @@ public class Actor implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name="actor_id", unique=true, nullable=false)
 	private int actorId;
 
@@ -25,7 +29,8 @@ public class Actor implements Serializable {
 	@Column(name="last_name", nullable=false, length=45)
 	private String lastName;
 
-	@Column(name="last_update", nullable=false)
+	@Column(name="last_update", nullable=true)
+	@CreationTimestamp
 	private Timestamp lastUpdate;
 
 	public Actor() {
