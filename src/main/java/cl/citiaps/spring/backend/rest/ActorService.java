@@ -38,5 +38,5 @@ public class ActorService {
 	public Actor create(@RequestBody Actor resource) {
 	     return actorRepository.save(resource);
 	}
-	 
+
 }
