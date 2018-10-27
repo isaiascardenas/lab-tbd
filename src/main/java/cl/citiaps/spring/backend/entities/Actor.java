@@ -6,6 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 
 /**
@@ -33,8 +34,18 @@ public class Actor implements Serializable {
 	@CreationTimestamp
 	private Timestamp lastUpdate;
 
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "film_actor",
+	joinColumns = @JoinColumn(name = "film_id", referencedColumnName = "actor_id"),
+	inverseJoinColumns = @JoinColumn(name="actor_id",
+	referencedColumnName = "film_id"))
+	private List<Film> films;
+
+
 	public Actor() {
 	}
+	
 
 	public int getActorId() {
 		return this.actorId;
