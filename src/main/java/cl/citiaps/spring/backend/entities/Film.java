@@ -3,14 +3,16 @@ package cl.citiaps.spring.backend.entities;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
 @Table(name="film")
 @NamedQuery(name="Film.findAll", query="SELECT f FROM Film f")
 public class Film implements Serializable {
-    private static final long serialVersionUID = 2L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -55,10 +57,9 @@ public class Film implements Serializable {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "film_actor",
-            joinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "film_id"),
-            inverseJoinColumns = @JoinColumn(name="film_id",
-                    referencedColumnName = "actor_id"))
-    private List<Actor> actors;
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name="actor_id"))
+    public List<Actor> actors;
 
     public Film() {
 
