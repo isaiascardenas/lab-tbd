@@ -1,5 +1,9 @@
 package cl.citiaps.spring.backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonView;
+import net.minidev.json.annotate.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -12,7 +16,7 @@ import java.util.Set;
 @Table(name="film")
 @NamedQuery(name="Film.findAll", query="SELECT f FROM Film f")
 public class Film implements Serializable {
-    private static final long serialVersionUID = 1L;
+    //private static final long serialVersionUID = 2L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -31,7 +35,7 @@ public class Film implements Serializable {
     @Column(name = "language_id", nullable = false)
     private int filmLanguageId;
 
-    @Column(name = "original_language_id")
+    @Column(name = "original_language_id", nullable = false)
     private Long filmOriginalLanguajeId;
 
     @Column(name = "rental_duration", nullable = false)
@@ -55,10 +59,11 @@ public class Film implements Serializable {
     @Column(name = "last_update", nullable = false)
     private Timestamp lastUpdate;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "film_actor",
             joinColumns = @JoinColumn(name = "film_id"),
             inverseJoinColumns = @JoinColumn(name="actor_id"))
+    @JsonBackReference
     public List<Actor> actors;
 
     public Film() {
@@ -169,4 +174,11 @@ public class Film implements Serializable {
         this.lastUpdate = lastUpdate;
     }
 
+    public List<Actor> getActors() {
+        return actors;
+    }
+
+    public void setActors(List<Actor> actors) {
+        this.actors = actors;
+    }
 }
