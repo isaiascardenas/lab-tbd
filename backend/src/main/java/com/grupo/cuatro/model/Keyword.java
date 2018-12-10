@@ -1,5 +1,6 @@
 package com.grupo.cuatro.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,6 +23,7 @@ public class Keyword {
     //muchas keywords pertenecen a un deporte
     @ManyToOne
     @JoinColumn(name="sport_id")
+    @JsonBackReference("sport-keyword")
     private Sport sport;
 
     //llave foranea transient para establecer la relacion con deporte

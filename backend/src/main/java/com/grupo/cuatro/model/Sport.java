@@ -1,6 +1,7 @@
 package com.grupo.cuatro.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,12 +24,12 @@ public class Sport {
     //relaciones
     //un deporte tiene muchas estadisticas
     @OneToMany(targetEntity = Statistic.class, mappedBy = "sport", cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonManagedReference("sport-statistic")
     private List<Statistic> statistics;
 
     //un deporte tiene muchos keywords
     @OneToMany(targetEntity = Keyword.class, mappedBy = "sport", cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonManagedReference("sport-keyword")
     private List<Keyword> keywords;
 
 }

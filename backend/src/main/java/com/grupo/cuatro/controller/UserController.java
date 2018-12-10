@@ -26,7 +26,7 @@ public class UserController {
     }
 
     //obtener usuario por id
-    @RequestMapping(value="/{id}", method=RequestMethod.GET)
+    @RequestMapping(value="/id/{id}", method=RequestMethod.GET)
     @ResponseBody
     public ResponseEntity getById(@PathVariable("id") Long id) {
         User userValue;

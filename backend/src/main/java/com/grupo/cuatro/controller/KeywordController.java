@@ -31,7 +31,7 @@ public class KeywordController {
     }
 
     //obtener una keyword por su id
-    @RequestMapping(value="/{id}", method=RequestMethod.GET)
+    @RequestMapping(value="/id/{id}", method=RequestMethod.GET)
     @ResponseBody
     public ResponseEntity getById(@PathVariable("id") Long id) {
         Keyword keywordValue;

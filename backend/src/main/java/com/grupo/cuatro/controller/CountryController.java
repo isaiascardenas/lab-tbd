@@ -31,7 +31,7 @@ public class CountryController {
     }
 
     //obtener un pais por su id
-    @RequestMapping(value="/{id}", method = RequestMethod.GET)
+    @RequestMapping(value="/id/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity getById(@PathVariable("id") Long id) {
         Country countryValue;
@@ -48,10 +48,10 @@ public class CountryController {
     }
 
     //obtener pais por su nombre
-    @RequestMapping(value="/{country_name}", method = RequestMethod.GET)
+    @RequestMapping(value="/name/{country_name}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity getByCountryName(@PathVariable("country_name") String countryName) {
-        Country country = countryRepository.getCountryByCountryName(countryName);
+        Country country = countryRepository.getCountryByCountryNameIsLike(countryName);
         if(country != null) {
             return new ResponseEntity(country, HttpStatus.OK);
         } else {

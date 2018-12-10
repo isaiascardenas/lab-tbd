@@ -35,7 +35,7 @@ public class StatisticController {
     }
 
     //obtener estadistica por id
-    @RequestMapping(value="/{id}", method=RequestMethod.GET)
+    @RequestMapping(value="/id/{id}", method=RequestMethod.GET)
     @ResponseBody
     public ResponseEntity getById(@PathVariable("id") Long id) {
         Statistic statisticValue;
@@ -77,26 +77,6 @@ public class StatisticController {
             return new ResponseEntity(countries, HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    //asociar un pais a una estadistica (hay que probarlo)
-    @RequestMapping(value="/{id}/country/{country_id}", method=RequestMethod.PUT)
-    @ResponseBody
-    public ResponseEntity addCountry(@PathVariable("id") Long id, @PathVariable("country_id") Long countryId) {
-        Statistic statisticValue;
-        Country countryValue;
-
-        Optional<Statistic> statistic = statisticRepository.findById(id);
-        Optional<Country> country = countryRepository.findById(countryId);
-        if(statistic.isPresent() && country.isPresent()) {
-            statisticValue = statistic.get();
-            countryValue = country.get();
-            statisticValue.addCountry(countryValue);
-            statisticRepository.save(statisticValue);
-            return new ResponseEntity(statisticValue, HttpStatus.ACCEPTED);
-        } else {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
 }
