@@ -29,4 +29,6 @@ Guía de las principales tencologías utilizadas en el desarrollo del frontend de 
 * [Vue-ChartJS](https://vue-chartjs.org/guide/#introduction)
 * [Axios](https://github.com/axios/axios)
 * [Element](https://element.eleme.io/#/en-US/component/installation)
+* [VueRouter](https://router.vuejs.org/guide/#html)
+
 
