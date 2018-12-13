@@ -1,23 +1,31 @@
-# README #
+# Laboratorio de ánalisis de Tweets
 
-Para correr la aplicación en el boot de spring ejecutar "gradle bootrun"
+Proyecto para Taller de Bases de Datos sobre ánalisis de información extraída de Twitter referente a deportes en países de habla hispana.
 
-Para empaquetar en un war se debe ejecutar "gradle war"
+## Backend
 
-Una vez empaquetado el proyecto en un war se puede desplegar en tomcat 8
+...
 
-# Código de Ejemplo para Taller de Base de Datos #
+## Frontend
 
-El taller JavaEE consiste en construir servicios del tipo GET y POST para la tabla Film_Actor.
+Para inicializar el entorno de desarrollo del frontend (en la carpeta frontend/ del proyecto):
 
-GET
+``` bash
 
-/actors/1/films --> retorna todas las películas en las que ha participado el actor 1.
+# Instalar dependencias
+npm install
 
-/films/1/actors ---> retorna todos los actores de la película 1.
+# Levantar servidor con hot reload (watch) en localhost:8080
+npm run dev
 
-POST
+# Compilar para producción, archivos minificados
+npm run build
 
-/actors/1/films/2 --> vincula la película 2 al actor 1. (se debe validar que exista la película 2).
+```
 
-/films/1/actors/2 --> vincula el actor 2 a la película 1. (se debe validar que exista la actor 2).
+Guía de las principales tencologías utilizadas en el desarrollo del frontend de la aplicación:
+
+* [VueJS](https://vuejs.org/v2/guide/)
+* [Vue-ChartJS](https://vue-chartjs.org/guide/#introduction)
+* [Axios](https://github.com/axios/axios)
+
