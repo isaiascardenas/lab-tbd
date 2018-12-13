@@ -61,4 +61,10 @@ public class KeywordController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
+
+    /*@RequestMapping(value= "/{id}/delete", method=RequestMethod.DELETE)
+    @ResponseBody
+    public void deleteKeyword(@PathVariable String id_keyword){
+        Keyword keyword = this.keywordRepository.DeleteKeywordById(id_keyword);
+    }*/
 }
