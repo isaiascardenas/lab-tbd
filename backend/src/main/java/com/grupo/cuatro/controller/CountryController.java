@@ -102,4 +102,10 @@ public class CountryController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
+
+    /*@RequestMapping(value="/{id}/delete", method= RequestMethod.DELETE)
+    @ResponseBody
+    public void deleteCountry(@PathVariable String id_country){
+        Country country = this.countryRepository.deleteCountryById(id_country);
+    }*/
 }
