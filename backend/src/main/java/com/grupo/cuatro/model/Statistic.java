@@ -1,7 +1,6 @@
 package com.grupo.cuatro.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,8 +18,11 @@ public class Statistic {
     @Column(name="statistic_id")
     private Long statisticId;
 
-    @Column(name="statistic_kind")
-    private String statisticKind;
+    @Column(name="statistic_count")
+    private Long statisticCount;
+
+    @Column(name="statistic_query")
+    private String statisticQuery;
 
     @Column(name="statistic_date")
     private Date statisticDate;
