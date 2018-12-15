@@ -14,7 +14,7 @@ public class CuatroApplication {
 
 	public static void main(String[] args) {
         Elastic e = new Elastic();
-        //e.indexCreate();
+        e.indexCreate();
 
         System.out.println(e.getCantidadFecha("Dec"));
         

@@ -87,6 +87,7 @@ public class Elastic {
 
                 if (writer.getConfig().getOpenMode() == OpenMode.CREATE) {
                     System.out.println("Indexando el tweet: " + doc.get("text") + "\n");
+                    System.out.println("Fecha del tweet :" + doc.get("timeStamp") + "\n");
                     writer.addDocument(doc);
                     System.out.println(doc);
                 } else {
@@ -153,7 +154,6 @@ public class Elastic {
                 Logger.getLogger(Elastic.class.getName()).log(Level.SEVERE,null,ex);
 
             }
-
 
             return total;
         }
