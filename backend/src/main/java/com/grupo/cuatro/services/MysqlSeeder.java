@@ -23,11 +23,27 @@ public class MysqlSeeder {
 
     public void seed() {
         List<Sport> all = sportRepository.findAll();
+        Long tweetCount;
+        Long tweetCountryCount;
+        java.sql.Date sqlDate = new java.sql.Date(System.currentTimeMillis()); //datetime for statistic
+
 
         for (Sport sport : all) {
 
             System.out.println("name: " + sport.getSportName());
             System.out.println("count: " + this.e.getCantidad(sport.getSportName()));
+
+            tweetCount = Long.valueOf( this.e.getCantidad(sport.getSportName()));
+
+            //new count statistic creation
+            Statistic statistic = new Statistic();
+            statistic.setSport(sport);
+            statistic.setStatisticCount(tweetCount);
+            statistic.setStatisticQuery("get_total_count");
+            statistic.setStatisticDate(sqlDate);
+
+            //add to statistics repo
+            statisticRepository.save(statistic);
 
             //get cant (cantidad total por deporte)
             //get pais  (cantidad tweets por pais)
