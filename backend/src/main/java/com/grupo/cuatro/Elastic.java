@@ -69,11 +69,14 @@ public class Elastic {
             return;*/
 
             while (cursor.hasNext()) {
+                System.out.println("ASKDJASKDSAKDJSKDAJASD");
                 DBObject cur = cursor.next();
-                DBObject users = new BasicDBObject("user.location", "Chile");
                 doc = new Document();
                 doc.add(new StringField("id", cur.get("_id").toString(), Field.Store.YES));
                 doc.add(new TextField("text", cur.get("text").toString(), Field.Store.YES));
+                if(cur.get("location") != null){
+                    doc.add(new StringField("location", cur.get("location").toString(), Field.Store.YES));
+                }
                 //doc.add(new StringField("location", aux.get("location").toString(), Field.Store.YES));
                 /*if(cur.containsField("user")){
                     System.out.println("ASKDJSKAJDKSAJDASK");
@@ -130,6 +133,34 @@ public class Elastic {
                 Logger.getLogger(Elastic.class.getName()).log(Level.SEVERE,null,ex);
 
             }
+
+            return total;
+        }
+
+        public int getCantidadPais(String pais){
+            int total = 0;
+
+            try {
+                IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
+                IndexSearcher searcher = new IndexSearcher(reader);
+                Analyzer analyzer = new StandardAnalyzer();
+                //this.resultList = new ArrayList<>();
+                QueryParser parser = new QueryParser("location", analyzer);
+                Query query = parser.parse(pais);
+                TopDocs result = searcher.search(query, 25000);
+                ScoreDoc[] hits = result.scoreDocs;
+
+                for (int i = 0; i < hits.length; i++) {
+                    total++;
+                }
+                reader.close();
+            }
+            catch(IOException | ParseException ex)
+            {
+                Logger.getLogger(Elastic.class.getName()).log(Level.SEVERE,null,ex);
+
+            }
+
 
             return total;
         }
