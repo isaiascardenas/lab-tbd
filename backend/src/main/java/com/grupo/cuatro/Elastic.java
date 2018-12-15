@@ -11,10 +11,7 @@ import java.util.logging.Logger;
 import java.util.*;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.mongodb.Block;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
+import com.mongodb.*;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
@@ -72,10 +69,22 @@ public class Elastic {
             return;*/
 
             while (cursor.hasNext()) {
+                System.out.println("ASKDJASKDSAKDJSKDAJASD");
                 DBObject cur = cursor.next();
                 doc = new Document();
                 doc.add(new StringField("id", cur.get("_id").toString(), Field.Store.YES));
                 doc.add(new TextField("text", cur.get("text").toString(), Field.Store.YES));
+                if(cur.get("location") != null){
+                    doc.add(new StringField("location", cur.get("location").toString(), Field.Store.YES));
+                }
+                //doc.add(new StringField("location", aux.get("location").toString(), Field.Store.YES));
+                /*if(cur.containsField("user")){
+                    System.out.println("ASKDJSKAJDKSAJDASK");
+                    if(cur.get("user") !=null){
+                        System.out.println("entre aqui");
+                        doc.add(new TextField("pais",cur.get("locationUser").toString(),Field.Store.YES));
+                    }
+                }*/
                 //doc.add(new StringField("analysis", cur.get("analysis").toString(), Field.Store.YES));
                 //doc.add(new StringField("finalCountry",cur.get("finalCountry").toString(),Field.Store.YES));
                 //doc.add(new StringField("screenName", cur.get("user.location").toString(), Field.Store.YES));
@@ -124,6 +133,34 @@ public class Elastic {
                 Logger.getLogger(Elastic.class.getName()).log(Level.SEVERE,null,ex);
 
             }
+
+            return total;
+        }
+
+        public int getCantidadPais(String pais){
+            int total = 0;
+
+            try {
+                IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
+                IndexSearcher searcher = new IndexSearcher(reader);
+                Analyzer analyzer = new StandardAnalyzer();
+                //this.resultList = new ArrayList<>();
+                QueryParser parser = new QueryParser("location", analyzer);
+                Query query = parser.parse(pais);
+                TopDocs result = searcher.search(query, 25000);
+                ScoreDoc[] hits = result.scoreDocs;
+
+                for (int i = 0; i < hits.length; i++) {
+                    total++;
+                }
+                reader.close();
+            }
+            catch(IOException | ParseException ex)
+            {
+                Logger.getLogger(Elastic.class.getName()).log(Level.SEVERE,null,ex);
+
+            }
+
 
             return total;
         }

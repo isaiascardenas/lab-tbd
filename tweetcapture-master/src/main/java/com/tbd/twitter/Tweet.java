@@ -12,6 +12,7 @@ public class Tweet {
     private Date createdAt;
     private GeoLocation geoLocation;
 	private String text;
+	private String location;
     private int retweetCount;
     private int favoriteCount;
     private boolean retweet;
@@ -26,7 +27,7 @@ public class Tweet {
     private int positiveScore;
     private int negativeScore;
     private String analysis;
-    
+
     public double getPositivePercent() {
         return positivePorcent;
     }
@@ -168,5 +169,13 @@ public class Tweet {
 
     public void setUserFriendsCount(int userFriendsCount) {
         this.userFriendsCount = userFriendsCount;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

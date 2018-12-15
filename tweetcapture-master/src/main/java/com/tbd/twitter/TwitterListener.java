@@ -31,8 +31,6 @@ public class TwitterListener {
 	public void run() {
 		twitterStream.addListener(new StatusListener() {
 			public void onStatus(Status status) {
-				ChileDetector clDetect = ChileDetector.getInstance();
-				if (clDetect.isChilean(status.getUser().getLocation())) {
 					Tweet tweet = new Tweet();
 					tweet.set_id(status.getId());
 					tweet.setCreatedAt(status.getCreatedAt());
@@ -40,6 +38,7 @@ public class TwitterListener {
 					tweet.setText(status.getText());
 					tweet.setRetweetCount(status.getRetweetCount());
 					tweet.setFavoriteCount(status.getFavoriteCount());
+					tweet.setLocation(status.getUser().getLocation());
 					tweet.setRetweet(status.isRetweet());
 					tweet.setUserId(status.getUser().getId());
 					tweet.setUserScreenName(status.getUser().getScreenName());
@@ -54,7 +53,6 @@ public class TwitterListener {
 					tweet.setNegativeScore(sentimentSpanish.getNegativeScore()); //crear estos
 					tweet.setAnalysis(sentimentSpanish.getAnalysis()); //crear estos
 					mongo.insert(tweet);
-				}
 	        }
 
 			@Override
@@ -89,40 +87,40 @@ public class TwitterListener {
 		
 		// se creara la lista con las palabras o frases claves
 				String[ ] bolsa = new String[34];
-				bolsa[0] = "presidente piñera";
-				bolsa[1] = "presidente sebastian piñera";
-				bolsa[2] = "presidente de chile";
-				bolsa[3] = "político chileno";
-				bolsa[4] = "política chilena";
-				bolsa[5] = "politico chileno";
-				bolsa[6] = "politica chilena";
-				bolsa[7] = "ministro chileno";
-				bolsa[8] = "piñericosas";
-				bolsa[9] = "sebastian piñera";
-				bolsa[10] = "Andrés Chadwick";
-				bolsa[11] = "Roberto Ampuero";
-				bolsa[12] = "Alberto Espina";
-				bolsa[13] = "Felipe Larraín Bascuñán";
-				bolsa[14] = "Gonzalo Blumel Mac-Iver";
-				bolsa[15] = "Cecilia Pérez";
-				bolsa[16] = "José Ramón Valente Vías";
-				bolsa[17] = "Alfredo Moreno Charme";
-				bolsa[18] = "Alfredo Moreno Charme";
-				bolsa[19] = "María Carolina Schmidt Zaldívar";
-				bolsa[20] = "Hernán Larraín Fernández";
-				bolsa[21] = "Nicolás Monckeberg Díaz";
-				bolsa[22] = "Juan Andrés Fontaine Talavera"; 
-				bolsa[23] = "Emilio Santelices Cuevas";
-				bolsa[24] = "Cristian Monckeberg Bruner";
-				bolsa[25] = "Antonio Walker Prieto";
-				bolsa[26] = "Baldo Prokurica Prokurica"; 
-				bolsa[27] = "Gloria Hutt Hesse";
-				bolsa[28] = "Felipe Ward Edwards";
-				bolsa[29] = "Susana Jiménez Schuster";
-				bolsa[30] = "Marcela Cubillos Sigall";
-				bolsa[31] = "Pauline Kantor Pupkin"; 
-				bolsa[32] = "Isabel Plá Jarufe";
-				bolsa[33] = "Mauricio José Rojas Mullor";
+				bolsa[0] = "Tenis";
+				bolsa[1] = "Boxeo";
+				bolsa[2] = "Volleyball";
+				bolsa[3] = "Futbol Femenino";
+				bolsa[4] = "Rugby";
+				bolsa[5] = "Natacion";
+				bolsa[6] = "Basketball";
+				bolsa[7] = "Chino Rios";
+				bolsa[8] = "Martin del Potro";
+				bolsa[9] = "Tenista";
+				bolsa[10] = "Basquetbolista";
+				bolsa[11] = "Myke Tyson";
+				bolsa[12] = "Floyd Mayweather";
+				bolsa[13] = "Kobe Bryant";
+				bolsa[14] = "Michael Phelps";
+				bolsa[15] = "Colo Colo Femenino";
+				bolsa[16] = "ColoColo Femenino";
+				bolsa[17] = "Wilton Norman";
+				bolsa[18] = "Muhammad Ali";
+				bolsa[19] = "Ian Thorpe";
+				bolsa[20] = "Nadador";
+				bolsa[21] = "Cancha de tenis";
+				bolsa[22] = "Marcelo Rios";
+				bolsa[23] = "Basket";
+				bolsa[24] = "Basquet";
+				bolsa[25] = "Basquetball";
+				bolsa[26] = "Basquetbol";
+				bolsa[27] = "Volley";
+				bolsa[28] = "Boxeador";
+				bolsa[29] = "Boxista";
+				bolsa[30] = "volley";
+				//bolsa[31] = "Pauline Kantor Pupkin";
+				//bolsa[32] = "Isabel Plá Jarufe";
+				//bolsa[33] = "Mauricio José Rojas Mullor";
 				
 				
 	    FilterQuery filter = new FilterQuery();
