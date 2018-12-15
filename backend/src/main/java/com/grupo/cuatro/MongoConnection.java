@@ -14,8 +14,8 @@ public class MongoConnection {
     private static MongoClient mongoClient;
     //MONGO DATOS
     private static int port = 27017;
-    private String database2 = "twitter2";
-    private String collection2 = "tweet";
+    private String database2 = "twitter";
+    private String collection2 = "statusJSONImpl";
     private DBCollection collection;
     private DB database;
     private MongoConnection(){}

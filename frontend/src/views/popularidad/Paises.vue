@@ -1,5 +1,6 @@
 <template>
   <div class="small">
+    <div class="text">Cantidad de tweets por pais</div>
     <pie-chart :chart-data="datacollection"></pie-chart>
     <button @click="fillData">Randomize</button>
   </div>
@@ -22,15 +23,18 @@ export default {
         }
     },
     mounted () {
-        this.getPaises()
-        this.fillData()
+        axios.get('http://localhost:4040/country/all')
+            .then((response) => {
+                console.log(response.data, 'youtino')
+                this.paises = response.data;
+                this.fillData();
+            });
     },
     methods: {
         getPaises () {
             var self = this;
             axios.get('http://localhost:4040/country/all')
                 .then(function (response) {
-                    console.log(response.data);
                     self.paises = response.data;
                     console.log(self.paises);
                 })
@@ -39,8 +43,9 @@ export default {
                 });
         },
         fillData () {
+            console.log(this.paises, 'Youta');
             this.datacollection = {
-                labels: ['Argentina', 'Chile', 'Mexico', 'Venezuela'],
+                labels: [this.paises[0].countryName, this.paises[1].countryName, this.paises[2].countryName, 'Venezuela'],
                 datasets: [
                     {
                         label: 'Data One',

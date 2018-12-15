@@ -1,7 +1,7 @@
 <template>
     <div class="small">
         <div class="text">Cantidad de tweets por deportes</div>
-        <pie-chart :chart-data="datacollection"></pie-chart>
+        <bar-chart :chart-data="datacollection"></bar-chart>
     </div>
 </template>
 
@@ -9,11 +9,11 @@
 
 import axios from 'axios'
 
-import PieChart from './../../charts/PieChart.js'
+import BarChart from './../../charts/HorizontalBarChart.js'
 
 export default {
     components: {
-        PieChart
+        BarChart
     },
     data () {
         return {

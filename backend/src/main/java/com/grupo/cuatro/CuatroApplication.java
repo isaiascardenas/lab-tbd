@@ -11,8 +11,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableSwagger2
 public class CuatroApplication {
-
 	public static void main(String[] args) {
+        //Elastic e = new Elastic();
+	    //e.indexCreate();
 		SpringApplication.run(CuatroApplication.class, args);
 	}
 	@Bean

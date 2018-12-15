@@ -48,9 +48,6 @@ public class Elastic {
     private int neutralResultGeneral;
 
 
-    /**
-     * Funcion que crea la indexacion de los tweet solo si es que no es un "retweet"
-     */
     public void indexCreate()
     {
         try{
@@ -63,6 +60,7 @@ public class Elastic {
             MongoConnection mongo = MongoConnection.getMongo();
             mongo.OpenMongoClient();
             DBCursor cursor = mongo.getTweets();
+            System.out.println(cursor);
             Document doc = null;
             
             while (cursor.hasNext()) {
