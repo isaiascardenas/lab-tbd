@@ -23,8 +23,15 @@ public class CuatroApplication {
             // MysqlSeeder seeder = new MysqlSeeder();
             // seeder.seed();
         Elastic e = new Elastic();
+        e.indexCreate();
+
+        System.out.println(e.getCantidadPais("Argentina"));
+        System.out.println(e.getCantidadPais("Chile"));
+        System.out.println(e.getCantidadPais("Mexico"));
+        System.out.println(e.getCantidadPais("España"));
+        System.out.println(e.getCantidadPais("Venezuela"));
+
         SpringApplication.run(CuatroApplication.class, args);
-        System.out.println("count: " + e.getCantidad("tennis"));
 	}
 
 	@Bean
