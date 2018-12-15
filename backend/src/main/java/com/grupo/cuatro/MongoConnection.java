@@ -7,7 +7,11 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.MongoClient;
 import org.bson.Document;
-
+import com.mongodb.MongoClient;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
+import com.mongodb.MongoClientURI;
+import java.util.*;
 
 public class MongoConnection {
     private static volatile MongoConnection instance;
@@ -18,6 +22,7 @@ public class MongoConnection {
     private String collection2 = "statusJSONImpl";
     private DBCollection collection;
     private DB database;
+
     private MongoConnection(){}
 
 
@@ -33,6 +38,20 @@ public class MongoConnection {
     }
 
     public void OpenMongoClient() {
+        //MongoClient mongo = new MongoClient(
+               // new MongoClientURI("mongodb://root:secret@165.227.20.138:27017/twitter")
+        //);
+        /*List<ServerAddress> seeds = new ArrayList<ServerAddress>();
+        seeds.add( new ServerAddress( "165.227.20.138" ));
+        List<MongoCredential> credentials = new ArrayList<MongoCredential>();
+        credentials.add(
+                MongoCredential.createMongoCRCredential(
+                        "root",
+                        "twitter",
+                        "secret".toCharArray()
+                )
+        );
+        MongoClient mongo = new MongoClient( seeds, credentials );*/
         if(mongoClient == null)
             mongoClient = new MongoClient("localhost", port);
     }
@@ -50,8 +69,10 @@ public class MongoConnection {
     public DBCursor getTweets(){
         DB mongoDatabase = mongoClient.getDB(database2);
         collection = mongoDatabase.getCollection(collection2);
+        System.out.println(collection);
         DBCursor cursor = collection.find();
         return cursor;
     }
 
 }
+

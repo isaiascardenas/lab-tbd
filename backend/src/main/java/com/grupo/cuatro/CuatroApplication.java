@@ -12,8 +12,15 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class CuatroApplication {
 	public static void main(String[] args) {
-        //Elastic e = new Elastic();
+        Elastic e = new Elastic();
 	    //e.indexCreate();
+	    System.out.println(e.getCantidad("Tenis"));
+		System.out.println(e.getCantidad("Basket"));
+		System.out.println(e.getCantidad("Volley"));
+		System.out.println(e.getCantidad("Boxeo"));
+		System.out.println(e.getCantidad("Rugby"));
+		System.out.println(e.getCantidad("Futbol Femenino"));
+		System.out.println(e.getCantidad("Natacion"));
 		SpringApplication.run(CuatroApplication.class, args);
 	}
 	@Bean
