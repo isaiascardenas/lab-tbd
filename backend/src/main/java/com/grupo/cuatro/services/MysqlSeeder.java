@@ -17,6 +17,9 @@ public class MysqlSeeder {
     @Autowired
     private SportRepository sportRepository;
 
+    @Autowired
+    private StatisticRepository statisticRepository;
+
 
     public void seed() {
         List<Sport> all = sportRepository.findAll();
@@ -25,6 +28,13 @@ public class MysqlSeeder {
 
             System.out.println("name: " + sport.getSportName());
             System.out.println("count: " + this.e.getCantidad(sport.getSportName()));
+
+            //get cant (cantidad total por deporte)
+            //get pais  (cantidad tweets por pais)
+            //get fecha (cantidad de tweets por fecha)
+
+            //traer las estadisticas del deporte
+            //almacenar el count y query
 
             // store getCantidad on Statistics table ...
         }
