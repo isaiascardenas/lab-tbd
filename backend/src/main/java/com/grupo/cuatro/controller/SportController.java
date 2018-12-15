@@ -80,4 +80,10 @@ public class SportController {
         }
     }
 
+    @RequestMapping(value= "/{id}/delete", method=RequestMethod.DELETE)
+    @ResponseBody
+    public void deleteSport(@PathVariable("id") Long id_sport){
+        this.sportRepository.deleteById(id_sport);
+    }
+
 }

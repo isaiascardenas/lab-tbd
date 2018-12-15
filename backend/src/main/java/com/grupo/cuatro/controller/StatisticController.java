@@ -79,4 +79,10 @@ public class StatisticController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
+
+    @RequestMapping(value= "/{id}/delete", method=RequestMethod.DELETE)
+    @ResponseBody
+    public void deleteStatistic(@PathVariable("id") Long id_statistic){
+        this.statisticRepository.deleteById(id_statistic);
+    }
 }

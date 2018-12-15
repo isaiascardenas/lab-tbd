@@ -1,44 +1,53 @@
 <template>
     <div class="small">
-        <line-chart :chart-data="datacollection"></line-chart>
-        <button @click="fillData">Randomize</button>
+        <div class="text">Cantidad de tweets por deportes</div>
+        <bar-chart :chart-data="datacollection"></bar-chart>
     </div>
 </template>
 
 <script>
-import LineChart from './../../charts/LineChart.js'
+
+import axios from 'axios'
+
+import BarChart from './../../charts/HorizontalBarChart.js'
 
 export default {
     components: {
-        LineChart
+        BarChart
     },
     data () {
         return {
-            datacollection: null
+	    datacollection: null,
+            dataDeportes: [40,40,65,76,12,24,33],
+            loading: true
         }
     },
     mounted () {
+        //this.getData()
         this.fillData()
     },
     methods: {
         fillData () {
             this.datacollection = {
-                labels: [this.getRandomInt(), this.getRandomInt()],
+                labels: ["Boxeo","Fútbol Femenino", "Tenis","Natación","Volley Ball","Rugby","Basquetball",],
                 datasets: [
                     {
-                        label: 'Data One',
-                        backgroundColor: '#f87979',
-                        data: [this.getRandomInt(), this.getRandomInt()]
-                    }, {
-                        label: 'Data One',
-                        backgroundColor: '#f87979',
-                        data: [this.getRandomInt(), this.getRandomInt()]
+                        backgroundColor:['green','red','yellow','black','orange','blue','violet'],
+                        data: this.dataDeportes
                     }
                 ]
             }
         },
-        getRandomInt () {
-            return Math.floor(Math.random() * (50 - 5 + 1)) + 5
+        getData(){
+            axios.get('URL DATA POR DEPORTE')
+                .then(function (response) {
+                    console.log(response.data);
+                    this.dataDeportes = response.data;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+                .finally(()=>this.loading=false)
         }
     }
 }

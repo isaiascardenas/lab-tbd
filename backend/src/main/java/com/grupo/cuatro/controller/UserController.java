@@ -47,4 +47,10 @@ public class UserController {
     public ResponseEntity create(@RequestBody User resource) {
         return new ResponseEntity(userRepository.save(resource), HttpStatus.CREATED);
     }
+
+    @RequestMapping(value= "/{id}/delete", method=RequestMethod.DELETE)
+    @ResponseBody
+    public void deleteUser(@PathVariable("id") Long id_user){
+        this.userRepository.deleteById(id_user);
+    }
 }

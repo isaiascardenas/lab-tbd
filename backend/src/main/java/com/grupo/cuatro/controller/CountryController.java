@@ -103,9 +103,9 @@ public class CountryController {
         }
     }
 
-    /*@RequestMapping(value="/{id}/delete", method= RequestMethod.DELETE)
+    @RequestMapping(value="/{id}/delete", method= RequestMethod.DELETE)
     @ResponseBody
-    public void deleteCountry(@PathVariable String id_country){
-        Country country = this.countryRepository.deleteCountryById(id_country);
-    }*/
+    public void deleteCountry(@PathVariable("id") Long id_country){
+        this.countryRepository.deleteById(id_country);
+    }
 }

@@ -11,7 +11,8 @@
                         class="el-menu-vertical"
                         background-color="#474885"
                         text-color="#fff"
-                        active-text-color="#00BCD4">
+                        active-text-color="#00BCD4"
+                        @select="handleMenu">
 
                         <el-menu-item index="1">
                             <i class="el-icon-menu"></i>
@@ -39,6 +40,13 @@ export default {
     name: 'SideBar',
     data () {
         return {
+        }
+    },
+    methods: {
+        handleMenu (index) {
+            if(index == 1){
+                this.$router.push({name: 'Popularidad Deportes'})
+            }
         }
     }
 }
