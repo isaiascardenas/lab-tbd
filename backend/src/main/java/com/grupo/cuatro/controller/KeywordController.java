@@ -62,9 +62,9 @@ public class KeywordController {
         }
     }
 
-    /*@RequestMapping(value= "/{id}/delete", method=RequestMethod.DELETE)
+    @RequestMapping(value= "/{id}/delete", method=RequestMethod.DELETE)
     @ResponseBody
-    public void deleteKeyword(@PathVariable String id_keyword){
-        Keyword keyword = this.keywordRepository.DeleteKeywordById(id_keyword);
-    }*/
+    public void deleteKeyword(@PathVariable("id") Long id_keyword){
+        this.keywordRepository.deleteById(id_keyword);
+    }
 }

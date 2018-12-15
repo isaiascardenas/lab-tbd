@@ -17,7 +17,3 @@ new Vue({
     components: { App },
     template: '<App/>'
 })
-
-curl -H "Content-Type: application/json"
--XPOST "http://localhost:9200/indexname/typename/optionalUniqueId"
--d "{ \"field\" : \"value\"}"

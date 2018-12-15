@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '@/views/Home'
 import Main from '@/views/components/Main'
 import Deportes from '@/views/popularidad/Deportes'
+import Paises from '@/views/popularidad/Paises'
 
 Vue.use(Router)
 
@@ -23,6 +24,11 @@ let routes = [
                         name: 'Popularidad Deportes',
                         component: Deportes
                         // children: []
+                    },
+                    {
+                        path: '/paises',
+                        name: 'Popularidad Paises',
+                        component: Paises
                     }
                 ]
             }

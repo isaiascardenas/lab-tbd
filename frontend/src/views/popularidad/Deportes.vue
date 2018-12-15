@@ -1,38 +1,52 @@
 <template>
     <div class="small">
-        <line-chart :chart-data="datacollection"></line-chart>
+        <pie-chart :chart-data="datacollection"></pie-chart>
         <button @click="fillData">Randomize</button>
     </div>
 </template>
 
 <script>
-import LineChart from './../../charts/LineChart.js'
+import PieChart from './../../charts/LineChart.js'
+import axios from 'axios'
+//import DoughnutChart from 'vue-doughnut-chart'
 
 export default {
     components: {
-        LineChart
+        //LineChart,
+        PieChart
     },
     data () {
         return {
-            datacollection: null
+            datacollection: null,
+            paises: [],
+            hola: {}
         }
     },
     mounted () {
+        this.getPaises()
         this.fillData()
     },
     methods: {
+        getPaises () {
+            var self = this;
+            axios.get('http://localhost:4040/country/all')
+                .then(function (response) {
+                    console.log(response.data);
+                    self.paises = response.data;
+                    console.log(self.paises);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        },
         fillData () {
             this.datacollection = {
-                labels: [this.getRandomInt(), this.getRandomInt()],
+                labels: ['Argentina', 'Chile', 'Mexico', 'Venezuela'],
                 datasets: [
                     {
                         label: 'Data One',
-                        backgroundColor: '#f87979',
-                        data: [this.getRandomInt(), this.getRandomInt()]
-                    }, {
-                        label: 'Data One',
-                        backgroundColor: '#f87979',
-                        data: [this.getRandomInt(), this.getRandomInt()]
+                        backgroundColor: ['#333', '#7FFF00', '#00008B', '#8B008B'],
+                        data: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()]
                     }
                 ]
             }
