@@ -11,10 +11,7 @@ import java.util.logging.Logger;
 import java.util.*;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.mongodb.Block;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
+import com.mongodb.*;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
@@ -73,9 +70,18 @@ public class Elastic {
 
             while (cursor.hasNext()) {
                 DBObject cur = cursor.next();
+                DBObject users = new BasicDBObject("user.location", "Chile");
                 doc = new Document();
                 doc.add(new StringField("id", cur.get("_id").toString(), Field.Store.YES));
                 doc.add(new TextField("text", cur.get("text").toString(), Field.Store.YES));
+                //doc.add(new StringField("location", aux.get("location").toString(), Field.Store.YES));
+                /*if(cur.containsField("user")){
+                    System.out.println("ASKDJSKAJDKSAJDASK");
+                    if(cur.get("user") !=null){
+                        System.out.println("entre aqui");
+                        doc.add(new TextField("pais",cur.get("locationUser").toString(),Field.Store.YES));
+                    }
+                }*/
                 //doc.add(new StringField("analysis", cur.get("analysis").toString(), Field.Store.YES));
                 //doc.add(new StringField("finalCountry",cur.get("finalCountry").toString(),Field.Store.YES));
                 //doc.add(new StringField("screenName", cur.get("user.location").toString(), Field.Store.YES));
