@@ -74,6 +74,7 @@ public class Elastic {
                 doc = new Document();
                 doc.add(new StringField("id", cur.get("_id").toString(), Field.Store.YES));
                 doc.add(new TextField("text", cur.get("text").toString(), Field.Store.YES));
+                doc.add(new StringField("timeStamp", cur.get("createdAt").toString(),Field.Store.YES));
                 if(cur.get("location") != null){
                     doc.add(new TextField("location", cur.get("location").toString(), Field.Store.YES));
                 }
@@ -155,5 +156,33 @@ public class Elastic {
 
 
             return total;
+        }
+        public ArrayList<Integer> getCantidadFecha(String mes){
+            ArrayList<Integer> resultados=new ArrayList<>();
+            try {
+                IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
+                IndexSearcher searcher = new IndexSearcher(reader);
+
+                Analyzer analyzer = new StandardAnalyzer();
+                QueryParser parser = new QueryParser("timeStamp", analyzer);
+                
+                for(int i=1;i<32;i++){
+                    Query query = parser.parse("2018-"+mes+"-"+i);
+                    TopDocs result = searcher.search(query, 25000);
+                    ScoreDoc[] hits = result.scoreDocs;
+                    int aux=0;
+                    for (int j = 0; j < hits.length; j++) {
+                        aux++;
+                    }
+                    resultados.add(aux);
+                }
+                reader.close();
+            }
+            catch(IOException | ParseException ex)
+            {
+                Logger.getLogger(Elastic.class.getName()).log(Level.SEVERE,null,ex);
+
+            }
+            return resultados;
         }
     }

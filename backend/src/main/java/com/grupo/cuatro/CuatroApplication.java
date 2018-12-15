@@ -14,14 +14,10 @@ public class CuatroApplication {
 
 	public static void main(String[] args) {
         Elastic e = new Elastic();
-        e.indexCreate();
+        //e.indexCreate();
 
-        System.out.println(e.getCantidadPais("Argentina"));
-        System.out.println(e.getCantidadPais("Chile"));
-        System.out.println(e.getCantidadPais("Mexico"));
-        System.out.println(e.getCantidadPais("España"));
-        System.out.println(e.getCantidadPais("Venezuela"));
-
+        System.out.println(e.getCantidadFecha("11"));
+        
         SpringApplication.run(CuatroApplication.class, args);
 	}
 
