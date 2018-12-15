@@ -1,20 +1,22 @@
 <template>
     <div class="small">
-        <line-chart :chart-data="datacollection"></line-chart>
+        <pie-chart :chart-data="datacollection"></pie-chart>
         <button @click="fillData">Randomize</button>
     </div>
 </template>
 
 <script>
-import LineChart from './../../charts/LineChart.js'
+import PieChart from './../../charts/PieChart.js'
 
 export default {
     components: {
-        LineChart
+        PieChart
     },
     data () {
         return {
-            datacollection: null
+            datacollection: null,
+            dataDeportes: [40,40,65,76,12,24,33],
+            loading: true
         }
     },
     mounted () {
@@ -23,22 +25,23 @@ export default {
     methods: {
         fillData () {
             this.datacollection = {
-                labels: [this.getRandomInt(), this.getRandomInt()],
+                labels: ["Boxeo","Fútbol Femenino", "Tenis","Natación","Volley Ball","Rugby","Basquetball",],
                 datasets: [
                     {
-                        label: 'Data One',
-                        backgroundColor: '#f87979',
-                        data: [this.getRandomInt(), this.getRandomInt()]
-                    }, {
-                        label: 'Data One',
-                        backgroundColor: '#f87979',
-                        data: [this.getRandomInt(), this.getRandomInt()]
+                    backgroundColor:['green','red','yellow','black','orange','blue','violet'],
+                    data: this.dataDeportes
                     }
                 ]
             }
         },
         getRandomInt () {
             return Math.floor(Math.random() * (50 - 5 + 1)) + 5
+        }
+        getData(){
+            axios
+                .get('URL')
+                .then(response=>(this.dataDeportes=response.data))
+                .catch(error=>{console.log(error)})
         }
     }
 }
