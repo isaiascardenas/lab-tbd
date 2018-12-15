@@ -167,7 +167,7 @@ public class Elastic {
                 QueryParser parser = new QueryParser("timeStamp", analyzer);
                 
                 for(int i=1;i<32;i++){
-                    Query query = parser.parse("2018-"+mes+"-"+i);
+                    Query query = parser.parse(mes+" "+i);
                     TopDocs result = searcher.search(query, 25000);
                     ScoreDoc[] hits = result.scoreDocs;
                     int aux=0;
