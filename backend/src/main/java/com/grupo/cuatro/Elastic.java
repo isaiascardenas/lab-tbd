@@ -92,5 +92,35 @@ public class Elastic {
         catch(IOException ioe){
             System.out.println(" Error en "+ ioe.getClass() + "\n mensaje: " + ioe.getMessage());
         }
+        public ArrayList<Integer> getCantidad(String Deporte)
+        {
+            resultList = null ;
+            total = 0;
+
+            try{
+                IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
+                IndexSearcher searcher = new IndexSearcher(reader);
+                Analyzer analyzer = new StandardAnalyzer();
+                this.resultList = new ArrayList<>();
+                QueryParser parser = new QueryParser("text",analyzer);
+                Query query = parser.parse(Deporte);
+                TopDocs result = searcher.search(query,25000);
+                ScoreDoc[] hits =result.scoreDocs;
+
+                for (int i=0; i < hits.length; i++) {
+                    positiveResult++;
+                    reader.close();
+                }
+            catch(IOException | ParseException ex)
+            {
+                Logger.getLogger(Lucene.class.getName()).log(Level.SEVERE,null,ex);
+
+            }
+            resultList.add(positiveResult);
+            resultList.add(negativeResult);
+            resultList.add(neutralResult);
+
+            return resultList;
+        }
     }
 }
