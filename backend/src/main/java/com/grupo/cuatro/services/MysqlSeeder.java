@@ -7,7 +7,9 @@ import com.grupo.cuatro.model.Statistic;
 import com.grupo.cuatro.repository.SportRepository;
 import com.grupo.cuatro.repository.StatisticRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MysqlSeeder {
 
 
