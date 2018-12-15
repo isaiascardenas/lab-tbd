@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import PieChart from './../../charts/LineChart.js'
+import PieChart from './../../charts/PieChart.js'
 import axios from 'axios'
 //import DoughnutChart from 'vue-doughnut-chart'
 
