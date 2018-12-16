@@ -44,14 +44,14 @@ export default {
                 return sport.sportName
             });
             let values = _.map(this.deportes, (sport) => {
-                return sport.statistics.length;
+                return sport.statistics[19].statisticCount;
             });
 
             this.datacollection = {
                 labels: labels,
                 datasets: [
                     {
-                        label: 'Data One',
+                        label: [],
                         backgroundColor: ['#536DFE','#FFC107','#CDDC39','#8BC34A','#607D8B','#9E9E9E','#00BCD4', '#9C27B0', '#C2185B'],
                         data: values
                     }
