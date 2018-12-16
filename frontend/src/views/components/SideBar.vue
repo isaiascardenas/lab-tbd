@@ -14,17 +14,9 @@
                         active-text-color="#00BCD4"
                         @select="handleMenu">
 
-                        <el-menu-item index="1">
-                            <i class="el-icon-menu"></i>
-                            <span>Sprint 1</span>
-                        </el-menu-item>
-                        <el-menu-item index="2">
-                            <i class="el-icon-document"></i>
-                            <span>Sprint 2</span>
-                        </el-menu-item>
-                        <el-menu-item index="3">
-                            <i class="el-icon-setting"></i>
-                            <span>Sprint 3</span>
+                        <el-menu-item v-for="sprint in sprints" :key="sprint.id" :index="sprint.id">
+                            <i :class="sprint.icon"></i>
+                            <span>{{ sprint.name }}</span>
                         </el-menu-item>
 
                     </el-menu>
@@ -38,15 +30,15 @@
 
 export default {
     name: 'SideBar',
+    props: ['sprints'],
     data () {
         return {
         }
     },
     methods: {
         handleMenu (index) {
-            if(index == 1){
-                this.$router.push({name: 'Popularidad Deportes'})
-            }
+            let routeName = this.sprints.find(x => x.id == index).routeName;
+            this.$router.push({name: routeName});
         }
     }
 }

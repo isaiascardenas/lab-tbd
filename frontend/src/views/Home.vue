@@ -1,12 +1,12 @@
 <template>
     <el-container class="container">
-        <side-bar></side-bar>
+        <side-bar v-bind:sprints="sprints"></side-bar>
         <el-container>
             <nav-bar></nav-bar>
             <el-main>
-                <router-view></router-view>
+                <router-view v-bind:navdata="navdata"></router-view>
             </el-main>
-            <el-footer>Footer</el-footer>
+            <el-footer><span class="copyright">© Group 2018</span></el-footer>
         </el-container>
     </el-container>
 </template>
@@ -25,7 +25,44 @@ export default {
     },
     data () {
         return {
-            msg: 'Welcome to Your Vue.js App'
+            // navdata: [],
+            sprints: [
+                {
+                    id: '1',
+                    name: 'Popularidad',
+                    routeName: 'Popularidad Deportes',
+                    icon: 'el-icon-star-on'
+                },
+                // {
+                    // id: '2',
+                    // name: 'Influencias',
+                    // routeName: 'Popularidad Deportes',
+                    // icon: 'el-icon-star-on'
+                // },
+                // {
+                    // id: '3',
+                    // name: 'Distribución',
+                    // routeName: 'Popularidad Deportes',
+                    // icon: 'el-icon-star-on'
+                // },
+            ],
+            navdata: [
+                {
+                    id: '1',
+                    name: 'Deportes',
+                    routeName: 'Popularidad Deportes',
+                },
+                {
+                    id: '2',
+                    name: 'Paises',
+                    routeName: 'Popularidad Paises',
+                },
+                {
+                    id: '3',
+                    name: 'Otro...',
+                    routeName: 'Popularidad Fechas',
+                },
+            ],
         }
     }
 }
@@ -43,6 +80,10 @@ export default {
     position: fixed !important;
     width: 100% !important;
     min-height: 100% !important;
+}
+
+.copyright {
+    margin-left: 180px;
 }
 
 .el-footer {

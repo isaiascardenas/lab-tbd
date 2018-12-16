@@ -1,5 +1,5 @@
 <template>
-    <div class="small" :loading="loading">
+    <div class="small" v-loading="loading">
         <div class="text">Cantidad de tweets por pais</div>
         <pie-chart :chart-data="datacollection"></pie-chart>
     </div>
@@ -27,12 +27,11 @@ export default {
         getPaises () {
             var self = this;
             PaisesResources.get({})
-                .then(function (response) {
+                .then((response) => {
                     self.paises = response.data;
-                    console.log(self.paises);
                     self.fillData();
                 })
-                .catch(function (error) {
+                .catch((error) => {
                     console.log(error);
                 })
                 .finally(() => {
@@ -40,14 +39,23 @@ export default {
                 });
         },
         fillData () {
-            console.log(this.paises, 'Youta');
+
+            let self = this;
+            let labels = _.map(this.paises, (country) => {
+                return country.countryName
+            });
+            let values = _.map(this.paises, (country) => {
+                return country.statistics.length;
+            });
+
+
             this.datacollection = {
-                labels: [this.paises[0].countryName, this.paises[1].countryName, this.paises[2].countryName, 'Venezuela'],
+                labels: labels,
                 datasets: [
                     {
                         label: 'Data One',
-                        backgroundColor: ['#333', '#7FFF00', '#00008B', '#8B008B'],
-                        data: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()]
+                        backgroundColor: ['#9C27B0','#FFC107','#CDDC39','#8BC34A','#607D8B','#9E9E9E','#00BCD4', '#536DFE', '#C2185B'],
+                        data: values
                     }
                 ]
             }
@@ -60,7 +68,7 @@ export default {
 .small {
     margin-top: 20px;
     margin-bottom: 20px;
-    max-width: 520px;
+    max-width: 460px;
     margin-left: auto;
     margin-right: auto;
 }

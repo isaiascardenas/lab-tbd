@@ -1,5 +1,5 @@
 <template>
-    <div class="small" :loading="loading">
+    <div class="small" v-loading="loading">
         <div class="text">Cantidad de tweets por deportes</div>
         <bar-chart :chart-data="datacollection"></bar-chart>
     </div>
@@ -15,13 +15,12 @@ export default {
     },
     data () {
         return {
-            datacollection: null,
-            dataDeportes: [40,40,65,76,12,24,33],
+            datacollection: {},
+            deportes: [],
             loading: true
         }
     },
     mounted () {
-        console.log(DeportesResources);
         this.getDeportes();
     },
     methods: {
@@ -29,8 +28,7 @@ export default {
             let self = this;
             DeportesResources.get({})
                 .then((response) => {
-                    self.dataDeportes = response.data;
-                    console.log(response.data);
+                    self.deportes = response.data;
                     self.fillData();
                 })
                 .catch((error) => {
@@ -41,12 +39,21 @@ export default {
                 });
         },
         fillData() {
+            let self = this;
+            let labels = _.map(this.deportes, (sport) => {
+                return sport.sportName
+            });
+            let values = _.map(this.deportes, (sport) => {
+                return sport.statistics.length;
+            });
+
             this.datacollection = {
-                labels: ["Boxeo","Fútbol Femenino", "Tenis","Natación","Volley Ball","Rugby","Basquetball",],
+                labels: labels,
                 datasets: [
                     {
-                        backgroundColor:['green','red','yellow','black','orange','blue','violet'],
-                        data: this.dataDeportes
+                        label: 'Data One',
+                        backgroundColor: ['#536DFE','#FFC107','#CDDC39','#8BC34A','#607D8B','#9E9E9E','#00BCD4', '#9C27B0', '#C2185B'],
+                        data: values
                     }
                 ]
             }
@@ -59,7 +66,7 @@ export default {
 .small {
     margin-top: 20px;
     margin-bottom: 20px;
-    max-width: 520px;
+    max-width: 460px;
     margin-left: auto;
     margin-right: auto;
 }

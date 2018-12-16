@@ -1,5 +1,12 @@
 <template>
     <el-row class="main-container">
+
+        <el-row class="main-menu-container">
+            <el-menu @select="handleMenu" default-active="1" class="main-menu" mode="horizontal">
+                <el-menu-item v-for="data in navdata" :key="data.id" :index="data.id">{{ data.name }}</el-menu-item>
+            </el-menu>
+        </el-row>
+
         <el-row class="main-body-container">
             <el-card class="main-card">
                 <router-view></router-view>
@@ -13,21 +20,15 @@
 
 export default {
     name: 'Main',
+    props: ['navdata'],
     data () {
         return {
         }
     },
     methods: {
         handleMenu (index) {
-            console.log('holi', index);
-            if(index == 1){
-                console.log('Entre al 1')
-                this.$router.push({name: 'Popularidad Deportes'})
-            }
-            else if(index == 2){
-                console.log('Entre al if')
-                this.$router.push({name: 'Popularidad Paises'})
-            }
+            let routeName = this.navdata.find(x => x.id == index).routeName;
+            this.$router.push({name: routeName})
         }
     }
 }
@@ -48,8 +49,8 @@ export default {
 }
 
 .main-card {
-    overflow: scroll;
     margin-bottom: 240px;
 }
+
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="small" :loading="loading">
+    <div class="small" v-loading="loading">
         <div class="text">Cantidad de tweets por fechas</div>
         <line-chart :chart-data="datacollection"></line-chart>
     </div>
@@ -29,7 +29,6 @@ export default {
             FechasResources.get({})
                 .then((response) => {
                     self.fechas = response.data;
-                    console.log(self.fechas );
                     self.fillData();
                 })
                 .catch((error) => {
@@ -41,14 +40,24 @@ export default {
 
         },
         fillData () {
-            console.log(this.fechas , 'Youta');
+            console.log(this.fechas);
+
+            let self = this;
+            let labels = _.map(this.fechas, (day) => {
+                return day.dateName
+            });
+            let values = _.map(this.fechas, (day) => {
+                return day.statistics.length;
+            });
+
+
             this.datacollection = {
-                labels: [this.fechas [0].countryName, this.fechas [1].countryName, this.fechas [2].countryName, 'Venezuela'],
+                labels: labels,
                 datasets: [
                     {
                         label: 'Data One',
-                        backgroundColor: ['#333', '#7FFF00', '#00008B', '#8B008B'],
-                        data: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()]
+                        backgroundColor: ['#9C27B0','#FFC107','#CDDC39','#8BC34A','#607D8B','#9E9E9E','#00BCD4', '#536DFE', '#C2185B'],
+                        data: values
                     }
                 ]
             }
@@ -61,7 +70,7 @@ export default {
 .small {
     margin-top: 20px;
     margin-bottom: 20px;
-    max-width: 520px;
+    max-width: 460px;
     margin-left: auto;
     margin-right: auto;
 }
