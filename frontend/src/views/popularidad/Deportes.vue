@@ -52,7 +52,7 @@ export default {
                 labels: labels,
                 datasets: [
                     {
-                        label: 'Data One',
+                        label: [],
                         backgroundColor: ['#536DFE','#FFC107','#CDDC39','#8BC34A','#607D8B','#9E9E9E','#00BCD4', '#9C27B0', '#C2185B'],
                         data: values
                     }
