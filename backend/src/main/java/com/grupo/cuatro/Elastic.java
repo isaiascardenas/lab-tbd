@@ -170,7 +170,8 @@ public class Elastic {
                 QueryParser parser = new QueryParser("timeStamp", analyzer);
 
                 for(int i=1;i<32;i++){
-                    Query query = parser.parse(mes+" "+i);
+                    Query query = parser.parse("(timeStamp:"+mes+") AND (timeStamp:"+i+")");
+                    //Query query = parser.parse("(text:"+videoGame+") AND (pais:"+pais+")");
                     TopDocs result = searcher.search(query, 25000);
                     ScoreDoc[] hits = result.scoreDocs;
                     int aux=0;
@@ -188,4 +189,29 @@ public class Elastic {
             }
             return resultados;
         }
+
+    public int getCantidadDeportePais(String deporte, String pais){
+
+        int aux=0;
+        try {
+            IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
+            IndexSearcher searcher = new IndexSearcher(reader);
+
+            Analyzer analyzer = new StandardAnalyzer();
+            QueryParser parser = new QueryParser("text", analyzer);
+            Query query = parser.parse("(text:"+deporte+") AND (location:"+pais+")");
+            TopDocs result = searcher.search(query, 25000);
+            ScoreDoc[] hits = result.scoreDocs;
+            for (int j = 0; j < hits.length; j++) {
+                aux++;
+            }
+            reader.close();
+        }
+        catch(IOException | ParseException ex)
+        {
+            Logger.getLogger(Elastic.class.getName()).log(Level.SEVERE,null,ex);
+
+        }
+        return aux;
+    }
     }
