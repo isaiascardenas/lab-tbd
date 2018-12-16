@@ -1,11 +1,11 @@
 package com.grupo.cuatro.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.lang.annotation.Target;
 import java.util.List;
 
 @Entity
@@ -23,12 +23,16 @@ public class Country {
 
     //relaciones
     //muchos paises tiene muchas estadisticas
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "countries_statistics",
             joinColumns = @JoinColumn(name = "country_id", referencedColumnName = "country_id"),
             inverseJoinColumns = @JoinColumn(name = "statistic_id", referencedColumnName = "statistic_id"))
     private List<Statistic> statistics;
+
+    //un pais tiene muchos tweetCounts
+    @OneToMany(targetEntity = TweetCount.class, mappedBy = "country", cascade = CascadeType.ALL)
+    private List<TweetCount> tweetCounts;
 
     //metodo para agregar estadistica
     public void addStatistic(Statistic statistic) {
