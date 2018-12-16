@@ -5,6 +5,7 @@ import Main from '@/views/components/Main'
 import Fechas from '@/views/popularidad/Fechas'
 import Paises from '@/views/popularidad/Paises'
 import Deportes from '@/views/popularidad/Deportes'
+import DeportesPais from '@/views/popularidad/DeportesPais'
 
 Vue.use(Router)
 
@@ -16,23 +17,28 @@ let routes = [
         component: Home,
         children: [
             {
-                path: '/popularidad',
+                path: 'popularidad',
                 name: 'Main',
                 redirect: { name: 'Popularidad Deportes' },
                 component: Main,
                 children: [
                     {
-                        path: '/deportes',
+                        path: 'deportes',
                         name: 'Popularidad Deportes',
                         component: Deportes
                     },
                     {
-                        path: '/fechas',
+                        path: 'fechas',
                         name: 'Popularidad Fechas',
                         component: Fechas
                     },
                     {
-                        path: '/paises',
+                        path: 'paisesdeportes',
+                        name: 'Popularidad Deportes Paises',
+                        component: DeportesPais
+                    },
+                    {
+                        path: 'paises',
                         name: 'Popularidad Paises',
                         component: Paises
                     }

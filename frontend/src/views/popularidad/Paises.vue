@@ -44,12 +44,9 @@ export default {
             let labels = _.map(this.paises, (country) => {
                 return country.countryName
             });
-            console.log(labels);
             let values = _.map(this.paises, (country) => {
                 return country.tweetCounts[1].count
             });
-            console.log(values);
-
 
             this.datacollection = {
                 labels: labels,

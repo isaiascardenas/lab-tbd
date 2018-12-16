@@ -16,19 +16,19 @@ export default {
     data () {
         return {
             datacollection: null,
-            fechas: [],
+            statistics: [],
             loading: true,
         }
     },
     mounted () {
-        this.getFechas();
+        this.getStatistics();
     },
     methods: {
-        getFechas () {
+        getStatistics() {
             var self = this;
             FechasResources.get({})
                 .then((response) => {
-                    self.fechas = response.data;
+                    self.statistics = response.data;
                     self.fillData();
                 })
                 .catch((error) => {
@@ -40,13 +40,15 @@ export default {
 
         },
         fillData () {
-            console.log(this.fechas);
+
+
+            console.log(this.statistics);
 
             let self = this;
-            let labels = _.map(this.fechas, (day) => {
+            let labels = _.map(this.statistics, (day) => {
                 return day.dateName
             });
-            let values = _.map(this.fechas, (day) => {
+            let values = _.map(this.statistics, (day) => {
                 return day.statistics.length;
             });
 

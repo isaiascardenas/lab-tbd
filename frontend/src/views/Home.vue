@@ -59,8 +59,13 @@ export default {
                 },
                 {
                     id: '3',
-                    name: 'Otro...',
+                    name: 'Fechas',
                     routeName: 'Popularidad Fechas',
+                },
+                {
+                    id: '4',
+                    name: 'Deportes por Pais',
+                    routeName: 'Popularidad Deportes Paises',
                 },
             ],
         }

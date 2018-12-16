@@ -34,7 +34,7 @@ var PaisesResources = {
 
 var FechasResources = {
     get(params) {
-        return axios.get(`${base}/dates/all`, {params: params});
+        return axios.get(`${base}/statistic/all`, {params: params});
     },
     add(params) {
         return ;
@@ -47,5 +47,26 @@ var FechasResources = {
     }
 };
 
-export { DeportesResources, PaisesResources, FechasResources};
+var DeportesPaisResources = {
+    get: (params) => {
+        return axios.get(`${base}/country/${params.pais_id}/statistics`, {params: params});
+    },
+    add(params) {
+        return ;
+    },
+    remove(params) {
+        return ;
+    },
+    edit(params) {
+        return ;
+    }
+};
+
+var multipleRequest = {
+    all: (array) => {
+        return axios.all(array);
+    }
+};
+
+export { DeportesResources, PaisesResources, FechasResources, DeportesPaisResources, multipleRequest };
 
