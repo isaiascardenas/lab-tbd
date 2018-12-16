@@ -31,7 +31,8 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-
+import org.elasticsearch.search.DocValueFormat;
+import org.joda.time.DateTime;
 
 
 import javax.print.Doc;
@@ -74,7 +75,7 @@ public class Elastic {
                 doc = new Document();
                 doc.add(new StringField("id", cur.get("_id").toString(), Field.Store.YES));
                 doc.add(new TextField("text", cur.get("text").toString(), Field.Store.YES));
-                doc.add(new StringField("timeStamp", cur.get("createdAt").toString(),Field.Store.YES));
+                doc.add(new TextField("timeStamp", cur.get("createdAt").toString(),Field.Store.YES));
                 if(cur.get("location") != null){
                     doc.add(new TextField("location", cur.get("location").toString(), Field.Store.YES));
                 }
@@ -87,6 +88,7 @@ public class Elastic {
 
                 if (writer.getConfig().getOpenMode() == OpenMode.CREATE) {
                     System.out.println("Indexando el tweet: " + doc.get("text") + "\n");
+                    System.out.println("Fecha del tweet :" + doc.get("timeStamp") + "\n");
                     writer.addDocument(doc);
                     System.out.println(doc);
                 } else {
@@ -154,10 +156,11 @@ public class Elastic {
 
             }
 
-
             return total;
         }
+
         public ArrayList<Integer> getCantidadFecha(String mes){
+
             ArrayList<Integer> resultados=new ArrayList<>();
             try {
                 IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
@@ -165,9 +168,10 @@ public class Elastic {
 
                 Analyzer analyzer = new StandardAnalyzer();
                 QueryParser parser = new QueryParser("timeStamp", analyzer);
-                
+
                 for(int i=1;i<32;i++){
-                    Query query = parser.parse(mes+" "+i);
+                    Query query = parser.parse("(timeStamp:"+mes+") AND (timeStamp:"+i+")");
+                    //Query query = parser.parse("(text:"+videoGame+") AND (pais:"+pais+")");
                     TopDocs result = searcher.search(query, 25000);
                     ScoreDoc[] hits = result.scoreDocs;
                     int aux=0;
@@ -185,4 +189,29 @@ public class Elastic {
             }
             return resultados;
         }
+
+    public int getCantidadDeportePais(String deporte, String pais){
+
+        int aux=0;
+        try {
+            IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
+            IndexSearcher searcher = new IndexSearcher(reader);
+
+            Analyzer analyzer = new StandardAnalyzer();
+            QueryParser parser = new QueryParser("text", analyzer);
+            Query query = parser.parse("(text:"+deporte+") AND (location:"+pais+")");
+            TopDocs result = searcher.search(query, 25000);
+            ScoreDoc[] hits = result.scoreDocs;
+            for (int j = 0; j < hits.length; j++) {
+                aux++;
+            }
+            reader.close();
+        }
+        catch(IOException | ParseException ex)
+        {
+            Logger.getLogger(Elastic.class.getName()).log(Level.SEVERE,null,ex);
+
+        }
+        return aux;
+    }
     }

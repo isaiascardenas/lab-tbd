@@ -17,7 +17,9 @@ public class CuatroApplication {
         //e.indexCreate();
 
         System.out.println(e.getCantidadFecha("Dec"));
-        
+        System.out.println(e.getCantidadDeportePais("Tenis", "Chile"));
+        System.out.println(e.getCantidadDeportePais("Tenis", "Argentina"));
+        System.out.println(e.getCantidadDeportePais("Tenis", "España"));
         SpringApplication.run(CuatroApplication.class, args);
 	}
 
