@@ -1,15 +1,13 @@
 <template>
-    <div class="small">
+    <div class="small" :loading="loading">
         <div class="text">Cantidad de tweets por deportes</div>
         <bar-chart :chart-data="datacollection"></bar-chart>
     </div>
 </template>
 
 <script>
-
-import axios from 'axios'
-
-import BarChart from './../../charts/HorizontalBarChart.js'
+import BarChart from './../../charts/HorizontalBarChart.js';
+import { DeportesResources } from './../../router/endpoints';
 
 export default {
     components: {
@@ -17,17 +15,32 @@ export default {
     },
     data () {
         return {
-	    datacollection: null,
+            datacollection: null,
             dataDeportes: [40,40,65,76,12,24,33],
             loading: true
         }
     },
     mounted () {
-        //this.getData()
-        this.fillData()
+        console.log(DeportesResources);
+        this.getDeportes();
     },
     methods: {
-        fillData () {
+        getDeportes() {
+            let self = this;
+            DeportesResources.get({})
+                .then((response) => {
+                    self.dataDeportes = response.data;
+                    console.log(response.data);
+                    self.fillData();
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {
+                    this.loading = false;
+                });
+        },
+        fillData() {
             this.datacollection = {
                 labels: ["Boxeo","Fútbol Femenino", "Tenis","Natación","Volley Ball","Rugby","Basquetball",],
                 datasets: [
@@ -37,17 +50,6 @@ export default {
                     }
                 ]
             }
-        },
-        getData(){
-            axios.get('URL DATA POR DEPORTE')
-                .then(function (response) {
-                    console.log(response.data);
-                    this.dataDeportes = response.data;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                })
-                .finally(()=>this.loading=false)
         }
     }
 }
@@ -55,7 +57,10 @@ export default {
 
 <style>
 .small {
-    max-width: 600px;
-    margin:  150px auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
 }
 </style>

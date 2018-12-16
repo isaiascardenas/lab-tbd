@@ -1,48 +1,49 @@
 <template>
     <div class="small" :loading="loading">
-        <div class="text">Cantidad de tweets por pais</div>
-        <pie-chart :chart-data="datacollection"></pie-chart>
+        <div class="text">Cantidad de tweets por fechas</div>
+        <line-chart :chart-data="datacollection"></line-chart>
     </div>
 </template>
 
 <script>
-import PieChart from './../../charts/PieChart.js'
-import { PaisesResources } from './../../router/endpoints';
+import LineChart from './../../charts/LineChart.js'
+import { FechasResources } from './../../router/endpoints';
 
 export default {
     components: {
-        PieChart
+        LineChart
     },
     data () {
         return {
             datacollection: null,
-            paises: [],
+            fechas: [],
             loading: true,
         }
     },
     mounted () {
-        this.getPaises();
+        this.getFechas();
     },
     methods: {
-        getPaises () {
+        getFechas () {
             var self = this;
-            PaisesResources.get({})
-                .then(function (response) {
-                    self.paises = response.data;
-                    console.log(self.paises);
+            FechasResources.get({})
+                .then((response) => {
+                    self.fechas = response.data;
+                    console.log(self.fechas );
                     self.fillData();
                 })
-                .catch(function (error) {
+                .catch((error) => {
                     console.log(error);
                 })
                 .finally(() => {
                     this.loading = false;
                 });
+
         },
         fillData () {
-            console.log(this.paises, 'Youta');
+            console.log(this.fechas , 'Youta');
             this.datacollection = {
-                labels: [this.paises[0].countryName, this.paises[1].countryName, this.paises[2].countryName, 'Venezuela'],
+                labels: [this.fechas [0].countryName, this.fechas [1].countryName, this.fechas [2].countryName, 'Venezuela'],
                 datasets: [
                     {
                         label: 'Data One',

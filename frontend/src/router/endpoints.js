@@ -1,19 +1,51 @@
 import axios from 'axios';
 
-export const paisesResource = {
-    get (params) {
-        return axios.get(`http://localhost:4040/country/all`, { params: params });
+let base = 'http://204.48.18.31:8080/cuatro-0.0.1-SNAPSHOT';
+
+var DeportesResources = {
+    get: (params) => {
+        return axios.get(`${base}/sport/all`, {params: params});
     },
-    show (params) {
-        return axios.get(`/proyectos/${params.id}`, {params: params});
+    add(params) {
+        return ;
     },
-    add (params) {
-        return axios.post(`/proyectos`, params);
+    remove(params) {
+        return ;
     },
-    remove (params) {
-        return axios.delete(`/proyectos/${params.id}`, {params: params});
-    },
-    edit (params) {
-        return axios.put(`/proyectos/${params.id}`, params);
+    edit(params) {
+        return ;
     }
 };
+
+var PaisesResources = {
+    get: (params) => {
+        return axios.get(`${base}/country/all`, {params: params});
+    },
+    add(params) {
+        return ;
+    },
+    remove(params) {
+        return ;
+    },
+    edit(params) {
+        return ;
+    }
+};
+
+var FechasResources = {
+    get(params) {
+        return axios.get(`${base}/dates/all`, {params: params});
+    },
+    add(params) {
+        return ;
+    },
+    remove(params) {
+        return ;
+    },
+    edit(params) {
+        return ;
+    }
+};
+
+export { DeportesResources, PaisesResources, FechasResources};
+
