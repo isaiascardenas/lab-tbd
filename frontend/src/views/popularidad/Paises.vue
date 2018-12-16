@@ -46,7 +46,7 @@ export default {
             });
             console.log(labels);
             let values = _.map(this.paises, (country) => {
-                return country.tweetCounts[0].count
+                return country.tweetCounts[1].count
             });
             console.log(values);
 
