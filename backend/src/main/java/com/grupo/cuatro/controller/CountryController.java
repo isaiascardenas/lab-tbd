@@ -3,6 +3,7 @@ package com.grupo.cuatro.controller;
 import com.grupo.cuatro.model.Country;
 import com.grupo.cuatro.model.Statistic;
 import com.grupo.cuatro.repository.CountryRepository;
+import com.grupo.cuatro.repository.SportRepository;
 import com.grupo.cuatro.repository.StatisticRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,8 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @Validated
@@ -77,7 +80,8 @@ public class CountryController {
         if(country.isPresent()) {
             countryValue = country.get();
             List<Statistic> statistics = countryValue.getStatistics();
-            return new ResponseEntity(statistics, HttpStatus.OK);
+            Set<Statistic> uniqueStatistics = new HashSet<Statistic>(statistics);
+            return new ResponseEntity(uniqueStatistics, HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }

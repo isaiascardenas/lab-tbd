@@ -23,8 +23,6 @@ public class StatisticController {
     @Autowired
     private StatisticRepository statisticRepository;
     @Autowired
-    private CountryRepository countryRepository;
-    @Autowired
     private SportRepository sportRepository;
 
     //obtener todas las estadisticas
@@ -43,6 +41,20 @@ public class StatisticController {
         if(statistic.isPresent()) {
             statisticValue = statistic.get();
             return new ResponseEntity(statisticValue, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    //obtener el deporte asociado a una estadistica
+    @RequestMapping(value="/{id}/sport", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity getStatisticSport(@PathVariable("id") Long id) {
+        Statistic statisticValue;
+        Optional<Statistic> statistic = statisticRepository.findById(id);
+        if(statistic.isPresent()) {
+            statisticValue = statistic.get();
+            return new ResponseEntity(statisticValue.getSport(), HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
