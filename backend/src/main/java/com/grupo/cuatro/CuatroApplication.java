@@ -16,10 +16,22 @@ public class CuatroApplication {
         Elastic e = new Elastic();
         //e.indexCreate();
 
-        System.out.println(e.getCantidadFecha("Dec"));
-        System.out.println(e.getCantidadDeportePais("Tenis", "Chile"));
-        System.out.println(e.getCantidadDeportePais("Tenis", "Argentina"));
-        System.out.println(e.getCantidadDeportePais("Tenis", "España"));
+        //System.out.println(e.getCantidadFecha("Dec"));
+        //System.out.println(e.getCantidadDeportePais("Tenis", "Chile"));
+        //System.out.println(e.getCantidadDeportePais("Tenis", "Argentina"));
+        //System.out.println(e.getCantidadDeportePais("Tenis", "España"));
+        //System.out.println(e.getCantidad("Boxeo"));
+        System.out.println("Twits en Ecuador "+e.getCantidadPais("Ecuador"));
+        System.out.println("Twits en Paraguay "+e.getCantidadPais("Paraguay"));
+        System.out.println("Twits en Chile "+e.getCantidadPais("Chile"));
+        System.out.println("Twits en Argentina "+e.getCantidadPais("Argentina"));
+        System.out.println("Twits en España "+e.getCantidadPais("España"));
+        //System.out.println(e.getCantidadPais("Chile"));
+        //System.out.println(e.getCantidadPais("chile"));
+        //System.out.println(e.getCantidadPais("Santiago"));
+        //System.out.println(e.getCantidadPais("Argentina"));
+        //System.out.println(e.getCantidadPais("argentina"));
+        //System.out.println(e.getCantidad("Tenis"));
         SpringApplication.run(CuatroApplication.class, args);
 	}
 

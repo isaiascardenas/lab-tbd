@@ -44,8 +44,9 @@ export default {
                 return sport.sportName
             });
             let values = _.map(this.deportes, (sport) => {
-                return sport.statistics.length;
+                return sport.statistics[0].statisticCount;
             });
+            console.log(values);
 
             this.datacollection = {
                 labels: labels,
