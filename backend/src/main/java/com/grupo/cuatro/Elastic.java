@@ -75,7 +75,7 @@ public class Elastic {
                 doc = new Document();
                 doc.add(new StringField("id", cur.get("_id").toString(), Field.Store.YES));
                 doc.add(new TextField("text", cur.get("text").toString(), Field.Store.YES));
-                doc.add(new TextField("timeStamp", cur.get("createdAt").toString(),Field.Store.YES));
+                doc.add(new DateField("timeStamp", cur.get("createdAt").dateToString(),Field.Store.YES));
                 if(cur.get("location") != null){
                     doc.add(new TextField("location", cur.get("location").toString(), Field.Store.YES));
                 }

@@ -30,5 +30,6 @@ Guía de las principales tencologías utilizadas en el desarrollo del frontend de 
 * [Axios](https://github.com/axios/axios)
 * [Element](https://element.eleme.io/#/en-US/component/installation)
 * [VueRouter](https://router.vuejs.org/guide/#html)
+* [Loadash](https://lodash.com/docs/4.17.11)
 
 

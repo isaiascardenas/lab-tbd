@@ -1,34 +1,34 @@
 <template>
     <div class="small" v-loading="loading">
-        <div class="text">Cantidad de tweets por pais</div>
-        <pie-chart :chart-data="datacollection"></pie-chart>
+        <div class="text">Cantidad de tweets por fechas</div>
+        <line-chart :chart-data="datacollection"></line-chart>
     </div>
 </template>
 
 <script>
-import PieChart from './../../charts/PieChart.js'
-import { PaisesResources } from './../../router/endpoints';
+import LineChart from './../../charts/LineChart.js'
+import { FechasResources } from './../../router/endpoints';
 
 export default {
     components: {
-        PieChart
+        LineChart
     },
     data () {
         return {
             datacollection: null,
-            paises: [],
+            fechas: [],
             loading: true,
         }
     },
     mounted () {
-        this.getPaises();
+        this.getFechas();
     },
     methods: {
-        getPaises () {
+        getFechas () {
             var self = this;
-            PaisesResources.get({})
+            FechasResources.get({})
                 .then((response) => {
-                    self.paises = response.data;
+                    self.fechas = response.data;
                     self.fillData();
                 })
                 .catch((error) => {
@@ -37,15 +37,17 @@ export default {
                 .finally(() => {
                     this.loading = false;
                 });
+
         },
         fillData () {
+            console.log(this.fechas);
 
             let self = this;
-            let labels = _.map(this.paises, (country) => {
-                return country.countryName
+            let labels = _.map(this.fechas, (day) => {
+                return day.dateName
             });
-            let values = _.map(this.paises, (country) => {
-                return country.statistics.length;
+            let values = _.map(this.fechas, (day) => {
+                return day.statistics.length;
             });
 
 

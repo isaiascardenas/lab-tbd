@@ -1,15 +1,13 @@
 <template>
-    <div class="small">
+    <div class="small" v-loading="loading">
         <div class="text">Cantidad de tweets por deportes</div>
         <bar-chart :chart-data="datacollection"></bar-chart>
     </div>
 </template>
 
 <script>
-
-import axios from 'axios'
-
-import BarChart from './../../charts/HorizontalBarChart.js'
+import BarChart from './../../charts/HorizontalBarChart.js';
+import { DeportesResources } from './../../router/endpoints';
 
 export default {
     components: {
@@ -17,37 +15,48 @@ export default {
     },
     data () {
         return {
-	    datacollection: null,
-            dataDeportes: [40,40,65,76,12,24,33],
+            datacollection: {},
+            deportes: [],
             loading: true
         }
     },
     mounted () {
-        //this.getData()
-        this.fillData()
+        this.getDeportes();
     },
     methods: {
-        fillData () {
+        getDeportes() {
+            let self = this;
+            DeportesResources.get({})
+                .then((response) => {
+                    self.deportes = response.data;
+                    self.fillData();
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {
+                    this.loading = false;
+                });
+        },
+        fillData() {
+            let self = this;
+            let labels = _.map(this.deportes, (sport) => {
+                return sport.sportName
+            });
+            let values = _.map(this.deportes, (sport) => {
+                return sport.statistics.length;
+            });
+
             this.datacollection = {
-                labels: ["Boxeo","Fútbol Femenino", "Tenis","Natación","Volley Ball","Rugby","Basquetball",],
+                labels: labels,
                 datasets: [
                     {
-                        backgroundColor:['green','red','yellow','black','orange','blue','violet'],
-                        data: this.dataDeportes
+                        label: 'Data One',
+                        backgroundColor: ['#536DFE','#FFC107','#CDDC39','#8BC34A','#607D8B','#9E9E9E','#00BCD4', '#9C27B0', '#C2185B'],
+                        data: values
                     }
                 ]
             }
-        },
-        getData(){
-            axios.get('URL DATA POR DEPORTE')
-                .then(function (response) {
-                    console.log(response.data);
-                    this.dataDeportes = response.data;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                })
-                .finally(()=>this.loading=false)
         }
     }
 }
@@ -55,7 +64,10 @@ export default {
 
 <style>
 .small {
-    max-width: 600px;
-    margin:  150px auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    max-width: 460px;
+    margin-left: auto;
+    margin-right: auto;
 }
 </style>

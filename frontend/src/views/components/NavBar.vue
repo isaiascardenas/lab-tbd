@@ -1,5 +1,6 @@
 <template>
-    <el-header>Header</el-header>
+    <el-header>
+    </el-header>
 </template>
 
 <script>

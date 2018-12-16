@@ -7,6 +7,8 @@ import ElementUI from 'element-ui'
 import VueCharts from 'vue-chartjs'
 import 'element-ui/lib/theme-chalk/index.css'
 
+var _ = require('lodash');
+
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 
