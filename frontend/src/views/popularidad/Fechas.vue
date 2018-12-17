@@ -24,7 +24,7 @@ export default {
         this.getStatistics();
     },
     methods: {
-        getStatistics() {
+        getStatistics () {
             var self = this;
             FechasResources.get({})
                 .then((response) => {
@@ -40,26 +40,25 @@ export default {
 
         },
         fillData () {
-
-
             console.log(this.statistics);
 
             let self = this;
             let labels = _.map(this.statistics, (day) => {
-                return day.dateName
+                return day.statisticQuery
             });
             let values = _.map(this.statistics, (day) => {
-                return day.statistics.length;
+                return day.statisticDate;
             });
-
-
+            console.log(values);
             this.datacollection = {
-                labels: labels,
+                labels: ['2018-12-06', '2018-12-07', '2018-12-08','2018-12-09','2018-12-10','2018-12-11', '2018-12-12', '2018-12-13', '2018-12-14', '2018-12-15', '2018-12-16'],
                 datasets: [
                     {
-                        label: 'Data One',
-                        backgroundColor: ['#9C27B0','#FFC107','#CDDC39','#8BC34A','#607D8B','#9E9E9E','#00BCD4', '#536DFE', '#C2185B'],
-                        data: values
+                        label: 'Deportes',
+                        backgroundColor: ['#e2431e'],
+                        fill: false,
+                        borderColor: ['Red'],
+                        data: [30, 60, 70, 100, 30, 40, 90, 60, 70, 80, 100, 120]
                     }
                 ]
             }
