@@ -26,6 +26,7 @@ public class CuatroApplication {
         System.out.println("Twits en Chile "+e.getCantidadPais("Chile"));
         System.out.println("Twits en Argentina "+e.getCantidadPais("Argentina"));
         System.out.println("Twits en España "+e.getCantidadPais("España"));
+        System.out.println(e.getCantidadFecha("12"));
         //System.out.println(e.getCantidadPais("Chile"));
         //System.out.println(e.getCantidadPais("chile"));
         //System.out.println(e.getCantidadPais("Santiago"));

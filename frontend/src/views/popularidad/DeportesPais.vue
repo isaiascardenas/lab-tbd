@@ -80,7 +80,7 @@ export default {
                         // aca va el color del deporte
                         backgroundColor: ['#9C27B0','#FFC107','#CDDC39','#8BC34A','#607D8B','#9E9E9E','#00BCD4'],
                         // aca van los valores del deporte, para cada pais
-                        data: [10, 11, 12, 13, 14, 15, 16, 17]
+                        data: [10, 11, 12, 20, 14, 15, 16, 17]
                     }, {
                         label: 'Data Two',
                         backgroundColor: ['#9C27B0','#FFC107','#CDDC39','#8BC34A','#607D8B','#9E9E9E','#00BCD4'],
