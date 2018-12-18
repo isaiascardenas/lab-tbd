@@ -12,7 +12,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        mysqlSeeder.seedCountryCount();
-        mysqlSeeder.seed();
+        //mysqlSeeder.seedCountryCount();
+        //mysqlSeeder.seed();
     }
 }

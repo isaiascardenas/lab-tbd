@@ -9,23 +9,23 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@Table(name="keywords")
-public class Keyword {
+@Table(name="sport_keywords")
+public class SportKeyword {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name="keyword_id")
-    private Long keywordId;
+    @Column(name="sportkeyword_id")
+    private Long sportKeywordId;
 
-    @Column(name="keyword_word")
-    private String keywordWord;
+    @Column(name="sportkeyword_word")
+    private String sportKeywordWord;
 
     //relaciones
     //muchas keywords pertenecen a un deporte
     @ManyToOne
     @JoinColumn(name="sport_id")
-    @JsonBackReference("sport-keyword")
+    @JsonBackReference("sport-sportkeyword")
     private Sport sport;
 
-    //llave foranea transient para establecer la relacion con deporte
+    //llave foranea transient para establecer la relacion
     private transient Long sportId;
 }

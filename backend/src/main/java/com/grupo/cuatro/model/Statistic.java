@@ -1,12 +1,11 @@
 package com.grupo.cuatro.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.List;
 
 @Entity
 @Getter
@@ -28,22 +27,19 @@ public class Statistic {
     private Date statisticDate;
 
     //relaciones
-    //muchas estadisticas pertenecen a muchos paises
-    @ManyToMany(mappedBy = "statistics")
-    @JsonBackReference("country-statistic")
-    private List<Country> countries;
+    //muchas estadisticas tienen un pais
+    @ManyToOne
+    @JoinColumn(name="country_id")
+    //@JsonManagedReference("statistic_country")
+    private Country country;
 
-    //muchas estadisticas pertenecen a un deporte
+    //muchas estadisticas tienen un deporte
     @ManyToOne
     @JoinColumn(name="sport_id")
-    @JsonBackReference("sport-statistic")
+    //@JsonManagedReference("statistic-sport")
     private Sport sport;
 
-    //llave foranea transient para establecer la relacion con deporte
+    //llave foranea transient para establecer la relacion con deporte y pais
     private transient Long sportId;
-
-    //metodo para agregar pais
-    public void addCountry(Country country) {
-        this.countries.add(country);
-    }
+    private transient Long countryId;
 }

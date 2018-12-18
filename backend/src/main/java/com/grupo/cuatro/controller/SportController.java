@@ -1,7 +1,7 @@
 package com.grupo.cuatro.controller;
 
-import com.grupo.cuatro.model.Keyword;
 import com.grupo.cuatro.model.Sport;
+import com.grupo.cuatro.model.SportKeyword;
 import com.grupo.cuatro.model.Statistic;
 import com.grupo.cuatro.repository.SportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,8 +58,8 @@ public class SportController {
         Optional<Sport> sport = sportRepository.findById(id);
         if(sport.isPresent()) {
             sportValue = sport.get();
-            List<Keyword> keywords = sportValue.getKeywords();
-            return new ResponseEntity(keywords, HttpStatus.OK);
+            List<SportKeyword> sportKeywords = sportValue.getSportKeywords();
+            return new ResponseEntity(sportKeywords, HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
