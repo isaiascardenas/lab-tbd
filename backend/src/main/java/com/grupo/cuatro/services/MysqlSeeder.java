@@ -10,10 +10,12 @@ import com.grupo.cuatro.repository.SportRepository;
 import com.grupo.cuatro.repository.StatisticRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Service
+@RequestMapping("/databaseSeed")
 public class MysqlSeeder {
-    private static long total;
+    private static Long total;
 
     private Elastic e = new Elastic();
     @Autowired
