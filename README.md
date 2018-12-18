@@ -6,9 +6,9 @@ Proyecto para Taller de Bases de Datos sobre ánalisis de información extraída
 
 Para inicializar el backend (En la carpeta backend del proyecto):
 
-#Instalar dependencias, compilar y ejecutar
-
 ``` bash
+
+#Instalar dependencias, compilar y ejecutar
 
 mvn spring-boot:run
 
