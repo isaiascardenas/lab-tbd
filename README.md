@@ -7,16 +7,21 @@ Proyecto para Taller de Bases de Datos sobre ánalisis de información extraída
 Para inicializar el backend (En la carpeta backend del proyecto):
 
 #Instalar dependencias, compilar y ejecutar
+
+``` bash
+
 mvn spring-boot:run
 
-Guia de las principales tecnologias utilizadas en el desarrollo del backend de la aplicación
+```
 
-* [Sprint] (https://spring.io/docs)
-* [MySQL] (https://dev.mysql.com/doc/)
-* [Lucene] (https://lucene.apache.org/core/7_1_0/index.html)
-* [MongoDB] (https://docs.mongodb.com/)
-* [Maven] (https://maven.apache.org/guides/index.html)
-* [Neo4j] (https://neo4j.com/docs/)
+Guia de las principales tecnologias utilizadas en el desarrollo del backend de la aplicación:
+
+* [Spring](https://spring.io/docs)
+* [MySQL](https://dev.mysql.com/doc/)
+* [Lucene](https://lucene.apache.org/core/7_1_0/index.html)
+* [MongoDB](https://docs.mongodb.com/)
+* [Maven](https://maven.apache.org/guides/index.html)
+* [Neo4J](https://neo4j.com/docs/)
 
 ## Frontend
 
