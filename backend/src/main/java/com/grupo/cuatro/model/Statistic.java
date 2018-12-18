@@ -1,6 +1,5 @@
 package com.grupo.cuatro.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,13 +29,11 @@ public class Statistic {
     //muchas estadisticas tienen un pais
     @ManyToOne
     @JoinColumn(name="country_id")
-    //@JsonManagedReference("statistic_country")
     private Country country;
 
     //muchas estadisticas tienen un deporte
     @ManyToOne
     @JoinColumn(name="sport_id")
-    //@JsonManagedReference("statistic-sport")
     private Sport sport;
 
     //llave foranea transient para establecer la relacion con deporte y pais
