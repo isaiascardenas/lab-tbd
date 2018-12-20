@@ -20,4 +20,8 @@ public class User {
 
     @Column(name="user_email", unique = true)
     private String userEmail;
+
+    public User(String nombre, String userEmail){
+        this.userName = nombre;
+    }
 }

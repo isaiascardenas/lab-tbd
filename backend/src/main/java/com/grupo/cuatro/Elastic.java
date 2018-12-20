@@ -160,7 +160,7 @@ public class Elastic {
             return total;
         }
 
-        public ArrayList<Integer> getCantidadFecha(String mes){
+        public ArrayList<Integer> getCantidadFecha(){
 
             ArrayList<Integer> resultados=new ArrayList<>();
             try {
@@ -171,7 +171,13 @@ public class Elastic {
                 QueryParser parser = new QueryParser("date", analyzer);
 
                 for(int i=1;i<32;i++){
-                    Query query = parser.parse(mes);
+                    Query query;
+                    if(i <= 9){
+                        query = parser.parse("2018120"+i);
+                    }
+                    else{
+                        query = parser.parse("201812"+i);
+                    }
                     TopDocs result = searcher.search(query, 25000);
                     ScoreDoc[] hits = result.scoreDocs;
                     int aux=0;
