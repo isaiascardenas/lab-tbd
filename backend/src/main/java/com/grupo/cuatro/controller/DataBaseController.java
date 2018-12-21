@@ -3,6 +3,7 @@ package com.grupo.cuatro.controller;
 import com.grupo.cuatro.Elastic;
 import com.grupo.cuatro.model.*;
 import com.grupo.cuatro.repository.CountryRepository;
+import com.grupo.cuatro.repository.FechaRepository;
 import com.grupo.cuatro.repository.SportRepository;
 import com.grupo.cuatro.repository.StatisticRepository;
 import io.swagger.models.auth.In;
@@ -24,6 +25,9 @@ public class DataBaseController {
     private SportRepository sportRepository;
     @Autowired
     private StatisticRepository statisticRepository;
+    @Autowired
+    private FechaRepository fechaRepository;
+
     private Elastic e = new Elastic();
 
     @RequestMapping(value="/seed", method= RequestMethod.GET)
@@ -33,7 +37,7 @@ public class DataBaseController {
         sqlDate = new java.sql.Date(System.currentTimeMillis()); //datetime for statistic
         List<Sport> sports = sportRepository.findAll();
         List<Country> countries = countryRepository.findAll();
-        //valores para estadistica compuesta
+
         for (Sport sport : sports) {
             for (Country country : countries) {
                 Statistic statistic = new Statistic();
@@ -52,7 +56,6 @@ public class DataBaseController {
                         statisticCount += e.getCantidadDeportePais(sportKeyword.getSportKeywordWord(), countryKeyword.getCountryKeywordWord());
                     }
                 }
-                //se setea el valor acumulado
                 statistic.setStatisticCount(statisticCount);
                 statisticRepository.save(statistic);
             }
@@ -403,6 +406,29 @@ public class DataBaseController {
         femenino.setSportKeywords(listaFemenino);
         sportRepository.save(femenino);
         //LLENANDO FUTBOL FEMENINO
+
+        Elastic e = new Elastic();
+        List<Fecha> fechas = fechaRepository.findAll();
+        ArrayList<Long> listaFechas = new ArrayList<>();
+        listaFechas = e.getCantidadFecha();
+        System.out.println(listaFechas);
+        //Statistic st = new Statistic();
+        for(int i = 0; i < 31; i++){
+            Fecha auxiliar = new Fecha();
+            auxiliar.setFechaCount(listaFechas.get(i));
+            if(i <= 9){
+                auxiliar.setFechaValue("201812"+"0"+(i+1));
+            }
+            else{
+                auxiliar.setFechaValue("201812"+(i+1));
+            }
+            //auxiliar.setStatistic(st);
+            fechas.add(auxiliar);
+            fechaRepository.save(auxiliar);
+
+        }
+        //st.setFechas(fechas);
+        //statisticRepository.save(st);
 
         return new ResponseEntity(HttpStatus.OK);
     }

@@ -2,6 +2,7 @@ package com.grupo.cuatro;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,10 +74,11 @@ public class Elastic {
             while (cursor.hasNext()) {
                 DBObject cur = cursor.next();
                 doc = new Document();
-                String date = cur.get("createdAt").toString();
+                Date date = (Date) cur.get("createdAt");
+                String auxiliar = DateTools.dateToString(date, DateTools.Resolution.DAY);
                 doc.add(new StringField("id", cur.get("_id").toString(), Field.Store.YES));
                 doc.add(new TextField("text", cur.get("text").toString(), Field.Store.YES));
-                doc.add(new TextField("date", new DateTime(cur.get("createdAt")).toString(), Field.Store.YES));
+                doc.add(new TextField("date", auxiliar, Field.Store.YES));
                 if(cur.get("location") != null){
                     doc.add(new TextField("location", cur.get("location").toString(), Field.Store.YES));
                 }
@@ -160,9 +162,9 @@ public class Elastic {
             return total;
         }
 
-        public ArrayList<Integer> getCantidadFecha(){
+        public ArrayList<Long> getCantidadFecha(){
 
-            ArrayList<Integer> resultados=new ArrayList<>();
+            ArrayList<Long> resultados = new ArrayList<>();
             try {
                 IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
                 IndexSearcher searcher = new IndexSearcher(reader);
@@ -180,7 +182,7 @@ public class Elastic {
                     }
                     TopDocs result = searcher.search(query, 25000);
                     ScoreDoc[] hits = result.scoreDocs;
-                    int aux=0;
+                    long aux=0;
                     for (int j = 0; j < hits.length; j++) {
                         aux++;
                     }

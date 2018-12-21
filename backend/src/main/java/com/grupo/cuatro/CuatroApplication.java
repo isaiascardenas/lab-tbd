@@ -19,8 +19,8 @@ public class CuatroApplication {
 
 	public static void main(String[] args) {
         Elastic e = new Elastic();
-        e.indexCreate();
-        //System.out.println(e.getCantidadFecha("12"));
+        //e.indexCreate();
+        System.out.println(e.getCantidadFecha());
         SpringApplication.run(CuatroApplication.class, args);
 	}
 
