@@ -44,15 +44,17 @@ export default {
                 return sport.sportName
             });
             let values = _.map(this.deportes, (sport) => {
-                return sport.statistics[19].statisticCount;
+                return sport.sportTweetCount;
             });
+            console.log(labels);
+            console.log(values);
 
             this.datacollection = {
-                labels: labels,
+                labels: ['Rugby', 'Basketball', 'Tenis', 'Boxeo', 'Volleyball', 'Natación', 'Futbol femenino'],
                 datasets: [
                     {
-                        label: [],
-                        backgroundColor: ['#536DFE','#FFC107','#CDDC39','#8BC34A','#607D8B','#9E9E9E','#00BCD4', '#9C27B0', '#C2185B'],
+                        label: 'Deporte',
+                        backgroundColor: ['#536DFE','#FFC107','#CDDC39','#8BC34A','#607D8B','#9E9E9E','#00BCD4'],
                         data: values
                     }
                 ]

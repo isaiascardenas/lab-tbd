@@ -26,6 +26,14 @@ export default {
     data () {
         return {
             // navdata: [],
+
+            options: [{
+                value: 'Option1',
+                label: 'Option1'
+            }, {
+                value: 'Option2',
+                label: 'Option2'
+            }],
             sprints: [
                 {
                     id: '1',
@@ -66,6 +74,13 @@ export default {
                     id: '4',
                     name: 'Deportes por Pais',
                     routeName: 'Popularidad Deportes Paises',
+                    children: [
+                        {
+                            id: '6',
+                            name: 'Chile',
+                            routeName: 'Chile Deportes'
+                        }
+                    ]
                 },
             ],
         }
