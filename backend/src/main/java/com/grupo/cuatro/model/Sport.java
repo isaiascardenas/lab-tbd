@@ -21,15 +21,18 @@ public class Sport {
     @Column(name="sport_name")
     private String sportName;
 
+    @Column(name="sport_tweet_count")
+    private Long sportTweetCount;
+
     //relaciones
-    //un deporte tiene muchas estadisticas
+    //un deporte pertenece a muchas estadisticas
     @OneToMany(targetEntity = Statistic.class, mappedBy = "sport", cascade = CascadeType.ALL)
-    @JsonManagedReference("sport-statistic")
+    @JsonBackReference("statistic-sport")
     private List<Statistic> statistics;
 
-    //un deporte tiene muchos keywords
-    @OneToMany(targetEntity = Keyword.class, mappedBy = "sport", cascade = CascadeType.ALL)
-    @JsonManagedReference("sport-keyword")
-    private List<Keyword> keywords;
+    //un deporte tiene muchos sport keywords
+    @OneToMany(targetEntity = SportKeyword.class, mappedBy = "sport", cascade = CascadeType.ALL)
+    @JsonManagedReference("sport-sportkeyword")
+    private List<SportKeyword> sportKeywords;
 
 }

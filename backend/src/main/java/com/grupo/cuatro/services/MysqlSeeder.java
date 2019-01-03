@@ -5,20 +5,17 @@ import com.grupo.cuatro.Elastic;
 import com.grupo.cuatro.model.Country;
 import com.grupo.cuatro.model.Sport;
 import com.grupo.cuatro.model.Statistic;
-import com.grupo.cuatro.model.TweetCount;
 import com.grupo.cuatro.repository.CountryRepository;
 import com.grupo.cuatro.repository.SportRepository;
 import com.grupo.cuatro.repository.StatisticRepository;
-import com.grupo.cuatro.repository.TweetCountRepository;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Service
+@RequestMapping("/databaseSeed")
 public class MysqlSeeder {
-
+    private static Long total;
 
     private Elastic e = new Elastic();
     @Autowired
@@ -30,6 +27,7 @@ public class MysqlSeeder {
     @Autowired
     private CountryRepository countryRepository;
 
+    /*
     @Autowired
     private TweetCountRepository tweetCountRepository;
 
@@ -69,6 +67,7 @@ public class MysqlSeeder {
                 statisticRepository.save(statistic1);
             }
         }
+
     }
 
 
@@ -91,6 +90,6 @@ public class MysqlSeeder {
         }
     }
 
-
+*/
 }
 

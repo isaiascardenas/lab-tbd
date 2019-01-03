@@ -118,6 +118,7 @@ public class TwitterListener {
 				bolsa[28] = "Boxeador";
 				bolsa[29] = "Boxista";
 				bolsa[30] = "volley";
+				bolsa[31] = "rugbista";
 				//bolsa[31] = "Pauline Kantor Pupkin";
 				//bolsa[32] = "Isabel Plá Jarufe";
 				//bolsa[33] = "Mauricio José Rojas Mullor";

@@ -11,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -24,6 +22,8 @@ public class StatisticController {
     private StatisticRepository statisticRepository;
     @Autowired
     private SportRepository sportRepository;
+    @Autowired
+    private CountryRepository countryRepository;
 
     //obtener todas las estadisticas
     @RequestMapping(value="/all", method= RequestMethod.GET)
@@ -60,23 +60,29 @@ public class StatisticController {
         }
     }
 
-    //crear estadistica y asociarla a un deporte (con id transient)
+    //crear estadistica y asociarla a un deporte y un pais (con id transient)
     @RequestMapping(value="/create", method=RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public ResponseEntity create(@RequestBody Statistic resource) {
         //extraigo llave foranea de resource para establecer relacion
         Sport sportValue;
+        Country countryValue;
+        Optional<Country> country = countryRepository.findById(resource.getCountryId());
         Optional<Sport> sport = sportRepository.findById(resource.getSportId());
-        if(sport.isPresent()) {
+        if(sport.isPresent() && country.isPresent()) {
             sportValue = sport.get();
-            resource.setSport(sportValue); //aqui se relacionan
+            countryValue = country.get();
+            //aqui se relacionan
+            resource.setSport(sportValue);
+            resource.setCountry(countryValue);
             return new ResponseEntity(statisticRepository.save(resource), HttpStatus.CREATED);
         } else {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
 
+    /*
     //obtener paises de una estadistica
     @RequestMapping(value="/{id}/countries", method=RequestMethod.GET)
     @ResponseBody
@@ -85,12 +91,12 @@ public class StatisticController {
         Optional<Statistic> statistic = statisticRepository.findById(id);
         if(statistic.isPresent()) {
             statisticValue = statistic.get();
-            List<Country> countries = statisticValue.getCountries();
-            return new ResponseEntity(countries, HttpStatus.OK);
+            //List<Country> countries = statisticValue.getCountries();
+            //return new ResponseEntity(countries, HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-    }
+    }*/
 
     @RequestMapping(value= "/{id}/delete", method=RequestMethod.DELETE)
     @ResponseBody

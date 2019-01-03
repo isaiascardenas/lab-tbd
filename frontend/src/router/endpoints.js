@@ -34,7 +34,7 @@ var PaisesResources = {
 
 var FechasResources = {
     get(params) {
-        return axios.get(`${base}/statistic/all`, {params: params});
+        return axios.get(`${base}/fecha/all`, {params: params});
     },
     add(params) {
         return ;

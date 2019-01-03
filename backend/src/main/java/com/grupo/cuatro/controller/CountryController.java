@@ -3,7 +3,6 @@ package com.grupo.cuatro.controller;
 import com.grupo.cuatro.model.Country;
 import com.grupo.cuatro.model.Statistic;
 import com.grupo.cuatro.repository.CountryRepository;
-import com.grupo.cuatro.repository.SportRepository;
 import com.grupo.cuatro.repository.StatisticRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -2,6 +2,7 @@ package com.grupo.cuatro;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.logging.Logger;
 import java.util.*;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.grupo.cuatro.Neo4j.GrafoDB;
 import com.mongodb.*;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
@@ -26,10 +28,7 @@ import org.apache.lucene.index.*;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.elasticsearch.search.DocValueFormat;
@@ -73,19 +72,19 @@ public class Elastic {
             while (cursor.hasNext()) {
                 DBObject cur = cursor.next();
                 doc = new Document();
-                String date = cur.get("createdAt").toString();
+                Date date = (Date) cur.get("createdAt");
+                String auxiliar = DateTools.dateToString(date, DateTools.Resolution.DAY);
                 doc.add(new StringField("id", cur.get("_id").toString(), Field.Store.YES));
                 doc.add(new TextField("text", cur.get("text").toString(), Field.Store.YES));
-                doc.add(new TextField("date", cur.get("createdAt").toString(), Field.Store.YES));
+                doc.add(new TextField("date", auxiliar, Field.Store.YES));
                 if(cur.get("location") != null){
                     doc.add(new TextField("location", cur.get("location").toString(), Field.Store.YES));
                 }
-                //doc.add(new StringField("location", aux.get("location").toString(), Field.Store.YES));
-                //doc.add(new StringField("analysis", cur.get("analysis").toString(), Field.Store.YES));
-                //doc.add(new StringField("finalCountry",cur.get("finalCountry").toString(),Field.Store.YES));
-                //doc.add(new StringField("screenName", cur.get("user.location").toString(), Field.Store.YES));
-                //doc.add(new StringField("userFollowersCount", cur.get("userFollowersCount").toString(), Field.Store.YES));
-                //doc.add(new StringField("favoriteCount", cur.get("favoriteCount").toString(), Field.Store.YES));
+                doc.add(new StringField("userScreenName", cur.get("userScreenName").toString(), Field.Store.YES));
+                doc.add(new StringField("userFollowersCount", cur.get("userFollowersCount").toString(), Field.Store.YES));
+                doc.add(new StringField("favoriteCount", cur.get("favoriteCount").toString(), Field.Store.YES));
+                doc.add(new StringField("userFriendsCount", cur.get("userFriendsCount").toString(), Field.Store.YES));
+
 
                 if (writer.getConfig().getOpenMode() == OpenMode.CREATE) {
                     System.out.println("Indexando el tweet: " + doc.get("text") + "\n");
@@ -160,9 +159,9 @@ public class Elastic {
             return total;
         }
 
-        public ArrayList<Integer> getCantidadFecha(String mes){
+        public ArrayList<Long> getCantidadFecha(){
 
-            ArrayList<Integer> resultados=new ArrayList<>();
+            ArrayList<Long> resultados = new ArrayList<>();
             try {
                 IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
                 IndexSearcher searcher = new IndexSearcher(reader);
@@ -171,10 +170,16 @@ public class Elastic {
                 QueryParser parser = new QueryParser("date", analyzer);
 
                 for(int i=1;i<32;i++){
-                    Query query = parser.parse("date:"+mes+" AND date:"+i+"");
+                    Query query;
+                    if(i <= 9){
+                        query = parser.parse("2018120"+i);
+                    }
+                    else{
+                        query = parser.parse("201812"+i);
+                    }
                     TopDocs result = searcher.search(query, 25000);
                     ScoreDoc[] hits = result.scoreDocs;
-                    int aux=0;
+                    long aux=0;
                     for (int j = 0; j < hits.length; j++) {
                         aux++;
                     }
@@ -215,4 +220,238 @@ public class Elastic {
         }
         return aux;
     }
+
+    public int getInfluenciaPais(String pais){
+        int aux=0;
+        int i = 0;
+        try {
+            IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
+            IndexSearcher searcher = new IndexSearcher(reader);
+
+            Analyzer analyzer = new StandardAnalyzer();
+            QueryParser parser = new QueryParser("text", analyzer);
+            Query query = parser.parse("(location:"+pais+")");
+            TopDocs result = searcher.search(query, 25000);
+            ScoreDoc[] hits = result.scoreDocs;
+            for (int j = 0; j < hits.length; j++) {
+                Document doc = searcher.doc(hits[j].doc);
+                aux+= Integer.parseInt(doc.get("userFollowersCount"));
+                aux+= Integer.parseInt(doc.get("favoriteCount"));
+                aux+= Integer.parseInt(doc.get("userFriendsCount"));
+                //System.out.println(aux);
+                i = j;
+
+            }
+            aux = aux/i;
+            System.out.println(aux);
+            reader.close();
+        }
+        catch(IOException | ParseException ex)
+        {
+            Logger.getLogger(Elastic.class.getName()).log(Level.SEVERE,null,ex);
+
+        }
+        return aux;
+    }
+
+    public void crearRelacionUserDeporte(){
+        int i = 0;
+        ArrayList<String> usuarios = new ArrayList<>();
+        GrafoDB grafo = new GrafoDB();
+        grafo.connect("bolt://localhost", "neo4j", "secret");
+        try {
+            IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
+            IndexSearcher searcher = new IndexSearcher(reader);
+
+            Analyzer analyzer = new StandardAnalyzer();
+            QueryParser parser = new QueryParser("text", analyzer);
+            Query aux = parser.parse("userScreenName: biobio");
+            Query query = new MatchAllDocsQuery();
+            TopDocs result = searcher.search(query, 100000);
+            ScoreDoc[] hits = result.scoreDocs;
+            for (int j = 0; j < hits.length; j++) {
+                Document doc = searcher.doc(hits[j].doc);
+                if(Integer.parseInt(doc.get("userFollowersCount")) > 2800000){
+                    String lugar = doc.get("location");
+                    String usuario = doc.get("userScreenName");
+                    //System.out.println("El usuario es: "+usuario);
+                    //System.out.println("El lugar es: "+lugar);
+                    if(lugar != null){
+                        if(lugar.contains("Chile") || lugar.contains("Santiago")){
+                            if(!usuarios.contains(usuario)){
+                                grafo.crearRelacionUsuarioPais("Chile", limpiar(usuario));
+                                usuarios.add(usuario);
+                            }
+                        }
+                        else if(lugar.contains("Colombia")){
+                            if(!usuarios.contains(usuario)){
+                            grafo.crearRelacionUsuarioPais("Colombia", limpiar(usuario));
+                            usuarios.add(usuario);
+                            }
+                        }
+                        else if(lugar.contains("Paraguay")){
+                            if(!usuarios.contains(usuario)) {
+                                grafo.crearRelacionUsuarioPais("Paraguay", limpiar(usuario));
+                                usuarios.add(usuario);
+                            }
+                        }
+                        else if(lugar.contains("Uruguay")){
+                            if(!usuarios.contains(usuario)){
+                            grafo.crearRelacionUsuarioPais("Uruguay", limpiar(usuario));
+                            usuarios.add(usuario);
+                            }
+                        }
+                        else if(lugar.contains("España") || lugar.contains("Madrid")){
+                            if(!usuarios.contains(usuario)) {
+                                grafo.crearRelacionUsuarioPais("España", limpiar(usuario));
+                                usuarios.add(usuario);
+                            }
+                        }
+                        else if(lugar.contains("Mexico") || lugar.contains("México")){
+                            if(!usuarios.contains(usuario)) {
+                                grafo.crearRelacionUsuarioPais("Mexico", limpiar(usuario));
+                                usuarios.add(usuario);
+                            }
+                        }
+                        else if(lugar.contains("Venezuela")){
+                            if(!usuarios.contains(usuario)) {
+                                grafo.crearRelacionUsuarioPais("Venezuela", limpiar(usuario));
+                                usuarios.add(usuario);
+                            }
+                        }
+                        else if(lugar.contains("Ecuador")){
+                            if(!usuarios.contains(usuario)) {
+                                grafo.crearRelacionUsuarioPais("Ecuador", limpiar(usuario));
+                                usuarios.add(usuario);
+                            }
+                        }
+                        else if(lugar.contains("Argentina") || lugar.contains("Buenos Aires")){
+                            if(!usuarios.contains(usuario)) {
+                                grafo.crearRelacionUsuarioPais("Argentina", limpiar(usuario));
+                                usuarios.add(usuario);
+                            }
+                        }
+                    }
+                }
+
+            }
+            reader.close();
+        }
+        catch(IOException | ParseException ex)
+        {
+            Logger.getLogger(Elastic.class.getName()).log(Level.SEVERE,null,ex);
+
+        }
+    }
+
+    public String limpiar(String nombre){
+        nombre=nombre.replace("'","");
+        nombre=nombre.replace("/","");
+        nombre=nombre.replace("\"","");
+        nombre=nombre.replace("_","");
+        nombre=nombre.replace("¯(ツ)¯","");
+        nombre=nombre.replace("|","");
+        nombre=nombre.replace("°","");
+        nombre=nombre.replace("¬","");
+        nombre=nombre.replace("!","");
+        nombre=nombre.replace("#","");
+        nombre=nombre.replace("$","");
+        nombre=nombre.replace("%","");
+        nombre=nombre.replace("&","");
+        nombre=nombre.replace("/","");
+        nombre=nombre.replace("(","");
+        nombre=nombre.replace(")","");
+        nombre=nombre.replace("=","");
+        nombre=nombre.replace("?","");
+        nombre=nombre.replace("\\","");
+        nombre=nombre.replace("¡","");
+        nombre=nombre.replace("¿","");
+        nombre=nombre.replace("@","");
+        nombre=nombre.replace("*","");
+        nombre=nombre.replace("+","");
+        nombre=nombre.replace("~","");
+        nombre=nombre.replace("{","");
+        nombre=nombre.replace("}","");
+        nombre=nombre.replace("[","");
+        nombre=nombre.replace("]","");
+        nombre=nombre.replace(";","");
+        nombre=nombre.replace(",","");
+        nombre=nombre.replace(":","");
+        nombre=nombre.replace(".","");
+        nombre=nombre.replace("_","");
+        nombre=nombre.replace("-","");
+
+        nombre=nombre.replace("AND","(and)");
+        if(nombre.equals("AND Noticias")){
+            nombre=nombre.replace("AND","aanndd");
+        }
+        return nombre;
+    }
+
+    public void usuarioHabla(String usuario){
+        ArrayList<String> deportes = new ArrayList<>();
+        try {
+            IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
+            IndexSearcher searcher = new IndexSearcher(reader);
+
+            Analyzer analyzer = new StandardAnalyzer();
+            QueryParser parser = new QueryParser("userScreenName", analyzer);
+            Query query = parser.parse("(userScreenName:"+usuario+")");
+            TopDocs result = searcher.search(query, 25000);
+            ScoreDoc[] hits = result.scoreDocs;
+            for(int j = 0; j < hits.length; j++){
+                Document doc = searcher.doc(hits[j].doc);
+                System.out.println(doc.get("text"));
+                if(doc.get("text").contains("tenis")){
+                    if(!Arrays.asList(deportes).contains("tenis")){
+                        deportes.add("Tenis");
+                    }
+                }
+                else if(doc.get("text").contains("boxeo")){
+                    if(!Arrays.asList(deportes).contains("boxeo")){
+                        deportes.add("Boxeo");
+                    }
+
+                }
+                else if(doc.get("text").contains("rugby")){
+                    if(!Arrays.asList(deportes).contains("rugby")){
+                        deportes.add("Rugby");
+                    }
+
+                }
+                else if(doc.get("text").contains("futbol")){
+                    if(!Arrays.asList(deportes).contains("futbol")){
+                        deportes.add("Futbol Femenino");
+                    }
+
+                }
+                else if(doc.get("text").contains("basketball")){
+                    if(!Arrays.asList(deportes).contains("basketball")){
+                        deportes.add("Basketball");
+                    }
+
+                }
+                else if(doc.get("text").contains("volleyball")){
+                    if(!Arrays.asList(deportes).contains("volleyball")){
+                        deportes.add("Volleyball");
+                    }
+
+                }
+                else if(doc.get("text").contains("natacion")){
+                    if(!Arrays.asList(deportes).contains("natacion")){
+                        deportes.add("Natacion");
+                    }
+
+                }
+            }
+            reader.close();
+        }
+        catch(IOException | ParseException ex)
+        {
+            Logger.getLogger(Elastic.class.getName()).log(Level.SEVERE,null,ex);
+
+        }
+        System.out.println(deportes);
+    }
+
     }

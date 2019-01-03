@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,22 +29,21 @@ public class Statistic {
     private Date statisticDate;
 
     //relaciones
-    //muchas estadisticas pertenecen a muchos paises
-    @ManyToMany(mappedBy = "statistics")
-    @JsonBackReference("country-statistic")
-    private List<Country> countries;
+    //muchas estadisticas tienen un pais
+    @ManyToOne
+    @JoinColumn(name="country_id")
+    private Country country;
 
-    //muchas estadisticas pertenecen a un deporte
+    //muchas estadisticas tienen un deporte
     @ManyToOne
     @JoinColumn(name="sport_id")
-    @JsonBackReference("sport-statistic")
     private Sport sport;
 
-    //llave foranea transient para establecer la relacion con deporte
-    private transient Long sportId;
+    @OneToMany(targetEntity = Fecha.class, mappedBy = "statistic", cascade = CascadeType.ALL)
+    @JsonBackReference("statistic-fecha")
+    private List<Fecha> fechas;
 
-    //metodo para agregar pais
-    public void addCountry(Country country) {
-        this.countries.add(country);
-    }
+    //llave foranea transient para establecer la relacion con deporte y pais
+    private transient Long sportId;
+    private transient Long countryId;
 }

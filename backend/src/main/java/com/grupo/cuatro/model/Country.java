@@ -1,11 +1,11 @@
 package com.grupo.cuatro.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.lang.annotation.Target;
 import java.util.List;
 
 @Entity
@@ -21,18 +21,20 @@ public class Country {
     @Column(name = "country_name")
     private String countryName;
 
+    @Column(name = "country_tweet_count")
+    private Long countryTweetCount;
+
     //relaciones
-    //muchos paises tiene muchas estadisticas
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "countries_statistics",
-            joinColumns = @JoinColumn(name = "country_id", referencedColumnName = "country_id"),
-            inverseJoinColumns = @JoinColumn(name = "statistic_id", referencedColumnName = "statistic_id"))
+    //un pais pertenece a muchas estadisticas
+    //fetch = eager
+    @OneToMany(targetEntity = Statistic.class, mappedBy = "country", cascade = CascadeType.ALL)
+    @JsonBackReference("statistic-country")
     private List<Statistic> statistics;
 
-    //un pais tiene muchos tweetCounts
-    @OneToMany(targetEntity = TweetCount.class, mappedBy = "country", cascade = CascadeType.ALL)
-    private List<TweetCount> tweetCounts;
+    //un pais tiene muchos country keywords
+    @OneToMany(targetEntity = CountryKeyword.class, mappedBy = "country", cascade = CascadeType.ALL)
+    @JsonManagedReference("country-countryKeyword")
+    private List<CountryKeyword> countryKeywords;
 
     //metodo para agregar estadistica
     public void addStatistic(Statistic statistic) {

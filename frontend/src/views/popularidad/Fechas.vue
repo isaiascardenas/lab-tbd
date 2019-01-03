@@ -44,21 +44,21 @@ export default {
 
             let self = this;
             let labels = _.map(this.statistics, (day) => {
-                return day.statisticQuery
+                return day.fechaValue
             });
             let values = _.map(this.statistics, (day) => {
-                return day.statisticDate;
+                return day.fechaCount;
             });
             console.log(values);
             this.datacollection = {
-                labels: ['2018-12-06', '2018-12-07', '2018-12-08','2018-12-09','2018-12-10','2018-12-11', '2018-12-12', '2018-12-13', '2018-12-14', '2018-12-15', '2018-12-16'],
+                labels: labels,
                 datasets: [
                     {
                         label: 'Deportes',
                         backgroundColor: ['#e2431e'],
                         fill: false,
                         borderColor: ['Red'],
-                        data: [30, 60, 70, 100, 30, 40, 90, 60, 70, 80, 100, 120]
+                        data: values
                     }
                 ]
             }

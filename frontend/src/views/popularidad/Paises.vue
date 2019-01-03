@@ -45,7 +45,7 @@ export default {
                 return country.countryName
             });
             let values = _.map(this.paises, (country) => {
-                return country.tweetCounts[1].count
+                return country.countryTweetCount
             });
 
             this.datacollection = {
