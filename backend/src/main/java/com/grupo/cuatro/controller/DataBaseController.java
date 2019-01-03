@@ -417,10 +417,10 @@ public class DataBaseController {
             Fecha auxiliar = new Fecha();
             auxiliar.setFechaCount(listaFechas.get(i));
             if(i <= 9){
-                auxiliar.setFechaValue("201812"+"0"+(i+1));
+                auxiliar.setFechaValue("2018-12-"+"0"+(i+1));
             }
             else{
-                auxiliar.setFechaValue("201812"+(i+1));
+                auxiliar.setFechaValue("2018-12-"+(i+1));
             }
             //auxiliar.setStatistic(st);
             fechas.add(auxiliar);
