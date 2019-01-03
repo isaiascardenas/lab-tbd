@@ -48,11 +48,11 @@ var FechasResources = {
 };
 
 var DeportesPaisResources = {
-    get: (params) => {
+    getPaisesEstadisticas: (params) => {
         return axios.get(`${base}/country/${params.pais_id}/statistics`, {params: params});
     },
-    add(params) {
-        return ;
+    getEstadisticasDeportes: (params) => {
+        return axios.get(`${base}/statistic/${params.statistic_id}/sport`, {params: params});
     },
     remove(params) {
         return ;

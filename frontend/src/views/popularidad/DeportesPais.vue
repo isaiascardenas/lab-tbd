@@ -33,7 +33,7 @@ export default {
 
                     self.paises = response.data;
                     _.each(self.paises, (country) => {
-                        promises.push(DeportesPaisResources.get({ pais_id: country.countryId }));
+                        promises.push(DeportesPaisResources.getPaisesEstadisticas({ pais_id: country.countryId }));
                     });
 
                     multipleRequest.all(promises)
@@ -41,6 +41,29 @@ export default {
                         _.each(res, (response) => {
                             self.data.push(response.data);
                         });
+
+
+
+// promises = [];
+// _.each(response.data, (pais) => {
+// _.each(pais, (estadistica) => {
+  // estadistica.
+
+                        // promises.push(DeportesPaisResources.getPaisesEstadisticas({ pais_id: country.countryId }));
+
+// promises.push(DeportesPaisResources.getEstadisticasDeportes({statistic_id: self.data[0][0].statisticId}));
+        // .then((r) => {
+    // console.log('test', r.data);
+// });
+
+// });
+// });
+                            // });
+
+
+
+
+
                         self.fillData();
                     })
                     .catch((error) => {
