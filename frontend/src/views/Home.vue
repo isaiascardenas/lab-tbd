@@ -1,149 +1,164 @@
 <template>
-    <el-container class="container">
-        <side-bar v-bind:sprints="sprints"></side-bar>
-        <el-container>
-            <nav-bar></nav-bar>
-            <el-main>
-                <router-view v-bind:navdata="navdata"></router-view>
-            </el-main>
-            <el-footer><span class="copyright">© Group 2018</span></el-footer>
-        </el-container>
+  <el-container class="container">
+    <side-bar v-bind:sprints="sprints" @changeSprint="setNavdata"></side-bar>
+    <el-container>
+      <nav-bar></nav-bar>
+      <el-main> <router-view v-bind:navdata="navdata"></router-view> </el-main>
+      <el-footer><span class="copyright">© Group 2018</span></el-footer>
     </el-container>
+  </el-container>
 </template>
 
 <script>
-import Main from './components/Main.vue'
-import NavBar from './components/NavBar.vue'
-import SideBar from './components/SideBar.vue'
+import Main from './components/Main.vue';
+import NavBar from './components/NavBar.vue';
+import SideBar from './components/SideBar.vue';
 
 export default {
-    name: 'Home',
-    components: {
-        Main,
-        NavBar,
-        SideBar
+  name: 'Home',
+  components: {
+    Main,
+    NavBar,
+    SideBar,
+  },
+  data() {
+    return {
+      sprints: [
+        {
+          id: '1',
+          name: 'Popularidad',
+          routeName: 'Popularidad Deportes',
+          icon: 'el-icon-star-on',
+        },
+        {
+          id: '2',
+          name: 'Influencias',
+          routeName: 'Influencias Usuarios',
+          icon: 'el-icon-sort',
+        },
+        // {
+        // id: '3',
+        // name: 'Distribución',
+        // routeName: 'Popularidad Deportes',
+        // icon: 'el-icon-star-on'
+        // },
+      ],
+      navdata: [
+        {
+          id: '1',
+          name: 'Deportes',
+          routeName: 'Popularidad Deportes',
+        },
+        {
+          id: '2',
+          name: 'Paises',
+          routeName: 'Popularidad Paises',
+        },
+        {
+          id: '3',
+          name: 'Fechas',
+          routeName: 'Popularidad Fechas',
+        },
+      ],
+    };
+  },
+  methods: {
+    setNavdata(index) {
+      if (index == 1) {
+        this.navdata = [
+          {
+            id: '1',
+            name: 'Deportes',
+            routeName: 'Popularidad Deportes',
+          },
+          {
+            id: '2',
+            name: 'Paises',
+            routeName: 'Popularidad Paises',
+          },
+          {
+            id: '3',
+            name: 'Fechas',
+            routeName: 'Popularidad Fechas',
+          },
+        ];
+      } else {
+        this.navdata = [
+          {
+            id: '1',
+            name: 'AAA',
+            routeName: 'Popularidad Deportes',
+          },
+          {
+            id: '2',
+            name: 'BBB',
+            routeName: 'Popularidad Paises',
+          },
+          {
+            id: '3',
+            name: 'CCC',
+            routeName: 'Popularidad Fechas',
+          },
+        ];
+      }
     },
-    data () {
-        return {
-            // navdata: [],
-
-            options: [{
-                value: 'Option1',
-                label: 'Option1'
-            }, {
-                value: 'Option2',
-                label: 'Option2'
-            }],
-            sprints: [
-                {
-                    id: '1',
-                    name: 'Popularidad',
-                    routeName: 'Popularidad Deportes',
-                    icon: 'el-icon-star-on'
-                },
-                // {
-                    // id: '2',
-                    // name: 'Influencias',
-                    // routeName: 'Popularidad Deportes',
-                    // icon: 'el-icon-star-on'
-                // },
-                // {
-                    // id: '3',
-                    // name: 'Distribución',
-                    // routeName: 'Popularidad Deportes',
-                    // icon: 'el-icon-star-on'
-                // },
-            ],
-            navdata: [
-                {
-                    id: '1',
-                    name: 'Deportes',
-                    routeName: 'Popularidad Deportes',
-                },
-                {
-                    id: '2',
-                    name: 'Paises',
-                    routeName: 'Popularidad Paises',
-                },
-                {
-                    id: '3',
-                    name: 'Fechas',
-                    routeName: 'Popularidad Fechas',
-                },
-                {
-                    id: '4',
-                    name: 'Deportes por Pais',
-                    routeName: 'Popularidad Deportes Paises',
-                    children: [
-                        {
-                            id: '6',
-                            name: 'Chile',
-                            routeName: 'Chile Deportes'
-                        }
-                    ]
-                },
-            ],
-        }
-    }
-}
+  },
+};
 </script>
 
 <style>
-
 #app {
-    position: fixed !important;
-    width: 100% !important;
-    min-height: 100% !important;
+  position: fixed !important;
+  width: 100% !important;
+  min-height: 100% !important;
 }
 
 .container {
-    position: fixed !important;
-    width: 100% !important;
-    min-height: 100% !important;
+  position: fixed !important;
+  width: 100% !important;
+  min-height: 100% !important;
 }
 
 .copyright {
-    margin-left: 180px;
+  margin-left: 180px;
 }
 
 .el-footer {
-    color: #ffffff;
-    text-align: center;
-    line-height: 60px;
-    position: fixed;
-    left: 0px;
-    bottom: 0px;
-    height: 30px;
-    width: 100%;
-    background: #607D8B;
+  color: #ffffff;
+  text-align: center;
+  line-height: 60px;
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  height: 30px;
+  width: 100%;
+  background: #607d8b;
 }
 
 .el-aside {
-    color: #333;
-    text-align: center;
-    line-height: 200px;
+  color: #333;
+  text-align: center;
+  line-height: 200px;
 }
 
 .el-main {
-    background-color: #E9EEF3;
-    color: #333;
-    text-align: center;
-    margin-bottom: 60px !important;
-    max-height: 900px;
+  background-color: #e9eef3;
+  color: #333;
+  text-align: center;
+  margin-bottom: 60px !important;
+  max-height: 900px;
 }
 
 body > .el-container {
-    margin-bottom: 40px;
+  margin-bottom: 40px;
 }
 
 .el-container:nth-child(5) .el-aside,
 .el-container:nth-child(6) .el-aside {
-    line-height: 260px;
+  line-height: 260px;
 }
 
 .el-container:nth-child(7) .el-aside {
-    line-height: 320px;
+  line-height: 320px;
 }
-
 </style>
-

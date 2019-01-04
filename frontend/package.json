@@ -16,6 +16,7 @@
     "lodash": "^4.17.11",
     "vue": "^2.5.2",
     "vue-chartjs": "^3.4.0",
+    "vue-d3-network": "^0.1.26",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {

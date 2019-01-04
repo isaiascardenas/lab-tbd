@@ -1,13 +1,13 @@
 <template>
   <div class="small" v-loading="loading">
-    <div class="text">Cantidad de tweets por deportes</div>
+    <div class="text">Cantidad de tweets sobre deportes en {{ paisName }}</div>
     <bar-chart :chart-data="datacollection"></bar-chart>
   </div>
 </template>
 
 <script>
 import BarChart from './../../charts/HorizontalBarChart.js';
-import { DeportesResources } from './../../router/endpoints';
+import { EstadisticasResources } from './../../router/endpoints';
 
 export default {
   components: {
@@ -17,46 +17,40 @@ export default {
     return {
       datacollection: {},
       deportes: [],
+      paisName: '',
       loading: true,
     };
   },
   mounted() {
-    this.getDeportes();
+    this.getEstadisticas();
   },
   methods: {
-    getDeportes() {
-      let self = this;
-      DeportesResources.get({})
+    getEstadisticas() {
+      EstadisticasResources.getPais({ pais_id: this.$route.params.id })
         .then(response => {
-          self.deportes = response.data;
-          self.fillData();
+          this.paisName = response.data[0].country.countryName;
+          this.deportes = response.data;
+          this.fillData();
+          this.loading = false;
         })
         .catch(error => {
           console.log(error);
-        })
-        .finally(() => {
-          this.loading = false;
         });
     },
     fillData() {
       let self = this;
       let labels = _.map(this.deportes, sport => {
-        return sport.sportName;
-      });
-      let values = _.map(this.deportes, sport => {
-        return sport.sportTweetCount;
+        return sport.sport.sportName;
       });
 
+      let values = _.map(this.deportes, sport => {
+        return sport.statisticCount;
+      });
+      console.log(labels);
+      console.log(values);
+
       this.datacollection = {
-        labels: [
-          'Rugby',
-          'Basketball',
-          'Tenis',
-          'Boxeo',
-          'Volleyball',
-          'Natación',
-          'Futbol femenino',
-        ],
+        labels: labels,
         datasets: [
           {
             label: 'Deporte',
