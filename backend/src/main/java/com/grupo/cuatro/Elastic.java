@@ -272,7 +272,7 @@ public class Elastic {
             ScoreDoc[] hits = result.scoreDocs;
             for (int j = 0; j < hits.length; j++) {
                 Document doc = searcher.doc(hits[j].doc);
-                if(Integer.parseInt(doc.get("userFollowersCount")) > 2800000){
+                if(Integer.parseInt(doc.get("userFollowersCount")) > 1000000){
                     String lugar = doc.get("location");
                     String usuario = doc.get("userScreenName");
                     //System.out.println("El usuario es: "+usuario);
@@ -406,7 +406,7 @@ public class Elastic {
                 Document doc = searcher.doc(hits[j].doc);
                 //System.out.println(doc.get("userScreenName"));
                 String hola = doc.get("userScreenName");
-                if(Integer.parseInt(doc.get("userFollowersCount")) > 2800000){
+                if(Integer.parseInt(doc.get("userFollowersCount")) > 1500000){
                     if(!usuarios.contains(hola))
                     usuarios.add(hola);
                 }

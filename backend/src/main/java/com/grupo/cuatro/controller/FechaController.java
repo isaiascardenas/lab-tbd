@@ -27,13 +27,5 @@ public class FechaController {
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity getAll() {
-        /*GrafoDB grafo = new GrafoDB();
-        grafo.connect("bolt://localhost", "neo4j", "secret");
-        List<Statistic> statistics = statisticRepository.findAll();
-        for(Statistic st : statistics){
-            if(st.getStatisticCount() > 400){
-                grafo.crearRelacionDeportePais(st.getSport().getSportName(), st.getCountry().getCountryName());
-            }
-        }*/
         return new ResponseEntity(fechaRepository.findAll(), HttpStatus.OK); }
 }

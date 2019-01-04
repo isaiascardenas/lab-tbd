@@ -76,12 +76,12 @@ public class GrafoDB {
     }
 
     public void crearNodoPais(String pais, String influencia){
-        session.run("create (a:Paisito {name:'"+pais+"', influencia:"+influencia+"})");
+        session.run("create (a:Pais {name:'"+pais+"', influencia:"+influencia+"})");
         System.out.println("Se creo nodo pais");
     }
 
     public void crearNodoDeporte(String deporte){
-        session.run("create (a:Deportesito {name:'"+deporte+"'})");
+        session.run("create (a:Deporte {name:'"+deporte+"'})");
         System.out.println("Se creo nodo deporte");
     }
 
@@ -147,7 +147,7 @@ public class GrafoDB {
     }
 
     public void crearRelacionUsuarioPais(String pais, String usuario){
-        this.session.run("MATCH (u:User),(v:Pais) WHERE u.name='"+usuario+"' AND v.name='"+pais+"'"
+        this.session.run("MATCH (u:Usuario),(v:Pais) WHERE u.name='"+usuario+"' AND v.name='"+pais+"'"
                 + " CREATE (u)-[r:Pertenece]->(v)");
         System.out.println("Se crea la relacion usuario-deporte");
     }
