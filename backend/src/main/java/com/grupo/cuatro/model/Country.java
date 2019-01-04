@@ -24,6 +24,9 @@ public class Country {
     @Column(name = "country_tweet_count")
     private Long countryTweetCount;
 
+    /*@Column(name = "influencia")
+    private Double influencia;*/
+
     //relaciones
     //un pais pertenece a muchas estadisticas
     //fetch = eager

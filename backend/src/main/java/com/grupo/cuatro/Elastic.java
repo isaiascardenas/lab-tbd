@@ -80,13 +80,14 @@ public class Elastic {
                 if(cur.get("location") != null){
                     doc.add(new TextField("location", cur.get("location").toString(), Field.Store.YES));
                 }
-                doc.add(new StringField("userScreenName", cur.get("userScreenName").toString(), Field.Store.YES));
+                doc.add(new TextField("userScreenName", cur.get("userScreenName").toString(), Field.Store.YES));
                 doc.add(new StringField("userFollowersCount", cur.get("userFollowersCount").toString(), Field.Store.YES));
                 doc.add(new StringField("favoriteCount", cur.get("favoriteCount").toString(), Field.Store.YES));
                 doc.add(new StringField("userFriendsCount", cur.get("userFriendsCount").toString(), Field.Store.YES));
 
 
                 if (writer.getConfig().getOpenMode() == OpenMode.CREATE) {
+                    System.out.println("Usuario del tweet: " + doc.get("userScreenName") + "\n");
                     System.out.println("Indexando el tweet: " + doc.get("text") + "\n");
                     System.out.println("Fecha del tweet :" + doc.get("date") + "\n");
                     writer.addDocument(doc);
@@ -388,7 +389,72 @@ public class Elastic {
         return nombre;
     }
 
-    public void usuarioHabla(String usuario){
+    public ArrayList<String> getUsers(){
+        String aux = "hola";
+        ArrayList<String> usuarios = new ArrayList<>();
+        try {
+            IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
+            IndexSearcher searcher = new IndexSearcher(reader);
+
+            Analyzer analyzer = new StandardAnalyzer();
+            QueryParser parser = new QueryParser("userScreenName", analyzer);
+            Query hhh = parser.parse("userScreenName: biobio");
+            Query query = new MatchAllDocsQuery();
+            TopDocs result = searcher.search(query, 25000);
+            ScoreDoc[] hits = result.scoreDocs;
+            for(int j = 0; j < hits.length; j++){
+                Document doc = searcher.doc(hits[j].doc);
+                //System.out.println(doc.get("userScreenName"));
+                String hola = doc.get("userScreenName");
+                if(Integer.parseInt(doc.get("userFollowersCount")) > 2800000){
+                    if(!usuarios.contains(hola))
+                    usuarios.add(hola);
+                }
+            }
+            reader.close();
+        }
+        catch(IOException | ParseException ex)
+        {
+            Logger.getLogger(Elastic.class.getName()).log(Level.SEVERE,null,ex);
+
+        }
+        return usuarios;
+    }
+
+    public String getUserInfluencia(String Usuario){
+        int aux=0;
+        int i = 0;
+        try {
+            IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
+            IndexSearcher searcher = new IndexSearcher(reader);
+
+            Analyzer analyzer = new StandardAnalyzer();
+            QueryParser parser = new QueryParser("text", analyzer);
+            Query query = parser.parse("(userScreenName:"+Usuario+")");
+            TopDocs result = searcher.search(query, 25000);
+            ScoreDoc[] hits = result.scoreDocs;
+            for (int j = 0; j < hits.length; j++) {
+                Document doc = searcher.doc(hits[j].doc);
+                aux+= Integer.parseInt(doc.get("userFollowersCount"));
+                //aux+= Integer.parseInt(doc.get("favoriteCount"));
+                //aux+= Integer.parseInt(doc.get("userFriendsCount"));
+                //System.out.println(aux);
+                i = j;
+
+            }
+            //aux = aux/i;
+            reader.close();
+        }
+        catch(IOException | ParseException ex)
+        {
+            Logger.getLogger(Elastic.class.getName()).log(Level.SEVERE,null,ex);
+
+        }
+        return Integer.toString(aux);
+    }
+
+    public ArrayList<String> usuarioHabla(String usuario){
+        System.out.println(usuario);
         ArrayList<String> deportes = new ArrayList<>();
         try {
             IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
@@ -397,48 +463,50 @@ public class Elastic {
             Analyzer analyzer = new StandardAnalyzer();
             QueryParser parser = new QueryParser("userScreenName", analyzer);
             Query query = parser.parse("(userScreenName:"+usuario+")");
-            TopDocs result = searcher.search(query, 25000);
+            TopDocs result = searcher.search(query, 100000);
             ScoreDoc[] hits = result.scoreDocs;
             for(int j = 0; j < hits.length; j++){
+                System.out.println("Entre al for y que paha");
                 Document doc = searcher.doc(hits[j].doc);
                 System.out.println(doc.get("text"));
                 if(doc.get("text").contains("tenis")){
-                    if(!Arrays.asList(deportes).contains("tenis")){
+                    if(!deportes.contains("Tenis")){
                         deportes.add("Tenis");
                     }
                 }
-                else if(doc.get("text").contains("boxeo")){
-                    if(!Arrays.asList(deportes).contains("boxeo")){
+                else if(doc.get("text").contains("boxeo") || doc.get("text").contains("ganchos") || doc.get("text").contains("boxeador")
+                || doc.get("text").contains("Boxeo")){
+                    if(!deportes.contains("Boxeo")){
                         deportes.add("Boxeo");
                     }
 
                 }
                 else if(doc.get("text").contains("rugby")){
-                    if(!Arrays.asList(deportes).contains("rugby")){
+                    if(!deportes.contains("Rugby")){
                         deportes.add("Rugby");
                     }
 
                 }
                 else if(doc.get("text").contains("futbol")){
-                    if(!Arrays.asList(deportes).contains("futbol")){
+                    if(!deportes.contains("Futbol Femenino")){
                         deportes.add("Futbol Femenino");
                     }
 
                 }
                 else if(doc.get("text").contains("basketball")){
-                    if(!Arrays.asList(deportes).contains("basketball")){
+                    if(deportes.contains("Basketball")){
                         deportes.add("Basketball");
                     }
 
                 }
                 else if(doc.get("text").contains("volleyball")){
-                    if(!Arrays.asList(deportes).contains("volleyball")){
+                    if(!deportes.contains("Volleyball")){
                         deportes.add("Volleyball");
                     }
 
                 }
                 else if(doc.get("text").contains("natacion")){
-                    if(!Arrays.asList(deportes).contains("natacion")){
+                    if(!deportes.contains("Natacion")){
                         deportes.add("Natacion");
                     }
 
@@ -452,6 +520,8 @@ public class Elastic {
 
         }
         System.out.println(deportes);
+        return deportes;
     }
+
 
     }
