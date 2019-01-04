@@ -24,17 +24,19 @@ public class CuatroApplication {
     private UserRepository userRepository;
 
 	public static void main(String[] args) {
-        Elastic e = new Elastic();
+        //Elastic e = new Elastic();
         //e.indexCreate();
-        System.out.println(e.getCantidadFecha());
+        /*System.out.println(e.getCantidadFecha());
         e.getInfluenciaPais("Argentina");
         e.getInfluenciaPais("Chile");
         e.getInfluenciaPais("España");
         e.getInfluenciaPais("Paraguay");
-        e.getInfluenciaPais("Mexico");
+        e.getInfluenciaPais("Mexico");*/
+        //e.getUsers();
         SpringApplication.run(CuatroApplication.class, args);
-        GrafoDB grafo = new GrafoDB();
-        grafo.connect("bolt://localhost", "neo4j", "secret");
+        //GrafoDB grafo = new GrafoDB();
+        //grafo.connect("bolt://localhost", "neo4j", "secret");
+        //grafo.crearNodoPais("Chile", Integer.toString(e.getInfluenciaPais("Chile")));
         //e.crearRelacionUserDeporte();
         //grafo.crearRelacionUsuarioPais("Chile", hola);
         //grafo.crearNodoUsuarios();

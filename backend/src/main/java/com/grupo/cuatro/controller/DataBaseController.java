@@ -417,6 +417,7 @@ public class DataBaseController {
             Fecha auxiliar = new Fecha();
             auxiliar.setFechaCount(listaFechas.get(i));
             if(i <= 9){
+
                 auxiliar.setFechaValue("2018-12-"+"0"+(i+1));
             }
             else{
