@@ -1,23 +1,50 @@
 <template>
   <div class="small" v-loading="loading">
     <div class="text">Cantidad de tweets por fechas</div>
-    <line-chart :chart-data="datacollection"></line-chart>
+    <line-chart :chart-data="datacollection" :options="opciones"></line-chart>
   </div>
 </template>
 
 <script>
-import LineChart from './../../charts/LineChart.js';
-import { FechasResources } from './../../router/endpoints';
+import LineChart from "./../../charts/LineChart.js";
+import { FechasResources } from "./../../router/endpoints";
 
 export default {
   components: {
-    LineChart,
+    LineChart
   },
   data() {
     return {
       datacollection: null,
       statistics: [],
       loading: true,
+      opciones: {
+        tooltips: {
+          callbacks: {
+            title: function(tooltipItem, data) {
+              return data["labels"][tooltipItem[0]["index"]];
+            },
+            label: function(tooltipItem, data) {
+              return (
+                "Total: " +
+                data["datasets"][0]["data"][tooltipItem["index"]] +
+                " (" +
+                data["datasets"][0]["notuseful"][tooltipItem["index"]] +
+                "%)"
+              );
+            }
+          },
+          backgroundColor: "#000",
+          titleFontSize: 16,
+          titleFontColor: "#FFF",
+          bodyFontColor: "#FFF",
+          bodyFontSize: 14,
+          displayColors: false
+        },
+        legend: {
+          display: false
+        }
+      }
     };
   },
   mounted() {
@@ -46,21 +73,28 @@ export default {
       let values = _.map(this.statistics, day => {
         return day.fechaCount;
       });
-
+      let total = _.reduce(values, function(sum, n) {
+        return sum + n;
+      });
+      let percentage = _.transform(values, function(result, n) {
+        result.push(Math.round(((n * 100) / total) * 10) / 10);
+        return result;
+      });
       this.datacollection = {
         labels: labels,
         datasets: [
           {
-            label: 'Deportes',
-            backgroundColor: ['#e2431e'],
+            label: "Deportes",
+            backgroundColor: ["#e2431e"],
             fill: false,
-            borderColor: ['Red'],
+            borderColor: ["Red"],
             data: values,
-          },
-        ],
+            notuseful: percentage
+          }
+        ]
       };
-    },
-  },
+    }
+  }
 };
 </script>
 
