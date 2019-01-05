@@ -7,7 +7,7 @@
 
 <script>
 import D3Network from 'vue-d3-network';
-import { DeportesResources } from './../../router/endpoints';
+import { Neo4jResources } from './../../router/endpoints';
 
 export default {
   components: {
@@ -23,16 +23,18 @@ export default {
     };
   },
   mounted() {
+    this.getData();
     this.fillData();
     this.loading = false;
     // this.getDeportes();
   },
   methods: {
-    getDeportes() {
-      return;
+    getData() {
       let self = this;
-      DeportesResources.get({})
+      Neo4jResources.getDeportesUsuarios({})
         .then(response => {
+          console.log('data', response.data);
+          return;
           self.deportes = response.data;
           self.fillData();
         })
