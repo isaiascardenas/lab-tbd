@@ -612,34 +612,42 @@ public class Elastic {
                 Document doc = searcher.doc(hits[j].doc);
                 String lugar = doc.get("location");
                 System.out.println(lugar);
-                if(lugar.contains("Chile") && !pais.contains("Chile")){
-                    pais.add("Chile");
-                }
-                else if(lugar.contains("Argentina") && !pais.contains("Argentina")){
-                    pais.add("Argentina");
-                }
-                else if(lugar.contains("México") && !pais.contains("México")){
-                    pais.add("México");
-                }
-                else if(lugar.contains("Venezuela")){
-                    pais.add("Venezuela");
-                }
-                else if(lugar.contains("Paraguay")){
-                    pais.add("Paraguay");
-                }
-                else if(lugar.contains("Uruguay")){
-                    pais.add("Uruguay");
-                }
-                else if(lugar.contains("Ecuador")){
-                    pais.add("Ecuador");
-                }
-                else if(lugar.contains("España") || lugar.contains("Barcelona") || lugar.contains("Madrid")){
-                    if(!pais.contains("España")){
-                        pais.add("España");
+                if(lugar != null) {
+
+
+                    if (lugar.contains("Chile") && !pais.contains("Chile")) {
+                        pais.add("Chile");
+                    } else if ((lugar.contains("Argentina") || lugar.contains("Buenos Aire")) && !pais.contains("Argentina")) {
+                        pais.add("Argentina");
+                    } else if (lugar.contains("México") && !pais.contains("México")) {
+                        pais.add("México");
+                    } else if (lugar.contains("Venezuela") && !pais.contains("Venezuela")) {
+                        pais.add("Venezuela");
+                    } else if (lugar.contains("Paraguay") && !pais.contains("Paraguay")) {
+                        pais.add("Paraguay");
+                    } else if (lugar.contains("Uruguay") && !pais.contains("Uruguay")) {
+                        pais.add("Uruguay");
+                    } else if (lugar.contains("Ecuador") && !pais.contains("Ecuador")) {
+                        pais.add("Ecuador");
+                    } else if (lugar.contains("España") || lugar.contains("Barcelona") || lugar.contains("Madrid")) {
+                        if (!pais.contains("España")) {
+                            pais.add("España");
+                        }
+                    } else if (lugar.contains("Colombia")) {
+                        pais.add("Colombia");
+                    }
+                    else{
+                        if(!pais.contains("Argentina")){
+                            pais.add("Argentina");
+                        }
+
                     }
                 }
-                else if(lugar.contains("Colombia")){
-                    pais.add("Colombia");
+
+                else{
+                    if(!pais.contains("Chile")){
+                        pais.add("Chile");
+                    }
                 }
 
             }
@@ -652,6 +660,38 @@ public class Elastic {
         }
         System.out.println(pais);
         return pais;
+    }
+
+    public ArrayList<String> getUsersDos(){
+        String aux = "hola";
+        ArrayList<String> usuarios = new ArrayList<>();
+        try {
+            IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
+            IndexSearcher searcher = new IndexSearcher(reader);
+
+            Analyzer analyzer = new StandardAnalyzer();
+            QueryParser parser = new QueryParser("userScreenName", analyzer);
+            Query hhh = parser.parse("userScreenName: biobio");
+            Query query = new MatchAllDocsQuery();
+            TopDocs result = searcher.search(query, 25000);
+            ScoreDoc[] hits = result.scoreDocs;
+            for(int j = 0; j < hits.length; j++){
+                Document doc = searcher.doc(hits[j].doc);
+                //System.out.println(doc.get("userScreenName"));
+                String hola = doc.get("userScreenName");
+                if(Integer.parseInt(doc.get("userFollowersCount")) > 2000000){
+                    if(!usuarios.contains(hola))
+                        usuarios.add(hola);
+                }
+            }
+            reader.close();
+        }
+        catch(IOException | ParseException ex)
+        {
+            Logger.getLogger(Elastic.class.getName()).log(Level.SEVERE,null,ex);
+
+        }
+        return usuarios;
     }
 
     }
