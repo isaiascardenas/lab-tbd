@@ -406,7 +406,7 @@ public class Elastic {
                 Document doc = searcher.doc(hits[j].doc);
                 //System.out.println(doc.get("userScreenName"));
                 String hola = doc.get("userScreenName");
-                if(Integer.parseInt(doc.get("userFollowersCount")) > 1500000){
+                if(Integer.parseInt(doc.get("userFollowersCount")) > 2800000){
                     if(!usuarios.contains(hola))
                     usuarios.add(hola);
                 }
@@ -524,6 +524,7 @@ public class Elastic {
     }
 
     public ArrayList<String> paisHabla(String pais){
+        System.out.println("Entre a paisHabla");
         System.out.println(pais);
         ArrayList<String> deportes = new ArrayList<>();
         try {
@@ -536,6 +537,7 @@ public class Elastic {
             TopDocs result = searcher.search(query, 100000);
             ScoreDoc[] hits = result.scoreDocs;
             for(int j = 0; j < hits.length; j++){
+                System.out.println("Entre al for");
                 Document doc = searcher.doc(hits[j].doc);
                 String followers = doc.get("userFollowersCount");
                 int aux = Integer.parseInt(followers);
@@ -591,6 +593,65 @@ public class Elastic {
         }
         System.out.println(deportes);
         return deportes;
+    }
+
+    public ArrayList<String> getUserPais(String usuario){
+        System.out.println(usuario);
+        ArrayList<String> pais = new ArrayList<>();
+        try {
+            IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
+            IndexSearcher searcher = new IndexSearcher(reader);
+
+            Analyzer analyzer = new StandardAnalyzer();
+            QueryParser parser = new QueryParser("userScreenName", analyzer);
+            Query query = parser.parse("(userScreenName:"+usuario+")");
+            TopDocs result = searcher.search(query, 100000);
+            ScoreDoc[] hits = result.scoreDocs;
+            for(int j = 0; j < hits.length; j++){
+                System.out.println("Entre al for y que paha");
+                Document doc = searcher.doc(hits[j].doc);
+                String lugar = doc.get("location");
+                System.out.println(lugar);
+                if(lugar.contains("Chile") && !pais.contains("Chile")){
+                    pais.add("Chile");
+                }
+                else if(lugar.contains("Argentina") && !pais.contains("Argentina")){
+                    pais.add("Argentina");
+                }
+                else if(lugar.contains("México") && !pais.contains("México")){
+                    pais.add("México");
+                }
+                else if(lugar.contains("Venezuela")){
+                    pais.add("Venezuela");
+                }
+                else if(lugar.contains("Paraguay")){
+                    pais.add("Paraguay");
+                }
+                else if(lugar.contains("Uruguay")){
+                    pais.add("Uruguay");
+                }
+                else if(lugar.contains("Ecuador")){
+                    pais.add("Ecuador");
+                }
+                else if(lugar.contains("España") || lugar.contains("Barcelona") || lugar.contains("Madrid")){
+                    if(!pais.contains("España")){
+                        pais.add("España");
+                    }
+                }
+                else if(lugar.contains("Colombia")){
+                    pais.add("Colombia");
+                }
+
+            }
+            reader.close();
+        }
+        catch(IOException | ParseException ex)
+        {
+            Logger.getLogger(Elastic.class.getName()).log(Level.SEVERE,null,ex);
+
+        }
+        System.out.println(pais);
+        return pais;
     }
 
     }
