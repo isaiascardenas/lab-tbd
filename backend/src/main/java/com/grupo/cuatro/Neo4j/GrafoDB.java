@@ -1,7 +1,6 @@
 package com.grupo.cuatro.Neo4j;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import com.grupo.cuatro.model.Country;
 import com.grupo.cuatro.model.Sport;
@@ -16,8 +15,6 @@ import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.Session;
 import org.neo4j.driver.v1.StatementResult;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 public class GrafoDB {
 
@@ -150,6 +147,13 @@ public class GrafoDB {
         this.session.run("MATCH (u:Usuario),(v:Pais) WHERE u.name='"+usuario+"' AND v.name='"+pais+"'"
                 + " CREATE (u)-[r:Pertenece]->(v)");
         System.out.println("Se crea la relacion usuario-deporte");
+    }
+
+    public Map<String, Object> map(String key1, Object value1, String key2, Object value2) {
+        Map<String, Object> result = new HashMap<String, Object>(2);
+        result.put(key1, value1);
+        result.put(key2, value2);
+        return result;
     }
 
 }
