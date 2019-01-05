@@ -10,6 +10,7 @@ import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -431,6 +432,14 @@ public class DataBaseController {
         //st.setFechas(fechas);
         //statisticRepository.save(st);
 
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity createIndex(){
+        Elastic e = new Elastic();
+        e.indexCreate();
         return new ResponseEntity(HttpStatus.OK);
     }
 }

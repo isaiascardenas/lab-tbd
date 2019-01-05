@@ -52,8 +52,8 @@ export default {
         { id: 3, name: 'orange node', _color: 'orange' },
         { id: 4, name: 'blue node', _color: '#00aaff' },
         { id: 5, name: 'blue node', _color: '#00aaff', _size: 30 },
-        { id: 6 },
-        { id: 7 },
+        { id: 6, name: 'Tenis' },
+        { id: 7 , name: 'Basketball'},
         { id: 8 },
         { id: 9 },
         { id: 10 },
@@ -64,7 +64,7 @@ export default {
       ];
       this.links = [
         { sid: 1, tid: 2, _color: '#333333' },
-        { sid: 2, tid: 8 },
+        { sid: 2, tid: 8, _color: '#333333'},
         { sid: 4, tid: 3 },
         { sid: 4, tid: 5 },
         { sid: 4, tid: 9 },

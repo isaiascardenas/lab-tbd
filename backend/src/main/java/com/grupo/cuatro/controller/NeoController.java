@@ -90,7 +90,7 @@ public class NeoController {
         return salida;
     }
 
-    @RequestMapping(value = "/grafito", method = RequestMethod.GET)
+    @RequestMapping(value = "/usuario-deporte")
     @ResponseBody
     public Map<String, Object> getGrafo(){
         Elastic e = new Elastic();
@@ -103,7 +103,7 @@ public class NeoController {
         int i = 0;
         for(String usuario : usuarios){
             ArrayList<String> listaDeportes = e.usuarioHabla(usuario);
-            nodes.add(grafo.map("name", usuario, "label", "Usuario"));
+            nodes.add(grafo.mapTriple("name", usuario, "label", "Usuario", "Influencia", e.getUserInfluencia(usuario)));
             int target = i;
             i++;
             for(String sport : listaDeportes){
@@ -120,7 +120,7 @@ public class NeoController {
         return grafo.map("nodes", nodes, "links", rels);
     }
 
-    @RequestMapping(value = "/grafote", method = RequestMethod.GET)
+    @RequestMapping(value = "/pais-deporte", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> getGrafote(){
         GrafoDB grafoDB = new GrafoDB();
