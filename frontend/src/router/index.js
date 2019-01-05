@@ -5,7 +5,7 @@ import Main from '@/views/components/Main';
 import Fechas from '@/views/popularidad/Fechas';
 import Paises from '@/views/popularidad/Paises';
 import Deportes from '@/views/popularidad/Deportes';
-import Usuarios from '@/views/influencias/Usuarios';
+import DeportesUsuarios from '@/views/influencias/DeportesUsuarios';
 import EstadisticasPais from '@/views/popularidad/EstadisticasPais';
 
 Vue.use(Router);
@@ -20,6 +20,7 @@ let routes = [
       {
         path: '',
         name: 'Main',
+        redirect: { name: 'Popularidad Deportes' },
         component: Main,
         children: [
           {
@@ -51,13 +52,13 @@ let routes = [
           },
           {
             path: 'influencias',
-            name: 'Influencias Usuarios',
+            redirect: { name: 'Influencias Usuarios' },
             component: { template: '<router-view></router-view>' },
             children: [
               {
                 path: 'usuarios',
                 name: 'Influencias Usuarios',
-                component: Usuarios,
+                component: DeportesUsuarios,
               },
             ],
           },
