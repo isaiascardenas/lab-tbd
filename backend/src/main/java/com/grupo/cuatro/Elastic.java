@@ -243,7 +243,7 @@ public class Elastic {
                 i = j;
 
             }
-            aux = aux/i;
+            aux = aux/getTotalUsers();
             System.out.println(aux);
             reader.close();
         }
@@ -686,6 +686,34 @@ public class Elastic {
 
         }
         return usuarios;
+    }
+
+    public int getTotalUsers(){
+        String aux = "hola";
+        int i = 0;
+        ArrayList<String> usuarios = new ArrayList<>();
+        try {
+            IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
+            IndexSearcher searcher = new IndexSearcher(reader);
+
+            Analyzer analyzer = new StandardAnalyzer();
+            QueryParser parser = new QueryParser("userScreenName", analyzer);
+            Query hhh = parser.parse("userScreenName: biobio");
+            Query query = new MatchAllDocsQuery();
+            TopDocs result = searcher.search(query, 1000000);
+            ScoreDoc[] hits = result.scoreDocs;
+            for(int j = 0; j < hits.length; j++){
+                Document doc = searcher.doc(hits[j].doc);
+                i++;
+            }
+            reader.close();
+        }
+        catch(IOException | ParseException ex)
+        {
+            Logger.getLogger(Elastic.class.getName()).log(Level.SEVERE,null,ex);
+
+        }
+        return i;
     }
 
     }
