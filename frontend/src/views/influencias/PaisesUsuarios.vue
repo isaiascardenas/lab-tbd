@@ -88,13 +88,13 @@ export default {
       return Math.floor((50 / 56000000) * influencia + 30);
     },
     setCountryNodeSize(influencia) {
-      if (influencia > 90000) {
+      if (influencia > 3000) {
         return 80;
-      } else if (influencia < 6000) {
+      } else if (influencia < 100) {
         return 30;
       }
 
-      return Math.floor((50 / 64000) * influencia + 30);
+      return Math.floor((50 / 2900) * influencia + 30);
     },
   },
 };
