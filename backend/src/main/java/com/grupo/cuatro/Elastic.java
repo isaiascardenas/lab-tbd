@@ -468,7 +468,7 @@ public class Elastic {
             for(int j = 0; j < hits.length; j++){
                 System.out.println("Entre al for y que paha");
                 Document doc = searcher.doc(hits[j].doc);
-                System.out.println(doc.get("text"));
+                //System.out.println(doc.get("text"));
                 if(doc.get("text").contains("tenis")){
                     if(!deportes.contains("Tenis")){
                         deportes.add("Tenis");
@@ -523,5 +523,74 @@ public class Elastic {
         return deportes;
     }
 
+    public ArrayList<String> paisHabla(String pais){
+        System.out.println(pais);
+        ArrayList<String> deportes = new ArrayList<>();
+        try {
+            IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
+            IndexSearcher searcher = new IndexSearcher(reader);
+
+            Analyzer analyzer = new StandardAnalyzer();
+            QueryParser parser = new QueryParser("location", analyzer);
+            Query query = parser.parse("(location:"+pais+")");
+            TopDocs result = searcher.search(query, 100000);
+            ScoreDoc[] hits = result.scoreDocs;
+            for(int j = 0; j < hits.length; j++){
+                Document doc = searcher.doc(hits[j].doc);
+                String followers = doc.get("userFollowersCount");
+                int aux = Integer.parseInt(followers);
+
+                if(aux > 100000) {
+
+
+                    //System.out.println(doc.get("text"));
+                    if (doc.get("text").contains("tenis")) {
+                        if (!deportes.contains("Tenis")) {
+                            deportes.add("Tenis");
+                        }
+                    } else if (doc.get("text").contains("boxeo") || doc.get("text").contains("ganchos") || doc.get("text").contains("boxeador")
+                            || doc.get("text").contains("Boxeo")) {
+                        if (!deportes.contains("Boxeo")) {
+                            deportes.add("Boxeo");
+                        }
+
+                    } else if (doc.get("text").contains("rugby")) {
+                        if (!deportes.contains("Rugby")) {
+                            deportes.add("Rugby");
+                        }
+
+                    } else if (doc.get("text").contains("futbol")) {
+                        if (!deportes.contains("Futbol Femenino")) {
+                            deportes.add("Futbol Femenino");
+                        }
+
+                    } else if (doc.get("text").contains("basketball")) {
+                        if (deportes.contains("Basketball")) {
+                            deportes.add("Basketball");
+                        }
+
+                    } else if (doc.get("text").contains("volleyball")) {
+                        if (!deportes.contains("Volleyball")) {
+                            deportes.add("Volleyball");
+                        }
+
+                    } else if (doc.get("text").contains("natacion")) {
+                        if (!deportes.contains("Natacion")) {
+                            deportes.add("Natacion");
+                        }
+
+                    }
+                }
+            }
+            reader.close();
+        }
+        catch(IOException | ParseException ex)
+        {
+            Logger.getLogger(Elastic.class.getName()).log(Level.SEVERE,null,ex);
+
+        }
+        System.out.println(deportes);
+        return deportes;
+    }
 
     }

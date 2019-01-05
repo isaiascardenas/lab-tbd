@@ -24,8 +24,8 @@ public class CuatroApplication {
     private UserRepository userRepository;
 
 	public static void main(String[] args) {
-        //Elastic e = new Elastic();
-        //e.indexCreate();
+        Elastic e = new Elastic();
+        e.indexCreate();
         /*System.out.println(e.getCantidadFecha());
         e.getInfluenciaPais("Argentina");
         e.getInfluenciaPais("Chile");

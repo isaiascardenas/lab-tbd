@@ -118,21 +118,58 @@ public class NeoController {
 
         }
         return grafo.map("nodes", nodes, "links", rels);
-        /*while (result.hasNext()) {
-            Movie movie = result.next();
-            nodes.add(map("title", movie.getTitle(), "label", "movie"));
+    }
+
+    @RequestMapping(value = "/grafote", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> getGrafote(){
+        GrafoDB grafoDB = new GrafoDB();
+        Elastic e = new Elastic();
+        List<Statistic> statistics = statisticRepository.findAll();
+        List<Sport> deportecitos = sportRepository.findAll();
+        List<Country> paiseeees = countryRepository.findAll();
+        /*for(Statistic st : statistics){
+            if(st.getStatisticCount() > 400){
+                grafo.crearRelacionDeportePais(st.getSport().getSportName(), st.getCountry().getCountryName());
+            }
+        }*/
+        List<Map<String, Object>> nodes = new ArrayList<>();
+        List<Map<String, Object>> rels = new ArrayList<>();
+        int i = 0;
+        /*for(Statistic statistic : statistics){
+            Map<String, Object> paisito = grafoDB.map("name", statistic.getCountry().getCountryName(), "label", "Country");
+            int aux = nodes.indexOf(paisito);
+            if(aux == -1){
+                nodes.add(paisito);
+            }
             int target = i;
             i++;
-            for (Role role : movie.getRoles()) {
-                Map<String, Object> actor = map("title", role.getPerson().getName(), "label", "actor");
-                int source = nodes.indexOf(actor);
-                if (source == -1) {
-                    nodes.add(actor);
+            for(Sport sp : deportecitos){
+                Map<String, Object> deporte = grafoDB.map("Nombre", sp.getSportName(), "label", "Deporte");
+                int source = nodes.indexOf(deporte);
+                if(source == -1 && statistic.getStatisticCount() > 400){
+                    nodes.add(deporte);
                     source = i++;
                 }
-                rels.add(map("source", source, "target", target));
+                rels.add(grafoDB.map("source", source, "target", target));
+            }
+        }*/
+
+        for(Country paisisito : paiseeees){
+            ArrayList<String> listaDeportes = e.paisHabla(paisisito.getCountryName());
+            nodes.add(grafoDB.map("name", paisisito.getCountryName(), "label", "Pais"));
+            int target = i;
+            i++;
+            for(String sport : listaDeportes){
+                Map<String, Object> deporte = grafoDB.map("Nombre", sport, "label", "Deporte");
+                int source = nodes.indexOf(deporte);
+                if(source == -1){
+                    nodes.add(deporte);
+                    source = i++;
+                }
+                rels.add(grafoDB.map("source", source, "target", target));
             }
         }
-        return map("nodes", nodes, "links", rels);*/
+        return grafoDB.map("nodes", nodes, "links", rels);
     }
 }
