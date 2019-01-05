@@ -4,7 +4,7 @@
     <el-container>
       <nav-bar></nav-bar>
       <el-main> <router-view v-bind:navdata="navdata"></router-view> </el-main>
-      <el-footer><span class="copyright">© Group 2018</span></el-footer>
+      <el-footer><span class="copyright">© Grupo 4 - 2018</span></el-footer>
     </el-container>
   </el-container>
 </template>

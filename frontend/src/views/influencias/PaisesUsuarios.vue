@@ -29,7 +29,6 @@ export default {
       let self = this;
       Neo4jResources.getPaisesUsuarios({})
         .then(response => {
-          console.log('data', response.data);
           this.fillData(response.data.nodes, response.data.links);
         })
         .catch(error => {
@@ -78,9 +77,6 @@ export default {
         linkWidth: 1,
         strLinks: true,
       };
-
-      console.log('node', nodes);
-      console.log('links', links);
     },
     setUserNodeSize(influencia) {
       if (influencia > 60000000) {
