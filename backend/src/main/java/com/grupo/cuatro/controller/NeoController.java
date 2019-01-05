@@ -90,63 +90,49 @@ public class NeoController {
         return salida;
     }
 
-    /*@RequestMapping(value = "/grafito", method = RequestMethod.GET)
+    @RequestMapping(value = "/grafito", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> getGrafo(){
-        System.out.println("****definiendo variables*****");
-        List<Club>  equipos= clubRepository.findAll();
-        ArrayList<Nodo> nodos = new ArrayList<Nodo>();
-        ArrayList<Link> links = new ArrayList<Link>();
-
-
-        int i =1;
-        int indiceEquipo=1;
-        int count=0;
-        int countEquipo=0;
-        System.out.println("****iniciando bucle*****");
-        for (Club equipo: equipos) {
-            if(equipo.getId()<17) {
-
-
-                //AGREGO EQUIPO
-
-                nodos.add(new Nodo(equipo.getName(), i, 8, equipo.getNeonInfluential().getStatistic_r(), equipo.getUrl()));
-                countEquipo=count;
-                System.out.println("****agregando equipo*****");
-                count++;
-                i++;
-                int y = 1;
-                for (UsuarioInfluyente user : equipo.getNeonInfluential().getUsuariosInfluyentes()) {
-
-                    Nodo nuevoNodo = new Nodo(user.getName(), indiceEquipo, y, Math.round(user.getFollowers() / 3327729.8865619544), null);
-//                int pos=nodos.indexOf(nuevoNodo);
-                    int pos = Nodo.buscarNodo(nodos, nuevoNodo);
-                    if (pos < 0) {
-
-
-                        nodos.add(nuevoNodo);
-                        System.out.println("****agregando usuario*****");
-
-                        links.add(new Link(countEquipo, count));
-                        System.out.println("****agregando link*****");
-                        y++;
-                        count++;
-                    } else {
-                        links.add(new Link(countEquipo, pos));
-                    }
-
+        Elastic e = new Elastic();
+        GrafoDB grafo = new GrafoDB();
+        List<Country> paises = countryRepository.findAll();
+        List<Sport> deportes = sportRepository.findAll();
+        List<String> usuarios = e.getUsers();
+        List<Map<String, Object>> nodes = new ArrayList<>();
+        List<Map<String, Object>> rels = new ArrayList<>();
+        int i = 0;
+        for(String usuario : usuarios){
+            ArrayList<String> listaDeportes = e.usuarioHabla(usuario);
+            nodes.add(grafo.map("name", usuario, "label", "Usuario"));
+            int target = i;
+            i++;
+            for(String sport : listaDeportes){
+                Map<String, Object> deporte = grafo.map("Nombre", sport, "label", "Deporte");
+                int source = nodes.indexOf(deporte);
+                if(source == -1){
+                    nodes.add(deporte);
+                    source = i++;
                 }
-                indiceEquipo++;
+                rels.add(grafo.map("source", source, "target", target));
+            }
 
+        }
+        return grafo.map("nodes", nodes, "links", rels);
+        /*while (result.hasNext()) {
+            Movie movie = result.next();
+            nodes.add(map("title", movie.getTitle(), "label", "movie"));
+            int target = i;
+            i++;
+            for (Role role : movie.getRoles()) {
+                Map<String, Object> actor = map("title", role.getPerson().getName(), "label", "actor");
+                int source = nodes.indexOf(actor);
+                if (source == -1) {
+                    nodes.add(actor);
+                    source = i++;
+                }
+                rels.add(map("source", source, "target", target));
             }
         }
-        System.out.println("****generando salida*****");
-
-        Map<String,Object> salida = new HashMap<String,Object>();
-        salida.put("nodos",nodos);
-        salida.put("links",links);
-
-        return salida;
-    }*/
-
+        return map("nodes", nodes, "links", rels);*/
+    }
 }
