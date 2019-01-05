@@ -103,7 +103,7 @@ public class NeoController {
         int i = 0;
         for(String usuario : usuarios){
             ArrayList<String> listaDeportes = e.usuarioHabla(usuario);
-            nodes.add(grafo.mapTriple("name", usuario, "label", "Usuario", "Influencia", e.getUserInfluencia(usuario)));
+            nodes.add(grafo.mapTriple("name", usuario, "label", "Usuario", "influencia", e.getUserInfluencia(usuario)));
             int target = i;
             i++;
             for(String sport : listaDeportes){
@@ -123,6 +123,7 @@ public class NeoController {
     @RequestMapping(value = "/pais-deporte", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> getGrafote(){
+        System.out.println("Entre al pais-deporte");
         GrafoDB grafoDB = new GrafoDB();
         Elastic e = new Elastic();
         List<Statistic> statistics = statisticRepository.findAll();
@@ -156,8 +157,9 @@ public class NeoController {
         }*/
 
         for(Country paisisito : paiseeees){
+            System.out.println("Entre al for de pais-deporte");
             ArrayList<String> listaDeportes = e.paisHabla(paisisito.getCountryName());
-            nodes.add(grafoDB.map("name", paisisito.getCountryName(), "label", "Pais"));
+            nodes.add(grafoDB.mapTriple("name", paisisito.getCountryName(), "label", "Pais", "influencia", e.getInfluenciaPais(paisisito.getCountryName())));
             int target = i;
             i++;
             for(String sport : listaDeportes){
@@ -167,9 +169,36 @@ public class NeoController {
                     nodes.add(deporte);
                     source = i++;
                 }
-                rels.add(grafoDB.map("source", source, "target", target));
+                rels.add(grafoDB.map("sid", source, "tid", target));
             }
         }
         return grafoDB.map("nodes", nodes, "links", rels);
+    }
+
+    @RequestMapping(value = "/pais-usuario", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> getPaisUsuario(){
+        GrafoDB grafo = new GrafoDB();
+        Elastic e = new Elastic();
+        List<String> usuarios = e.getUsers();
+        List<Map<String, Object>> nodes = new ArrayList<>();
+        List<Map<String, Object>> rels = new ArrayList<>();
+        int i = 0;
+        for(String usuario : usuarios){
+            ArrayList<String> listaPais = e.getUserPais(usuario);
+            nodes.add(grafo.mapTriple("name", usuario, "label", "Usuario", "influencia", e.getUserInfluencia(usuario)));
+            int target = i;
+            i++;
+            for(String pais : listaPais){
+                Map<String, Object> paises = grafo.mapTriple("name", pais, "label", "Pais", "influencia", e.getInfluenciaPais(pais));
+                int source = nodes.indexOf(paises);
+                if(source == -1){
+                    nodes.add(paises);
+                    source = i++;
+                }
+                rels.add(grafo.map("sid", source, "tid", target));
+            }
+        }
+        return grafo.map("nodes", nodes, "links", rels);
     }
 }
