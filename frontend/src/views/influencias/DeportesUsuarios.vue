@@ -18,15 +18,11 @@ export default {
       nodes: [],
       options: {},
       links: [],
-      deportes: [],
       loading: true,
     };
   },
   mounted() {
     this.getData();
-    this.fillData();
-    this.loading = false;
-    // this.getDeportes();
   },
   methods: {
     getData() {
@@ -34,8 +30,8 @@ export default {
       Neo4jResources.getDeportesUsuarios({})
         .then(response => {
           console.log('data', response.data);
-          return;
-          self.deportes = response.data;
+          self.nodes = response.data.nodes;
+          self.links = response.data.links;
           self.fillData();
         })
         .catch(error => {
@@ -46,25 +42,27 @@ export default {
         });
     },
     fillData() {
-      this.nodes = [
-        { id: 1, name: 'my awesome node 1' },
-        { id: 2, name: 'my node 2' },
-        { id: 3, name: 'orange node', _color: 'orange' },
-        { id: 4, name: 'blue node', _color: '#00aaff' },
-        { id: 5, name: 'blue node', _color: '#00aaff', _size: 30 },
-        { id: 6, name: 'Tenis' },
-        { id: 7 , name: 'Basketball'},
-        { id: 8 },
-        { id: 9 },
-        { id: 10 },
-        { id: 11 },
-        { id: 12 },
-        { id: 13 },
-        { id: 14 },
-      ];
+      let i = 0;
+      _.map(this.nodes, node => {
+        if (node.label == 'Deporte') {
+          return {
+            id: i,
+            name: node.name,
+            _color: 'orange',
+            size: 40,
+          };
+        } else {
+          return {
+            id: i,
+            name: node.name,
+            _color: '#00aaff',
+            size: 40,
+          };
+        }
+      });
       this.links = [
         { sid: 1, tid: 2, _color: '#333333' },
-        { sid: 2, tid: 8, _color: '#333333'},
+        { sid: 2, tid: 8, _color: '#333333' },
         { sid: 4, tid: 3 },
         { sid: 4, tid: 5 },
         { sid: 4, tid: 9 },

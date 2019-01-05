@@ -52,12 +52,12 @@ let routes = [
           },
           {
             path: 'influencias',
-            redirect: { name: 'Influencias Usuarios' },
+            redirect: { name: 'Influencias Deportes Usuarios' },
             component: { template: '<router-view></router-view>' },
             children: [
               {
-                path: 'usuarios',
-                name: 'Influencias Usuarios',
+                path: 'deporte-usuario',
+                name: 'Influencias Deportes Usuarios',
                 component: DeportesUsuarios,
               },
             ],

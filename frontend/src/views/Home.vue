@@ -33,7 +33,7 @@ export default {
         {
           id: '2',
           name: 'Influencias',
-          routeName: 'Influencias Usuarios',
+          routeName: 'Influencias Deportes Usuarios',
           icon: 'el-icon-sort',
         },
         // {
@@ -86,8 +86,8 @@ export default {
         this.navdata = [
           {
             id: '1',
-            name: 'AAA',
-            routeName: 'Popularidad Deportes',
+            name: 'Influencias Deportes y Usuarios',
+            routeName: 'Influencias Deportes Usuarios',
           },
           {
             id: '2',
