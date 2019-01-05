@@ -46,14 +46,14 @@ export default {
           this.nodes.push({
             id: i,
             name: node.name,
-            _color: '#FFC107',
+            _color: '#d32f2f',
             _size: 50,
           });
         } else {
           this.nodes.push({
             id: i,
             name: node.name,
-            _color: '#4CAF50',
+            _color: '#00897b',
             _size: this.setNodeSize(node.influencia),
           });
         }
@@ -84,7 +84,8 @@ export default {
       } else if (influencia < 4000000) {
         return 30;
       }
-      return Math.floor((influencia * 80) / 60000000);
+
+      return Math.floor((50 / 56000000) * influencia + 30);
     },
   },
 };

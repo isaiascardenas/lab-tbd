@@ -47,15 +47,15 @@ export default {
           this.nodes.push({
             id: i,
             name: node.name,
-            _color: 'orange',
-            _size: 20,
+            _color: '#d32f2f',
+            _size: 50,
           });
         } else {
           this.nodes.push({
             id: i,
             name: node.name,
             _color: '#00aaff',
-            _size: 50,
+            _size: this.setNodeSize(node.influencia),
           });
         }
         i++;
@@ -81,6 +81,15 @@ export default {
 
       console.log('node', nodes);
       console.log('links', links);
+    },
+    setNodeSize(influencia) {
+      if (influencia > 90000) {
+        return 80;
+      } else if (influencia < 6000) {
+        return 30;
+      }
+
+      return Math.floor((50 / 64000) * influencia + 30);
     },
   },
 };

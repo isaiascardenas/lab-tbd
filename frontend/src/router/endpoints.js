@@ -41,8 +41,8 @@ var Neo4jResources = {
   getPaisesDeportes(params) {
     return axios.get(`${neo}/pais-deporte`, { params: params });
   },
-  getUsuariosPaises(params) {
-    return axios.get(`${neo}/usuario-pais`, { params: params });
+  getPaisesUsuarios(params) {
+    return axios.get(`${neo}/pais-usuario`, { params: params });
   },
 };
 
