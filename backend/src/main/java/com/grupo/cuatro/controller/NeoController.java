@@ -180,7 +180,7 @@ public class NeoController {
     public Map<String, Object> getPaisUsuario(){
         GrafoDB grafo = new GrafoDB();
         Elastic e = new Elastic();
-        List<String> usuarios = e.getUsers();
+        List<String> usuarios = e.getUsersDos();
         List<Map<String, Object>> nodes = new ArrayList<>();
         List<Map<String, Object>> rels = new ArrayList<>();
         int i = 0;
