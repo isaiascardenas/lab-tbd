@@ -91,13 +91,13 @@ export default {
           },
           {
             id: '2',
-            name: 'BBB',
-            routeName: 'Popularidad Paises',
+            name: 'Influencias Paises y Deportes',
+            routeName: 'Influencias Paises Deportes',
           },
           {
             id: '3',
-            name: 'CCC',
-            routeName: 'Popularidad Fechas',
+            name: 'Influencias Paises y Usuarios',
+            routeName: 'Influencias Paises Usuarios',
           },
         ];
       }

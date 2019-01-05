@@ -5,6 +5,8 @@ import Main from '@/views/components/Main';
 import Fechas from '@/views/popularidad/Fechas';
 import Paises from '@/views/popularidad/Paises';
 import Deportes from '@/views/popularidad/Deportes';
+import PaisesDeportes from '@/views/influencias/PaisesDeportes';
+import PaisesUsuarios from '@/views/influencias/PaisesUsuarios';
 import DeportesUsuarios from '@/views/influencias/DeportesUsuarios';
 import EstadisticasPais from '@/views/popularidad/EstadisticasPais';
 
@@ -59,6 +61,16 @@ let routes = [
                 path: 'deporte-usuario',
                 name: 'Influencias Deportes Usuarios',
                 component: DeportesUsuarios,
+              },
+              {
+                path: 'pais-deporte',
+                name: 'Influencias Paises Deportes',
+                component: PaisesDeportes,
+              },
+              {
+                path: 'pais-usuario',
+                name: 'Influencias Paises Usuarios',
+                component: PaisesUsuarios,
               },
             ],
           },
