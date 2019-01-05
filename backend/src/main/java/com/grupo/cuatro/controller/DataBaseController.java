@@ -140,7 +140,7 @@ public class DataBaseController {
         listaMexico.add(puebla);
         listaMexico.add(guadalajara);
         Country Mexico = new Country();
-        Mexico.setCountryName("Mexico");
+        Mexico.setCountryName("México");
         ciudadDeMexico.setCountry(Mexico);
         puebla.setCountry(Mexico);
         guadalajara.setCountry(Mexico);

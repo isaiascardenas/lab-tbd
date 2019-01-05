@@ -466,7 +466,7 @@ public class Elastic {
             TopDocs result = searcher.search(query, 100000);
             ScoreDoc[] hits = result.scoreDocs;
             for(int j = 0; j < hits.length; j++){
-                System.out.println("Entre al for y que paha");
+                //System.out.println("Entre al for y que paha");
                 Document doc = searcher.doc(hits[j].doc);
                 //System.out.println(doc.get("text"));
                 if(doc.get("text").contains("tenis")){
@@ -537,7 +537,7 @@ public class Elastic {
             TopDocs result = searcher.search(query, 100000);
             ScoreDoc[] hits = result.scoreDocs;
             for(int j = 0; j < hits.length; j++){
-                System.out.println("Entre al for");
+                //System.out.println("Entre al for");
                 Document doc = searcher.doc(hits[j].doc);
                 String followers = doc.get("userFollowersCount");
                 int aux = Integer.parseInt(followers);
