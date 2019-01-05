@@ -90,7 +90,7 @@ public class NeoController {
         return salida;
     }
 
-    @RequestMapping(value = "/usuario-deporte")
+    @RequestMapping(value = "/deporte-usuario")
     @ResponseBody
     public Map<String, Object> getGrafo(){
         Elastic e = new Elastic();
@@ -113,7 +113,7 @@ public class NeoController {
                     nodes.add(deporte);
                     source = i++;
                 }
-                rels.add(grafo.map("source", source, "target", target));
+                rels.add(grafo.map("sid", source, "tid", target));
             }
 
         }

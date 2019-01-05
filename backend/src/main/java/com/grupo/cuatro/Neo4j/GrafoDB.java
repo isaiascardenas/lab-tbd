@@ -164,4 +164,13 @@ public class GrafoDB {
         return result;
     }
 
+    public Map<String, Object> mapQuadruple(String key1, Object value1, String key2, Object value2,String key3, Object value3,String key4,Object value4) {
+        Map<String, Object> result = new HashMap<String, Object>(4);
+        result.put(key1, value1);
+        result.put(key2, value2);
+        result.put(key3, value3);
+        result.put(key4, value4);
+        return result;
+    }
+
 }
