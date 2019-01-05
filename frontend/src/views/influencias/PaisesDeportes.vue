@@ -1,5 +1,5 @@
 <template>
-  <div class="small" v-loading="loading">
+  <div class="graph" v-loading="loading">
     <div class="text graph-title">Influencias entre Paises y Deportes</div>
     <d3-network :net-nodes="nodes" :net-links="links" :options="options" />
   </div>
@@ -71,7 +71,7 @@ export default {
 
       this.options = {
         force: 3000,
-        size: { w: 500, h: 400 },
+        size: { w: 1200, h: 480 },
         nodeSize: 10,
         nodeLabels: true,
         canvas: false,
@@ -91,11 +91,6 @@ export default {
   margin-bottom: 20px;
 }
 
-.small {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  max-width: 460px;
-  margin-left: auto;
-  margin-right: auto;
+.graph {
 }
 </style>
