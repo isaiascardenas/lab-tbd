@@ -1,19 +1,11 @@
 import axios from 'axios';
 
 let base = 'http://204.48.18.31:8080/cuatro-0.0.1-SNAPSHOT';
+let neo = 'http://localhost:4040/neo4j';
 
 var DeportesResources = {
   get: params => {
     return axios.get(`${base}/sport/all`, { params: params });
-  },
-  add(params) {
-    return;
-  },
-  remove(params) {
-    return;
-  },
-  edit(params) {
-    return;
   },
 };
 
@@ -21,29 +13,11 @@ var PaisesResources = {
   get: params => {
     return axios.get(`${base}/country/all`, { params: params });
   },
-  add(params) {
-    return;
-  },
-  remove(params) {
-    return;
-  },
-  edit(params) {
-    return;
-  },
 };
 
 var FechasResources = {
   get(params) {
     return axios.get(`${base}/fecha/all`, { params: params });
-  },
-  add(params) {
-    return;
-  },
-  remove(params) {
-    return;
-  },
-  edit(params) {
-    return;
   },
 };
 
@@ -58,11 +32,17 @@ var EstadisticasResources = {
       params: params,
     });
   },
-  remove(params) {
-    return;
+};
+
+var Neo4jResources = {
+  getDeportesUsuarios(params) {
+    return axios.get(`${neo}/usuario-deporte`, { params: params });
   },
-  edit(params) {
-    return;
+  getPaisesDeportes(params) {
+    return axios.get(`${neo}/pais-deporte`, { params: params });
+  },
+  getUsuariosPaises(params) {
+    return axios.get(`${neo}/usuario-pais`, { params: params });
   },
 };
 
@@ -77,5 +57,6 @@ export {
   PaisesResources,
   FechasResources,
   EstadisticasResources,
+  Neo4jResources,
   multipleRequest,
 };

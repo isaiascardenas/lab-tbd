@@ -26,6 +26,7 @@ public class CuatroApplication {
 	public static void main(String[] args) {
         //Elastic e = new Elastic();
         //e.indexCreate();
+
         /*System.out.println(e.getCantidadFecha());
         e.getInfluenciaPais("Argentina");
         e.getInfluenciaPais("Chile");
