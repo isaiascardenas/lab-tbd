@@ -1,24 +1,51 @@
 <template>
   <div class="small" v-loading="loading">
     <div class="text">Cantidad de tweets sobre deportes en {{ paisName }}</div>
-    <bar-chart :chart-data="datacollection"></bar-chart>
+    <bar-chart :chart-data="datacollection" :options="opciones"></bar-chart>
   </div>
 </template>
 
 <script>
-import BarChart from './../../charts/HorizontalBarChart.js';
-import { EstadisticasResources } from './../../router/endpoints';
+import BarChart from "./../../charts/HorizontalBarChart.js";
+import { EstadisticasResources } from "./../../router/endpoints";
 
 export default {
   components: {
-    BarChart,
+    BarChart
   },
   data() {
     return {
       datacollection: {},
       deportes: [],
-      paisName: '',
+      paisName: "",
       loading: true,
+      opciones: {
+        tooltips: {
+          callbacks: {
+            title: function(tooltipItem, data) {
+              return data["labels"][tooltipItem[0]["index"]];
+            },
+            label: function(tooltipItem, data) {
+              return (
+                "Total: " +
+                data["datasets"][0]["data"][tooltipItem["index"]] +
+                " (" +
+                data["datasets"][0]["notuseful"][tooltipItem["index"]] +
+                "%)"
+              );
+            }
+          },
+          backgroundColor: "#000",
+          titleFontSize: 16,
+          titleFontColor: "#FFF",
+          bodyFontColor: "#FFF",
+          bodyFontSize: 14,
+          displayColors: true
+        },
+        legend: {
+          display: false
+        }
+      }
     };
   },
   mounted() {
@@ -46,29 +73,34 @@ export default {
       let values = _.map(this.deportes, sport => {
         return sport.statisticCount;
       });
-      console.log(labels);
-      console.log(values);
-
+      let total = _.reduce(values, function(sum, n) {
+        return sum + n;
+      });
+      let percentage = _.transform(values, function(result, n) {
+        result.push(Math.round(((n * 100) / total) * 10) / 10);
+        return result;
+      });
       this.datacollection = {
         labels: labels,
         datasets: [
           {
-            label: 'Deporte',
+            label: "Deporte",
             backgroundColor: [
-              '#536DFE',
-              '#FFC107',
-              '#CDDC39',
-              '#8BC34A',
-              '#607D8B',
-              '#9E9E9E',
-              '#00BCD4',
+              "#536DFE",
+              "#FFC107",
+              "#CDDC39",
+              "#8BC34A",
+              "#607D8B",
+              "#9E9E9E",
+              "#00BCD4"
             ],
             data: values,
-          },
-        ],
+            notuseful: percentage
+          }
+        ]
       };
-    },
-  },
+    }
+  }
 };
 </script>
 

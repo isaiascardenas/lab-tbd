@@ -1,7 +1,7 @@
 <template>
   <div class="small" v-loading="loading">
     <div class="text">Cantidad de tweets por deportes</div>
-    <bar-chart :chart-data="datacollection"></bar-chart>
+    <bar-chart :chart-data="datacollection" :options="opciones"></bar-chart>
   </div>
 </template>
 
@@ -18,7 +18,28 @@ export default {
       datacollection: {},
       deportes: [],
       loading: true,
-    };
+      opciones:{
+          tooltips: {
+              callbacks: {
+                  title: function(tooltipItem, data) {
+                      return data['labels'][tooltipItem[0]['index']];
+                  },
+                  label: function(tooltipItem, data) {
+                      return 'Total: '+data['datasets'][0]['data'][tooltipItem['index']]+' ('+data['datasets'][0]['notuseful'][tooltipItem['index']]+'%)';
+                  },
+              },
+          backgroundColor: '#000',
+          titleFontSize: 16,
+          titleFontColor: '#FFF',
+          bodyFontColor: '#FFF',
+          bodyFontSize: 14,
+          displayColors: true
+        },
+        legend:{
+          display:false
+        }
+      }
+    }
   },
   mounted() {
     this.getDeportes();
@@ -46,7 +67,13 @@ export default {
       let values = _.map(this.deportes, sport => {
         return sport.sportTweetCount;
       });
-
+      let total= _.reduce(values,function(sum,n){
+                return sum+n;
+      });
+      let percentage=_.transform(values,function(result,n){
+          result.push(Math.round(n*100/total*10)/10);
+          return result;
+      });
       this.datacollection = {
         labels: [
           'Rugby',
@@ -70,6 +97,7 @@ export default {
               '#00BCD4',
             ],
             data: values,
+            notuseful:percentage
           },
         ],
       };
