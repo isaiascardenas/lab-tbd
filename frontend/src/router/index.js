@@ -16,18 +16,27 @@ let routes = [
   {
     path: '/',
     name: 'Home',
-    redirect: { name: 'Popularidad Deportes' },
+    redirect: {
+      name: 'Popularidad Deportes',
+      params: { sprint: 'popularidad' },
+    },
     component: Home,
     children: [
       {
         path: '',
         name: 'Main',
-        redirect: { name: 'Popularidad Deportes' },
+        redirect: {
+          name: 'Popularidad Deportes',
+          params: { sprint: 'popularidad' },
+        },
         component: Main,
         children: [
           {
-            path: 'popularidad',
-            redirect: { name: 'Popularidad Deportes' },
+            path: ':sprint',
+            redirect: {
+              name: 'Popularidad Deportes',
+              params: { sprint: 'popularidad' },
+            },
             component: { template: '<router-view></router-view>' },
             children: [
               {
@@ -50,13 +59,6 @@ let routes = [
                 name: 'Estadisticas Pais',
                 component: EstadisticasPais,
               },
-            ],
-          },
-          {
-            path: 'influencias',
-            redirect: { name: 'Influencias Deportes Usuarios' },
-            component: { template: '<router-view></router-view>' },
-            children: [
               {
                 path: 'deporte-usuario',
                 name: 'Influencias Deportes Usuarios',

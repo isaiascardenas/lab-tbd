@@ -26,13 +26,13 @@ export default {
       sprints: [
         {
           id: '1',
-          name: 'Popularidad',
+          name: 'popularidad',
           routeName: 'Popularidad Deportes',
           icon: 'el-icon-star-on',
         },
         {
           id: '2',
-          name: 'Influencias',
+          name: 'influencias',
           routeName: 'Influencias Deportes Usuarios',
           icon: 'el-icon-sort',
         },

@@ -1,6 +1,6 @@
 <template>
   <div class="small" v-loading="loading">
-    <div class="text graph-title">Cantidad de tweets por deportes</div>
+    <div class="text graph-title">Influencias entre Paises y Deportes</div>
     <d3-network :net-nodes="nodes" :net-links="links" :options="options" />
   </div>
 </template>
@@ -27,11 +27,9 @@ export default {
   methods: {
     getData() {
       let self = this;
-      Neo4jResources.getDeportesUsuarios({})
+      Neo4jResources.getPaisesDeportes({})
         .then(response => {
           console.log('data', response.data);
-          // this.nodes = response.data.nodes;
-          // this.links = response.data.links;
           this.fillData(response.data.nodes, response.data.links);
         })
         .catch(error => {

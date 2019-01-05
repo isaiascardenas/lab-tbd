@@ -11,7 +11,7 @@
           data.name
         }}</el-menu-item>
 
-        <el-menu-item index="4">
+        <el-menu-item index="4" v-if="$route.params.sprint == 'popularidad'">
           <el-dropdown @command="handleCommand">
             <span class="el-dropdown-link">
               Deportes por País<i class="el-icon-arrow-down el-icon--right"></i>
@@ -55,13 +55,16 @@ export default {
     handleMenu(index) {
       if (index != 4) {
         let routeName = this.navdata.find(x => x.id == index).routeName;
-        this.$router.push({ name: routeName });
+        this.$router.push({
+          name: routeName,
+          params: { sprint: this.$route.params.sprint },
+        });
       }
     },
     handleCommand(countryId) {
       this.$router.push({
         name: 'Estadisticas Pais',
-        params: { id: countryId },
+        params: { id: countryId, sprint: this.$route.params.sprint },
       });
     },
     getDeportes() {

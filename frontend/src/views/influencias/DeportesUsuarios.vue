@@ -1,6 +1,6 @@
 <template>
   <div class="graph" v-loading="loading">
-    <div class="text graph-title">Cantidad de tweets por deportes</div>
+    <div class="text graph-title">Influencias entre Deportes y Usuarios</div>
     <d3-network :net-nodes="nodes" :net-links="links" :options="options" />
   </div>
 </template>

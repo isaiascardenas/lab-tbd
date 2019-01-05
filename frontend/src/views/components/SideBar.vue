@@ -16,7 +16,8 @@
             :key="sprint.id"
             :index="sprint.id"
           >
-            <i :class="sprint.icon"></i> <span>{{ sprint.name }}</span>
+            <i :class="sprint.icon"></i>
+            <span>{{ capitalize(sprint.name) }}</span>
           </el-menu-item>
         </el-menu>
       </el-row>
@@ -28,14 +29,18 @@
 export default {
   name: 'SideBar',
   props: ['sprints'],
-  data() {
-    return {};
-  },
   methods: {
+    capitalize(word) {
+      return _.capitalize(word);
+    },
     handleMenu(index) {
       this.$emit('changeSprint', index);
-      let routeName = this.sprints.find(x => x.id == index).routeName;
-      this.$router.push({ name: routeName });
+      let sprint = this.sprints.find(x => x.id == index);
+      console.log(sprint);
+      this.$router.push({
+        name: sprint.routeName,
+        params: { sprint: sprint.name },
+      });
     },
   },
 };
