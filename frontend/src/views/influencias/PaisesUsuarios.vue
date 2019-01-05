@@ -1,5 +1,5 @@
 <template>
-  <div class="graph" v-loading="loading">
+  <div class="small" v-loading="loading">
     <div class="text graph-title">Cantidad de tweets por deportes</div>
     <d3-network :net-nodes="nodes" :net-links="links" :options="options" />
   </div>
@@ -29,6 +29,9 @@ export default {
       let self = this;
       Neo4jResources.getDeportesUsuarios({})
         .then(response => {
+          console.log('data', response.data);
+          // this.nodes = response.data.nodes;
+          // this.links = response.data.links;
           this.fillData(response.data.nodes, response.data.links);
         })
         .catch(error => {
@@ -70,13 +73,16 @@ export default {
 
       this.options = {
         force: 3000,
-        size: { w: 1200, h: 480 },
+        size: { w: 500, h: 400 },
         nodeSize: 10,
         nodeLabels: true,
         canvas: false,
         linkWidth: 1,
         strLinks: true,
       };
+
+      console.log('node', nodes);
+      console.log('links', links);
     },
   },
 };
@@ -87,6 +93,11 @@ export default {
   margin-bottom: 20px;
 }
 
-.graph {
+.small {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  max-width: 460px;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>

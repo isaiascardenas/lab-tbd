@@ -107,7 +107,7 @@ public class NeoController {
             int target = i;
             i++;
             for(String sport : listaDeportes){
-                Map<String, Object> deporte = grafo.map("Nombre", sport, "label", "Deporte");
+                Map<String, Object> deporte = grafo.map("name", sport, "label", "Deporte");
                 int source = nodes.indexOf(deporte);
                 if(source == -1){
                     nodes.add(deporte);
@@ -161,7 +161,7 @@ public class NeoController {
             int target = i;
             i++;
             for(String sport : listaDeportes){
-                Map<String, Object> deporte = grafoDB.map("Nombre", sport, "label", "Deporte");
+                Map<String, Object> deporte = grafoDB.map("name", sport, "label", "Deporte");
                 int source = nodes.indexOf(deporte);
                 if(source == -1){
                     nodes.add(deporte);

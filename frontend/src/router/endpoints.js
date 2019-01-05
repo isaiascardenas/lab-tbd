@@ -36,8 +36,7 @@ var EstadisticasResources = {
 
 var Neo4jResources = {
   getDeportesUsuarios(params) {
-    return axios.get(`${neo}/usuario-deporte`, { params: params });
-    // return axios.get(`${neo}/deporte-usuario`, { params: params });
+    return axios.get(`${neo}/deporte-usuario`, { params: params });
   },
   getPaisesDeportes(params) {
     return axios.get(`${neo}/pais-deporte`, { params: params });
