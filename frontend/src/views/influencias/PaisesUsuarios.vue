@@ -1,7 +1,34 @@
 <template>
   <div class="graph" v-loading="loading">
-    <div class="text graph-title">Cantidad de tweets por deportes</div>
-    <d3-network :net-nodes="nodes" :net-links="links" :options="options" />
+    <div class="text graph-title">Influencias entre Paises y Usuarios</div>
+    <d3-network
+      :net-nodes="nodes"
+      :net-links="links"
+      :options="options"
+      @node-click="showNode"
+    />
+
+    <el-col :span="6" class="details-container">
+      <el-card class="box-card" v-show="detailsVisible">
+        <div slot="header" class="clearfix">
+          <span> {{ details.title }} </span>
+          <el-button
+            style="float: right; padding: 3px 0"
+            @click="closeDetails"
+            type="text"
+          >
+            <i class="el-icon-close"></i>
+          </el-button>
+        </div>
+        <div class="node-detail">{{ details.type }}</div>
+        <div class="node-detail">
+          Índice de influencias: <b> {{ details.influencia }} </b>
+        </div>
+        <div class="node-detail">
+          Porcentaje de influencias: <b> {{ details.porcentaje }} %</b>
+        </div>
+      </el-card>
+    </el-col>
   </div>
 </template>
 
@@ -18,6 +45,13 @@ export default {
       nodes: [],
       options: {},
       links: [],
+      details: {
+        title: '',
+        type: '',
+        influencia: 0,
+        porcentaje: 0,
+      },
+      detailsVisible: false,
       loading: true,
     };
   },
@@ -25,6 +59,19 @@ export default {
     this.getData();
   },
   methods: {
+    showNode(event, node) {
+      this.details.type = 'Usuario';
+      this.details.title = node.name;
+      this.details.influencia = this.setNodeInfluence(node._size);
+      this.details.porcentaje = 15; // make formula to calculate this
+      if (node._color == '#00aaff') {
+        this.details.type = 'Pais';
+      }
+      this.detailsVisible = true;
+    },
+    closeDetails() {
+      this.detailsVisible = false;
+    },
     getData() {
       let self = this;
       Neo4jResources.getPaisesUsuarios({})
@@ -96,6 +143,9 @@ export default {
 
       return Math.floor((50 / 2900) * influencia + 30);
     },
+    setNodeInfluence(size) {
+      return ((size - 30) * 56000000) / 50; // error, 0 if 30
+    },
   },
 };
 </script>
@@ -105,6 +155,18 @@ export default {
   margin-bottom: 20px;
 }
 
-.graph {
+.node-label {
+  font-size: 15px;
+}
+
+.net {
+  z-index: 0;
+  position: relative;
+}
+
+.details-container {
+  margin-top: -180px;
+  z-index: 1;
+  position: relative;
 }
 </style>

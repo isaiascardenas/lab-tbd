@@ -1,7 +1,34 @@
 <template>
   <div class="graph" v-loading="loading">
     <div class="text graph-title">Influencias entre Deportes y Usuarios</div>
-    <d3-network :net-nodes="nodes" :net-links="links" :options="options" />
+    <d3-network
+      :net-nodes="nodes"
+      :net-links="links"
+      :options="options"
+      @node-click="showNode"
+    />
+
+    <el-col :span="6" class="details-container">
+      <el-card class="box-card" v-show="detailsVisible">
+        <div slot="header" class="clearfix">
+          <span> {{ details.title }} </span>
+          <el-button
+            style="float: right; padding: 3px 0"
+            @click="closeDetails"
+            type="text"
+          >
+            <i class="el-icon-close"></i>
+          </el-button>
+        </div>
+        <div class="node-detail" v-if="details.show">
+          Índice de influencias: <b> {{ details.influencia }} </b>
+        </div>
+        <div class="node-detail" v-if="details.show">
+          Porcentaje de influencias: <b> {{ details.porcentaje }} %</b>
+        </div>
+        <div class="node-detail" v-else>Deporte</div>
+      </el-card>
+    </el-col>
   </div>
 </template>
 
@@ -17,14 +44,37 @@ export default {
     return {
       nodes: [],
       options: {},
+      details: {
+        title: '',
+        show: true,
+        influencia: 0,
+        porcentaje: 0,
+      },
       links: [],
       loading: true,
+      detailsVisible: false,
     };
   },
   mounted() {
     this.getData();
   },
   methods: {
+    showNode(event, node) {
+      if (node._color == '#d32f2f') {
+        this.details.title = node.name;
+        this.details.show = false;
+        this.detailsVisible = true;
+        return;
+      }
+      this.details.show = true;
+      this.details.title = node.name;
+      this.details.influencia = this.setNodeInfluence(node._size);
+      this.details.porcentaje = 15; // make formula to calculate this
+      this.detailsVisible = true;
+    },
+    closeDetails() {
+      this.detailsVisible = false;
+    },
     getData() {
       let self = this;
       Neo4jResources.getDeportesUsuarios({})
@@ -87,6 +137,9 @@ export default {
 
       return Math.floor((50 / 56000000) * influencia + 30);
     },
+    setNodeInfluence(size) {
+      return ((size - 30) * 56000000) / 50; // error, 0 if 30
+    },
   },
 };
 </script>
@@ -94,6 +147,21 @@ export default {
 <style>
 .graph-title {
   margin-bottom: 20px;
+}
+
+.node-label {
+  font-size: 15px;
+}
+
+.net {
+  z-index: 0;
+  position: relative;
+}
+
+.details-container {
+  margin-top: -180px;
+  z-index: 1;
+  position: relative;
 }
 
 .graph {
