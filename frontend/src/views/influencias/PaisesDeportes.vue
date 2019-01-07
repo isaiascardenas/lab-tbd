@@ -43,6 +43,7 @@ export default {
   data() {
     return {
       nodes: [],
+      data: [],
       options: {},
       links: [],
       details: {
@@ -68,8 +69,8 @@ export default {
       }
       this.details.show = true;
       this.details.title = node.name;
-      this.details.influencia = this.setNodeInfluence(node._size);
-      this.details.porcentaje = 15; // make formula to calculate this
+      this.details.porcentaje = this.setPercent(node.id);
+      this.details.influencia = this.data[node.id].influencia;
       this.detailsVisible = true;
     },
     closeDetails() {
@@ -79,6 +80,7 @@ export default {
       let self = this;
       Neo4jResources.getPaisesDeportes({})
         .then(response => {
+          this.data = response.data.nodes;
           this.fillData(response.data.nodes, response.data.links);
         })
         .catch(error => {
@@ -137,8 +139,21 @@ export default {
 
       return Math.floor((50 / 2900) * influencia + 30);
     },
-    setNodeInfluence(size) {
-      return ((size - 30) * 56000000) / 50; // error, 0 if 30
+    setPercent(index) {
+      let total = _.reduce(
+        this.data,
+        (sum, n) => {
+          if (n.influencia) {
+            return sum + n.influencia;
+          }
+          return sum + 0;
+        },
+        0
+      );
+
+      return (
+        Math.floor(((this.data[index].influencia * 100) / total) * 10) / 10
+      );
     },
   },
 };

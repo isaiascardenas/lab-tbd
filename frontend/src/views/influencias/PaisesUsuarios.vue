@@ -45,6 +45,7 @@ export default {
       nodes: [],
       options: {},
       links: [],
+      data: [],
       details: {
         title: '',
         type: '',
@@ -62,8 +63,8 @@ export default {
     showNode(event, node) {
       this.details.type = 'Usuario';
       this.details.title = node.name;
-      this.details.influencia = this.setNodeInfluence(node._size);
-      this.details.porcentaje = 15; // make formula to calculate this
+      this.details.influencia = this.data[node.id].influencia;
+      this.details.porcentaje = this.setPercent(node);
       if (node._color == '#00aaff') {
         this.details.type = 'Pais';
       }
@@ -76,6 +77,7 @@ export default {
       let self = this;
       Neo4jResources.getPaisesUsuarios({})
         .then(response => {
+          this.data = response.data.nodes;
           this.fillData(response.data.nodes, response.data.links);
         })
         .catch(error => {
@@ -143,8 +145,22 @@ export default {
 
       return Math.floor((50 / 2900) * influencia + 30);
     },
-    setNodeInfluence(size) {
-      return ((size - 30) * 56000000) / 50; // error, 0 if 30
+    setPercent(node) {
+      let type = node._color == '#00aaff' ? 'Pais' : 'Usuario';
+      let total = _.reduce(
+        this.data,
+        (sum, n) => {
+          if (n.label == type) {
+            return sum + parseInt(n.influencia);
+          }
+          return sum + 0;
+        },
+        0
+      );
+
+      return (
+        Math.floor(((this.data[node.id].influencia * 100) / total) * 10) / 10
+      );
     },
   },
 };
