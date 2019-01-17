@@ -1,7 +1,7 @@
 <template>
   <div class="small" v-loading="loading">
-    <div class="text">Cantidad de tweets por deportes</div>
-    <div class="chartdiv" ref="chartdiv">Cantidad de tweets por deportes</div>
+    <div class="text">Cantidad de tweets por país</div>
+    <div class="chartdiv" ref="chartdiv"></div>
   </div>
 </template>
 
@@ -21,33 +21,6 @@ export default {
       chart: {},
       deportes: [],
       loading: true,
-      opciones: {
-        tooltips: {
-          callbacks: {
-            title: function(tooltipItem, data) {
-              return data['labels'][tooltipItem[0]['index']];
-            },
-            label: function(tooltipItem, data) {
-              return (
-                'Total: ' +
-                data['datasets'][0]['data'][tooltipItem['index']] +
-                ' (' +
-                data['datasets'][0]['notuseful'][tooltipItem['index']] +
-                '%)'
-              );
-            },
-          },
-          backgroundColor: '#000',
-          titleFontSize: 16,
-          titleFontColor: '#FFF',
-          bodyFontColor: '#FFF',
-          bodyFontSize: 14,
-          displayColors: true,
-        },
-        legend: {
-          display: false,
-        },
-      },
     };
   },
   mounted() {
@@ -56,41 +29,66 @@ export default {
   },
   methods: {
     setChart() {
+      // set Chart
       let chart = am4core.create(this.$refs.chartdiv, am4maps.MapChart);
-
-      // Set map definition
-      chart.geodata = am4geodata_worldLow;
-
-      // Set projection
+      chart.geodata = am4geodata_worldLow.default;
       chart.projection = new am4maps.projections.Miller();
 
       // Series for World map
       var worldSeries = chart.series.push(new am4maps.MapPolygonSeries());
-      worldSeries.exclude = ['AQ'];
+      worldSeries.include = [
+        'AR',
+        'EC',
+        'CO',
+        'UY',
+        'PY',
+        'ES',
+        'MX',
+        'CL',
+        'VE',
+      ];
       worldSeries.useGeodata = true;
 
       var polygonTemplate = worldSeries.mapPolygons.template;
       polygonTemplate.tooltipText = '{name}';
       polygonTemplate.fill = chart.colors.getIndex(0);
-
       // Hover state
       var hs = polygonTemplate.states.create('hover');
       hs.properties.fill = am4core.color('#367B25');
 
-      // Series for United States map
-      var usaSeries = chart.series.push(new am4maps.MapPolygonSeries());
-      usaSeries.geodata = am4geodata_usaLow;
+      // Other countries
+      worldSeries = chart.series.push(new am4maps.MapPolygonSeries());
+      worldSeries.include = [
+        'BR',
+        'BO',
+        'GY',
+        'PE',
+        'TT',
+        'SR',
+        'AW',
+        'GF',
+        'FK',
+        'GS',
+        'PA',
+        'CR',
+        'NI',
+        'HN',
+        'SV',
+        'GT',
+        // 'US',
+        // 'CA',
+        'PT',
+        'FR',
+        'IT',
+        'GB',
+        'IE',
+      ];
+      worldSeries.useGeodata = true;
 
-      var polygonTemplate = usaSeries.mapPolygons.template;
-      polygonTemplate.tooltipText = '{name}';
       polygonTemplate.fill = chart.colors.getIndex(1);
 
-      // Hover state
-      var hs = polygonTemplate.states.create('hover');
-      hs.properties.fill = am4core.color('#367B25');
-
-      this.chart = chart;
       //test
+      this.chart = chart;
       this.loading = false;
     },
     getDeportes() {
@@ -107,49 +105,7 @@ export default {
           this.loading = false;
         });
     },
-    fillData() {
-      let self = this;
-      let labels = _.map(this.deportes, sport => {
-        return sport.sportName;
-      });
-      let values = _.map(this.deportes, sport => {
-        return sport.sportTweetCount;
-      });
-      let total = _.reduce(values, function(sum, n) {
-        return sum + n;
-      });
-      let percentage = _.transform(values, function(result, n) {
-        result.push(Math.round(((n * 100) / total) * 10) / 10);
-        return result;
-      });
-      this.datacollection = {
-        labels: [
-          'Rugby',
-          'Basketball',
-          'Tenis',
-          'Boxeo',
-          'Volleyball',
-          'Natación',
-          'Futbol femenino',
-        ],
-        datasets: [
-          {
-            label: 'Deporte',
-            backgroundColor: [
-              '#536DFE',
-              '#FFC107',
-              '#CDDC39',
-              '#8BC34A',
-              '#607D8B',
-              '#9E9E9E',
-              '#00BCD4',
-            ],
-            data: values,
-            notuseful: percentage,
-          },
-        ],
-      };
-    },
+    fillData() {},
     beforeDestroy() {
       if (this.chart) {
         this.chart.dispose();
