@@ -9,6 +9,7 @@ import PaisesDeportes from '@/views/influencias/PaisesDeportes';
 import PaisesUsuarios from '@/views/influencias/PaisesUsuarios';
 import DeportesUsuarios from '@/views/influencias/DeportesUsuarios';
 import EstadisticasPais from '@/views/popularidad/EstadisticasPais';
+import DistribucionTweets from '@/views/distribucion/DistribucionTweets';
 
 Vue.use(Router);
 
@@ -39,6 +40,7 @@ let routes = [
             },
             component: { template: '<router-view></router-view>' },
             children: [
+              // sprint 1
               {
                 path: 'deportes',
                 name: 'Popularidad Deportes',
@@ -59,6 +61,7 @@ let routes = [
                 name: 'Estadisticas Pais',
                 component: EstadisticasPais,
               },
+              // sprint 2
               {
                 path: 'deporte-usuario',
                 name: 'Influencias Deportes Usuarios',
@@ -73,6 +76,12 @@ let routes = [
                 path: 'pais-usuario',
                 name: 'Influencias Paises Usuarios',
                 component: PaisesUsuarios,
+              },
+              // sprint 3
+              {
+                path: 'tweets',
+                name: 'Distribucion Tweets',
+                component: DistribucionTweets,
               },
             ],
           },

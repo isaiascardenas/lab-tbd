@@ -36,12 +36,12 @@ export default {
           routeName: 'Influencias Deportes Usuarios',
           icon: 'el-icon-sort',
         },
-        // {
-        // id: '3',
-        // name: 'Distribución',
-        // routeName: 'Popularidad Deportes',
-        // icon: 'el-icon-star-on'
-        // },
+        {
+          id: '3',
+          name: 'Distribución',
+          routeName: 'Distribucion Tweets',
+          icon: 'el-icon-location',
+        },
       ],
       navdata: [
         {
@@ -82,7 +82,7 @@ export default {
             routeName: 'Popularidad Fechas',
           },
         ];
-      } else {
+      } else if (index == 2) {
         this.navdata = [
           {
             id: '1',
@@ -98,6 +98,24 @@ export default {
             id: '3',
             name: 'Influencias Paises y Usuarios',
             routeName: 'Influencias Paises Usuarios',
+          },
+        ];
+      } else {
+        this.navdata = [
+          {
+            id: '1',
+            name: 'Distribución de Tweets',
+            routeName: 'Distribucion Tweets',
+          },
+          {
+            id: '2',
+            name: 'Distribución de Usuarios',
+            routeName: 'Distribucion Usuarios',
+          },
+          {
+            id: '3',
+            name: 'Distribución de Deportes',
+            routeName: 'Distribucion Deportes',
           },
         ];
       }

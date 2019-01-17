@@ -10,6 +10,8 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@amcharts/amcharts4": "^4.0.21",
+    "@amcharts/amcharts4-geodata": "^4.0.27",
     "axios": "^0.18.0",
     "chart.js": "^2.7.3",
     "element-ui": "^2.4.11",
@@ -17,7 +19,8 @@
     "vue": "^2.5.2",
     "vue-chartjs": "^3.4.0",
     "vue-d3-network": "^0.1.26",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vue-world-map": "^0.1.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
