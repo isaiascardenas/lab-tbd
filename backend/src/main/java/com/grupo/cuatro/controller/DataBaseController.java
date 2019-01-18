@@ -502,10 +502,10 @@ public class DataBaseController {
             auxiliar.setFechaCount(listaFechas.get(i));
             if(i <= 9){
 
-                auxiliar.setFechaValue("2018-12-"+"0"+(i+1));
+                auxiliar.setFechaValue("2019-01-"+"0"+(i+1));
             }
             else{
-                auxiliar.setFechaValue("2018-12-"+(i+1));
+                auxiliar.setFechaValue("2019-01-"+(i+1));
             }
             //auxiliar.setStatistic(st);
             fechas.add(auxiliar);
