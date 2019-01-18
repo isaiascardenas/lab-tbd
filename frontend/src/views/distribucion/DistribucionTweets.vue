@@ -16,10 +16,10 @@
           </el-button>
         </div>
         <div class="node-detail">
-          Tweets por persona: <b> {{ details.index }} </b>
+          Tweets por millones de persona: <b> {{ details.index }} </b>
         </div>
         <div class="node-detail">
-          Porcentaje: <b> {{ details.percent }} %</b>
+          Porcentaje de Tweets: <b> {{ (details.percent / total) * 100 }} %</b>
         </div>
       </el-card>
     </el-col>
@@ -42,17 +42,17 @@ export default {
       countries: [],
       loading: true,
       details: {
-        title: 'aaaa',
+        title: '',
         index: 0,
         percent: 0,
       },
+      total: 0,
       detailsVisible: false,
       minColor: '#f7fcb9',
       maxColor: '#004529',
     };
   },
   mounted() {
-    console.log('aaaa');
     this.setChart();
     this.getCountries();
   },
@@ -60,20 +60,18 @@ export default {
     setChart() {
       // set Chart
       let chart = am4core.create(this.$refs.chartdiv, am4maps.MapChart);
-      console.log('chart', chart);
 
       //test
-      let value = 5;
-      _.each(['AR', 'EC', 'CO', 'UY', 'PY', 'ES', 'MX', 'CL', 'VE'], code => {
+      _.each(['AR', 'CL', 'CO', 'EC', 'ES', 'MX', 'PY', 'UY', 'VE'], code => {
         let index = _.findIndex(am4geodata_worldLow.default.features, data => {
           return data.id == code;
         });
         let country = am4geodata_worldLow.default.features[index];
         am4geodata_worldLow.default.features.splice(index, 1);
-        country.properties.value = value;
+        country.properties.value = _.find(this.countries, c => {
+          return c.countryCode == country.id;
+        }).index;
         am4geodata_worldLow.default.features.push(country);
-
-        value = value + 10;
       });
 
       chart.geodata = am4geodata_worldLow.default;
@@ -180,7 +178,9 @@ export default {
       PaisesResources.get({})
         .then(response => {
           self.countries = response.data;
-          console.log(self.countries);
+          self.total = _.reduce(self.countries, (sum, c) => {
+            return sum + c.index;
+          });
           // self.fillData();
         })
         .catch(error => {
