@@ -62,11 +62,19 @@ public class DataBaseController {
     @RequestMapping(value = "/seed_sports", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity seedSports(){
-        
-
-
-
-
+        List<Country> listaPaises = countryRepository.findAll();
+        ArrayList<Sport> listaDeportes = new ArrayList<>();
+        for (Country pais : listaPaises){
+            //System.out.println(pais.getCountryName());
+            ArrayList<String> listaDeportesAux = e.paisHabla(pais.getCountryName());
+            for(String dep : listaDeportesAux){
+                Sport deporte = sportRepository.getSportBySportNameIsLike(dep);
+                listaDeportes.add(deporte);
+                //System.out.println(listaDeportes);
+            }
+            pais.setSports(listaDeportes);
+            countryRepository.save(pais);
+        }
         return new ResponseEntity(HttpStatus.OK);
     }
 

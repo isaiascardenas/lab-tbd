@@ -53,8 +53,10 @@ public class Country {
     @JsonBackReference("influential_user-country")
     private List<InfluentialUser> influentialUsers;
 
-    @ManyToMany(mappedBy = "countries")
-    @JsonBackReference("sports-country")
+    @ManyToMany
+    @JoinTable(name = "sport_country",
+            joinColumns = @JoinColumn(name = "sport_id"),
+            inverseJoinColumns = @JoinColumn(name = "country_id"))
     private List<Sport> sports;
 
 
