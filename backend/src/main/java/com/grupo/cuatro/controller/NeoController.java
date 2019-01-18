@@ -43,8 +43,7 @@ public class NeoController {
         Elastic e = new Elastic();
         List<Country> paises = countryRepository.findAll();
         List<Sport> deportes = sportRepository.findAll();
-        List<String> usuarios = e.getUsers();
-        //ArrayList<String> usuariosAux = new ArrayList<>();
+        List<String> usuarios = e.getUsersDos();
         for(Country pais : paises){
             grafo.crearNodoPais(pais.getCountryName(), Integer.toString(e.getInfluenciaPais(pais.getCountryName())));
         }
@@ -54,7 +53,6 @@ public class NeoController {
         }
 
         for(String usuario : usuarios){
-            System.out.println("Entre aqui");
                 e.usuarioHabla(usuario);
                 grafo.crearNodoUsuario(usuario, e.getUserInfluencia(usuario));
         }
@@ -151,21 +149,6 @@ public class NeoController {
                 rels.add(grafoDB.map("sid", source, "tid", target));
             }
         }
-        /*for(Country paisisito : paiseeees){
-            ArrayList<String> listaDeportes = e.paisHabla(paisisito.getCountryName());
-            nodes.add(grafoDB.mapTriple("name", paisisito.getCountryName(), "label", "Pais", "influencia", e.getInfluenciaPais(paisisito.getCountryName())));
-            int target = i;
-            i++;
-            for(String sport : listaDeportes){
-                Map<String, Object> deporte = grafoDB.map("name", sport, "label", "Deporte");
-                int source = nodes.indexOf(deporte);
-                if(source == -1){
-                    nodes.add(deporte);
-                    source = i++;
-                }
-                rels.add(grafoDB.map("sid", source, "tid", target));
-            }
-        }*/
         return grafoDB.map("nodes", nodes, "links", rels);
     }
 

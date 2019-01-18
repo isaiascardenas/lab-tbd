@@ -674,14 +674,12 @@ public class Elastic {
             Query query = new MatchAllDocsQuery();
             TopDocs result = searcher.search(query, 25000);
             ScoreDoc[] hits = result.scoreDocs;
-            for(int j = 0; j < hits.length; j++){
+            for(int j = 0; j < 5000; j++){
                 Document doc = searcher.doc(hits[j].doc);
                 //System.out.println(doc.get("userScreenName"));
                 String hola = doc.get("userScreenName");
-                if(Integer.parseInt(doc.get("userFollowersCount")) > 2000000){
-                    if(!usuarios.contains(hola))
-                        usuarios.add(hola);
-                }
+                    if(!usuarios.contains(hola)){
+                        usuarios.add(hola);}
             }
             reader.close();
         }
