@@ -173,10 +173,10 @@ public class Elastic {
                 for(int i=1;i<32;i++){
                     Query query;
                     if(i <= 9){
-                        query = parser.parse("2018120"+i);
+                        query = parser.parse("201901"+"0"+i);
                     }
                     else{
-                        query = parser.parse("201812"+i);
+                        query = parser.parse("201901"+i);
                     }
                     TopDocs result = searcher.search(query, 25000);
                     ScoreDoc[] hits = result.scoreDocs;
