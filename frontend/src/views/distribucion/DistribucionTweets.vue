@@ -1,7 +1,28 @@
 <template>
-  <div class="small" v-loading="loading">
+  <div class="map" v-loading="loading">
     <div class="text">Cantidad de tweets por país</div>
     <div class="chartdiv" ref="chartdiv"></div>
+
+    <el-col :span="6" class="map-details-container">
+      <el-card class="box-card" v-show="detailsVisible">
+        <div slot="header" class="clearfix">
+          <span> {{ details.title }} </span>
+          <el-button
+            style="float: right; padding: 3px 0"
+            @click="closeDetails"
+            type="text"
+          >
+            <i class="el-icon-close"></i>
+          </el-button>
+        </div>
+        <div class="node-detail">
+          Índice de influencias: <b> {{ details.influencia }} </b>
+        </div>
+        <div class="node-detail">
+          Porcentaje de influencias: <b> {{ details.porcentaje }} %</b>
+        </div>
+      </el-card>
+    </el-col>
   </div>
 </template>
 
@@ -20,9 +41,18 @@ export default {
       chart: {},
       deportes: [],
       loading: true,
+      details: {
+        title: 'aaaa',
+        influencia: 0,
+        porcentaje: 0,
+      },
+      detailsVisible: false,
+      minColor: '#f7fcb9',
+      maxColor: '#004529',
     };
   },
   mounted() {
+    console.log('aaaa');
     this.setChart();
     // this.getDeportes();
   },
@@ -66,19 +96,33 @@ export default {
       worldSeries.heatRules.push({
         property: 'fill',
         target: worldSeries.mapPolygons.template,
-        min: am4core.color('#f7fcb9'),
-        max: am4core.color('#004529'),
+        min: am4core.color(this.minColor),
+        max: am4core.color(this.maxColor),
       });
-
-      console.log(worldSeries);
-      worldSeries.dataItems.events.on('hit', this.handleCountry);
 
       var polygonTemplate = worldSeries.mapPolygons.template;
       polygonTemplate.tooltipText = '{name}: {value} %';
       // polygonTemplate.fill = chart.colors.getIndex(0);
       // Hover state
       var hs = polygonTemplate.states.create('hover');
+      hs.properties.fill = chart.colors.getIndex(0).brighten(-0.5);
       // hs.properties.fill = am4core.color('#367B25');
+
+      // Create active state
+      var activeState = polygonTemplate.states.create('active');
+      activeState.properties.fill = chart.colors.getIndex(3).brighten(-0.5);
+      polygonTemplate.events.on('hit', this.handleCountry);
+      console.log('aaaaaa', polygonTemplate.events.target);
+
+      // heat Legend
+      var heatLegend = chart.createChild(am4maps.HeatLegend);
+      heatLegend.series = worldSeries;
+      heatLegend.width = am4core.percent(100);
+
+      // heatLegend.minColor = am4core.color(this.minColor);
+      // heatLegend.maxColor = am4core.color(this.maxColor);
+      // heatLegend.minValue = 0;
+      // heatLegend.maxValue = 100;
 
       // Other countries
       worldSeries = chart.series.push(new am4maps.MapPolygonSeries());
@@ -122,9 +166,23 @@ export default {
       //test
       this.chart = chart;
       this.loading = false;
+      console.log('chart', this.chart);
     },
-    handleCountry(e) {
-      console.log('clicked!', e.target.data);
+    handleCountry(ev) {
+      ev.target.isActive = !ev.target.isActive;
+      this.details.title = ev.target.properties.tooltipText;
+      console.log('bbbb', ev.target);
+      // details: {
+      // title: 'aaaa',
+      // type: 'bbb',
+      // influencia: 0,
+      // porcentaje: 0,
+      // },
+
+      this.detailsVisible = true;
+    },
+    closeDetails() {
+      this.detailsVisible = false;
     },
     getDeportes() {
       let self = this;
@@ -153,15 +211,23 @@ export default {
 <style>
 .chartdiv {
   width: 100%;
-  min-width: 650px;
+  min-width: 800px;
   height: 550px;
+  z-index: 0;
+  position: relative;
 }
 
-.small {
+.map {
   margin-top: 20px;
   margin-bottom: 20px;
-  max-width: 650px;
+  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.map-details-container {
+  margin-top: -180px;
+  z-index: 1;
+  position: relative;
 }
 </style>
