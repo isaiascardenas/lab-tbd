@@ -2,10 +2,7 @@ package com.grupo.cuatro.controller;
 
 import com.grupo.cuatro.Elastic;
 import com.grupo.cuatro.model.*;
-import com.grupo.cuatro.repository.CountryRepository;
-import com.grupo.cuatro.repository.FechaRepository;
-import com.grupo.cuatro.repository.SportRepository;
-import com.grupo.cuatro.repository.StatisticRepository;
+import com.grupo.cuatro.repository.*;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,8 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/database")
@@ -28,8 +27,28 @@ public class DataBaseController {
     private StatisticRepository statisticRepository;
     @Autowired
     private FechaRepository fechaRepository;
+    @Autowired
+    private InfluentialUserRepository influentialUserRepository;
 
     private Elastic e = new Elastic();
+
+    @RequestMapping(value="/seed_users", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity seedUsers() {
+        List<String> usersList = e.getUsers();
+        for(String user: usersList) {
+            Float influencia = Float.parseFloat(e.getUserInfluencia(user));
+            ArrayList<String> pais = e.getUserPais(user);
+            Country country = countryRepository.getCountryByCountryNameIsLike(pais.get(0));
+
+            InfluentialUser influentialUser = new InfluentialUser();
+            influentialUser.setUserName(user);
+            influentialUser.setUserInfluence(influencia);
+            influentialUser.setCountry(country);
+            influentialUserRepository.save(influentialUser);
+        }
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
     @RequestMapping(value="/seed", method= RequestMethod.GET)
     @ResponseBody

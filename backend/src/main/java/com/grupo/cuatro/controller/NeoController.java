@@ -90,7 +90,7 @@ public class NeoController {
         return salida;
     }
 
-    @RequestMapping(value = "/deporte-usuario")
+    @RequestMapping(value = "/deporte-usuario", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> getGrafo(){
         Elastic e = new Elastic();
@@ -101,7 +101,7 @@ public class NeoController {
         List<Map<String, Object>> nodes = new ArrayList<>();
         List<Map<String, Object>> rels = new ArrayList<>();
         int i = 0;
-        for(String usuario : usuarios){
+        for(String usuario : usuarios) {
             ArrayList<String> listaDeportes = e.usuarioHabla(usuario);
             nodes.add(grafo.mapTriple("name", usuario, "label", "Usuario", "influencia", e.getUserInfluencia(usuario)));
             int target = i;

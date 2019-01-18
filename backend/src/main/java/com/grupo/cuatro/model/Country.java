@@ -39,6 +39,12 @@ public class Country {
     @JsonManagedReference("country-countryKeyword")
     private List<CountryKeyword> countryKeywords;
 
+    //un pais tiene muchos usuarios influyentes
+    @OneToMany(targetEntity = InfluentialUser.class, mappedBy = "country", cascade = CascadeType.ALL)
+    @JsonBackReference("influential_user-country")
+    private List<InfluentialUser> influentialUsers;
+
+
     //metodo para agregar estadistica
     public void addStatistic(Statistic statistic) {
         this.statistics.add(statistic);
