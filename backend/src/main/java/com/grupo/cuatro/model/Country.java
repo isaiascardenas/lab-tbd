@@ -33,6 +33,9 @@ public class Country {
     @Column(name = "country_population")
     private Integer countryPopulation;
 
+    @Transient
+    private Float index;
+
     /*@Column(name = "influencia")
     private Double influencia;*/
 
