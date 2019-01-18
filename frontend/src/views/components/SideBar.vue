@@ -36,7 +36,6 @@ export default {
     handleMenu(index) {
       this.$emit('changeSprint', index);
       let sprint = this.sprints.find(x => x.id == index);
-      console.log(sprint);
       this.$router.push({
         name: sprint.routeName,
         params: { sprint: sprint.name },
