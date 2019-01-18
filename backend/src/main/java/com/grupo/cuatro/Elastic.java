@@ -636,6 +636,9 @@ public class Elastic {
                     } else if (lugar.contains("Colombia")) {
                         pais.add("Colombia");
                     }
+                    else if(pais.isEmpty()){
+                        pais.add("Ecuador");
+                    }
                 }
 
                 else{

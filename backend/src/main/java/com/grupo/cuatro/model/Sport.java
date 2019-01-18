@@ -35,4 +35,9 @@ public class Sport {
     @JsonManagedReference("sport-sportkeyword")
     private List<SportKeyword> sportKeywords;
 
+    //muchos deportes son comentado por muchos usuarios
+    @ManyToMany(mappedBy = "sports")
+    @JsonBackReference("influential_user-sports")
+    private List<InfluentialUser> influentialUsers;
+
 }
