@@ -244,7 +244,6 @@ public class Elastic {
 
             }
             aux = aux/getTotalUsers();
-            System.out.println(aux);
             reader.close();
         }
         catch(IOException | ParseException ex)
@@ -454,7 +453,7 @@ public class Elastic {
     }
 
     public ArrayList<String> usuarioHabla(String usuario){
-        System.out.println(usuario);
+        //System.out.println(usuario);
         ArrayList<String> deportes = new ArrayList<>();
         try {
             IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
@@ -511,6 +510,9 @@ public class Elastic {
                     }
 
                 }
+                else if(deportes.isEmpty()){
+                    deportes.add("Tenis");
+                }
             }
             reader.close();
         }
@@ -519,13 +521,13 @@ public class Elastic {
             Logger.getLogger(Elastic.class.getName()).log(Level.SEVERE,null,ex);
 
         }
-        System.out.println(deportes);
+        //System.out.println(deportes);
         return deportes;
     }
 
     public ArrayList<String> paisHabla(String pais){
-        System.out.println("Entre a paisHabla");
-        System.out.println(pais);
+        //System.out.println("Entre a paisHabla");
+        //System.out.println(pais);
         ArrayList<String> deportes = new ArrayList<>();
         try {
             IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
@@ -591,12 +593,12 @@ public class Elastic {
             Logger.getLogger(Elastic.class.getName()).log(Level.SEVERE,null,ex);
 
         }
-        System.out.println(deportes);
+        //System.out.println(deportes);
         return deportes;
     }
 
     public ArrayList<String> getUserPais(String usuario){
-        System.out.println(usuario);
+        //System.out.println(usuario);
         ArrayList<String> pais = new ArrayList<>();
         try {
             IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
@@ -608,10 +610,10 @@ public class Elastic {
             TopDocs result = searcher.search(query, 100000);
             ScoreDoc[] hits = result.scoreDocs;
             for(int j = 0; j < hits.length; j++){
-                System.out.println("Entre al for y que paha");
+                //System.out.println("Entre al for y que paha");
                 Document doc = searcher.doc(hits[j].doc);
                 String lugar = doc.get("location");
-                System.out.println(lugar);
+                //System.out.println(lugar);
                 if(lugar != null) {
 
 
@@ -655,7 +657,7 @@ public class Elastic {
             Logger.getLogger(Elastic.class.getName()).log(Level.SEVERE,null,ex);
 
         }
-        System.out.println(pais);
+        //System.out.println(pais);
         return pais;
     }
 

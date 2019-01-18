@@ -40,4 +40,10 @@ public class Sport {
     @JsonBackReference("influential_user-sports")
     private List<InfluentialUser> influentialUsers;
 
+    @ManyToMany
+    @JoinTable(name = "sport_country",
+        joinColumns = @JoinColumn(name = "sport_id"),
+        inverseJoinColumns = @JoinColumn(name = "country_id"))
+    private List<Country> countries;
+
 }
