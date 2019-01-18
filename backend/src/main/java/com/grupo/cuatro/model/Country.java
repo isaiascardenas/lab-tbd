@@ -31,7 +31,7 @@ public class Country {
     private String countryCode;
 
     @Column(name = "country_population")
-    private String countryPopulation;
+    private Integer countryPopulation;
 
     /*@Column(name = "influencia")
     private Double influencia;*/

@@ -148,6 +148,8 @@ public class DataBaseController {
         listaChile.add(shile);
         Country chile = new Country();
         chile.setCountryName("Chile");
+        chile.setCountryCode("CL");
+        chile.setCountryPopulation(18751405);
         santiago.setCountry(chile);
         iquique.setCountry(chile);
         shile.setCountry(chile);
@@ -170,6 +172,8 @@ public class DataBaseController {
         listaArgentina.add(rosario);
         Country argentina = new Country();
         argentina.setCountryName("Argentina");
+        argentina.setCountryCode("AR");
+        argentina.setCountryPopulation(44494512);
         buenosAires.setCountry(argentina);
         mendoza.setCountry(argentina);
         rosario.setCountry(argentina);
@@ -192,6 +196,8 @@ public class DataBaseController {
         listaMexico.add(guadalajara);
         Country Mexico = new Country();
         Mexico.setCountryName("México");
+        Mexico.setCountryCode("MX");
+        Mexico.setCountryPopulation(123982528);
         ciudadDeMexico.setCountry(Mexico);
         puebla.setCountry(Mexico);
         guadalajara.setCountry(Mexico);
@@ -214,6 +220,8 @@ public class DataBaseController {
         listaEspana.add(sevilla);
         Country espana = new Country();
         espana.setCountryName("España");
+        espana.setCountryCode("ES");
+        espana.setCountryPopulation(46659312);
         barcelona.setCountry(espana);
         madrid.setCountry(espana);
         sevilla.setCountry(espana);
@@ -236,6 +244,8 @@ public class DataBaseController {
         listaColombia.add(cali);
         Country colombia = new Country();
         colombia.setCountryName("Colombia");
+        colombia.setCountryCode("CO");
+        colombia.setCountryPopulation(4550000);
         medellin.setCountry(colombia);
         bogota.setCountry(colombia);
         cali.setCountry(colombia);
@@ -258,6 +268,8 @@ public class DataBaseController {
         listaUruguay.add(paysandu);
         Country uruguay = new Country();
         uruguay.setCountryName("Uruguay");
+        uruguay.setCountryCode("UY");
+        uruguay.setCountryPopulation(3519014);
         montevideo.setCountry(uruguay);
         salto.setCountry(uruguay);
         paysandu.setCountry(uruguay);
@@ -280,6 +292,8 @@ public class DataBaseController {
         listaParaguay.add(luque);
         Country paraguay = new Country();
         paraguay.setCountryName("Paraguay");
+        paraguay.setCountryCode("PY");
+        paraguay.setCountryPopulation(7152703);
         asuncion.setCountry(paraguay);
         ciudadDelEste.setCountry(paraguay);
         luque.setCountry(paraguay);
@@ -302,6 +316,8 @@ public class DataBaseController {
         listaEcuador.add(santoDomingo);
         Country ecuador = new Country();
         ecuador.setCountryName("Ecuador");
+        ecuador.setCountryCode("EC");
+        ecuador.setCountryPopulation(17267986);
         quito.setCountry(ecuador);
         cuenca.setCountry(ecuador);
         santoDomingo.setCountry(ecuador);
@@ -324,6 +340,8 @@ public class DataBaseController {
         listaVenezuela.add(ciudadGuayana);
         Country venezuela = new Country();
         venezuela.setCountryName("Venezuela");
+        venezuela.setCountryCode("VE");
+        venezuela.setCountryPopulation(31828000);
         maracaibo.setCountry(venezuela);
         maracay.setCountry(venezuela);
         ciudadGuayana.setCountry(venezuela);
