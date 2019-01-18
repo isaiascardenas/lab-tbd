@@ -16,10 +16,10 @@
           </el-button>
         </div>
         <div class="node-detail">
-          Índice de influencias: <b> {{ details.influencia }} </b>
+          Tweets por persona: <b> {{ details.index }} </b>
         </div>
         <div class="node-detail">
-          Porcentaje de influencias: <b> {{ details.porcentaje }} %</b>
+          Porcentaje: <b> {{ details.percent }} %</b>
         </div>
       </el-card>
     </el-col>
@@ -29,7 +29,7 @@
 <script>
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4maps from '@amcharts/amcharts4/maps';
-import { DeportesResources } from './../../router/endpoints';
+import { PaisesResources } from './../../router/endpoints';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 import * as am4geodata_worldLow from '@amcharts/amcharts4-geodata/worldLow';
 
@@ -39,12 +39,12 @@ export default {
   data() {
     return {
       chart: {},
-      deportes: [],
+      countries: [],
       loading: true,
       details: {
         title: 'aaaa',
-        influencia: 0,
-        porcentaje: 0,
+        index: 0,
+        percent: 0,
       },
       detailsVisible: false,
       minColor: '#f7fcb9',
@@ -54,7 +54,7 @@ export default {
   mounted() {
     console.log('aaaa');
     this.setChart();
-    // this.getDeportes();
+    this.getCountries();
   },
   methods: {
     setChart() {
@@ -119,11 +119,6 @@ export default {
       heatLegend.series = worldSeries;
       heatLegend.width = am4core.percent(100);
 
-      // heatLegend.minColor = am4core.color(this.minColor);
-      // heatLegend.maxColor = am4core.color(this.maxColor);
-      // heatLegend.minValue = 0;
-      // heatLegend.maxValue = 100;
-
       // Other countries
       worldSeries = chart.series.push(new am4maps.MapPolygonSeries());
       worldSeries.include = [
@@ -170,26 +165,23 @@ export default {
     },
     handleCountry(ev) {
       ev.target.isActive = !ev.target.isActive;
-      this.details.title = ev.target.properties.tooltipText;
+      this.details.title = ev.target.dataItem._dataContext.name;
+      this.details.index = ev.target.dataItem._dataContext.value;
+      // todo change to percent
+      this.details.percent = ev.target.dataItem._dataContext.value;
       console.log('bbbb', ev.target);
-      // details: {
-      // title: 'aaaa',
-      // type: 'bbb',
-      // influencia: 0,
-      // porcentaje: 0,
-      // },
-
       this.detailsVisible = true;
     },
     closeDetails() {
       this.detailsVisible = false;
     },
-    getDeportes() {
+    getCountries() {
       let self = this;
-      DeportesResources.get({})
+      PaisesResources.get({})
         .then(response => {
-          self.deportes = response.data;
-          self.fillData();
+          self.countries = response.data;
+          console.log(self.countries);
+          // self.fillData();
         })
         .catch(error => {
           console.log(error);
