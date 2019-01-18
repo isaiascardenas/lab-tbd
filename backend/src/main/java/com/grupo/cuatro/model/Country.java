@@ -27,6 +27,12 @@ public class Country {
     @Column(name = "influencia_pais")
     private Long influenciaPais;
 
+    @Column(name = "country_code")
+    private String countryCode;
+
+    @Column(name = "country_population")
+    private String countryPopulation;
+
     /*@Column(name = "influencia")
     private Double influencia;*/
 
