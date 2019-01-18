@@ -10,10 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @Validated
@@ -25,11 +22,13 @@ public class CountryController {
     @Autowired
     private StatisticRepository statisticRepository;
 
-    //obtener todos los paises
+    //obtener todos los paises ordenados por su codigo
     @RequestMapping(value="/all", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity getAll() {
-        return new ResponseEntity(countryRepository.findAll(), HttpStatus.OK);
+        List<Country> countries = countryRepository.findAll();
+        countries.sort(Comparator.comparing(Country::getCountryCode));
+        return new ResponseEntity(countries, HttpStatus.OK);
     }
 
     //obtener un pais por su id

@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-let base = 'http://204.48.18.31:8080/cuatro-0.0.1-SNAPSHOT';
+let base = 'http://localhost:4040';
+//let base = 'http://204.48.18.31:8080/cuatro-0.0.1-SNAPSHOT';
 let neo = 'http://localhost:4040/neo4j';
 
 var DeportesResources = {

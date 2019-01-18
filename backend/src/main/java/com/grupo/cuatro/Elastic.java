@@ -173,10 +173,10 @@ public class Elastic {
                 for(int i=1;i<32;i++){
                     Query query;
                     if(i <= 9){
-                        query = parser.parse("2018120"+i);
+                        query = parser.parse("201901"+"0"+i);
                     }
                     else{
-                        query = parser.parse("201812"+i);
+                        query = parser.parse("201901"+i);
                     }
                     TopDocs result = searcher.search(query, 25000);
                     ScoreDoc[] hits = result.scoreDocs;
@@ -244,7 +244,6 @@ public class Elastic {
 
             }
             aux = aux/getTotalUsers();
-            System.out.println(aux);
             reader.close();
         }
         catch(IOException | ParseException ex)
@@ -454,7 +453,7 @@ public class Elastic {
     }
 
     public ArrayList<String> usuarioHabla(String usuario){
-        System.out.println(usuario);
+        //System.out.println(usuario);
         ArrayList<String> deportes = new ArrayList<>();
         try {
             IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
@@ -511,6 +510,9 @@ public class Elastic {
                     }
 
                 }
+                else if(deportes.isEmpty()){
+                    deportes.add("Tenis");
+                }
             }
             reader.close();
         }
@@ -519,13 +521,13 @@ public class Elastic {
             Logger.getLogger(Elastic.class.getName()).log(Level.SEVERE,null,ex);
 
         }
-        System.out.println(deportes);
+        //System.out.println(deportes);
         return deportes;
     }
 
     public ArrayList<String> paisHabla(String pais){
-        System.out.println("Entre a paisHabla");
-        System.out.println(pais);
+        //System.out.println("Entre a paisHabla");
+        //System.out.println(pais);
         ArrayList<String> deportes = new ArrayList<>();
         try {
             IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
@@ -591,12 +593,12 @@ public class Elastic {
             Logger.getLogger(Elastic.class.getName()).log(Level.SEVERE,null,ex);
 
         }
-        System.out.println(deportes);
+        //System.out.println(deportes);
         return deportes;
     }
 
     public ArrayList<String> getUserPais(String usuario){
-        System.out.println(usuario);
+        //System.out.println(usuario);
         ArrayList<String> pais = new ArrayList<>();
         try {
             IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
@@ -608,10 +610,10 @@ public class Elastic {
             TopDocs result = searcher.search(query, 100000);
             ScoreDoc[] hits = result.scoreDocs;
             for(int j = 0; j < hits.length; j++){
-                System.out.println("Entre al for y que paha");
+                //System.out.println("Entre al for y que paha");
                 Document doc = searcher.doc(hits[j].doc);
                 String lugar = doc.get("location");
-                System.out.println(lugar);
+                //System.out.println(lugar);
                 if(lugar != null) {
 
 
@@ -655,7 +657,7 @@ public class Elastic {
             Logger.getLogger(Elastic.class.getName()).log(Level.SEVERE,null,ex);
 
         }
-        System.out.println(pais);
+        //System.out.println(pais);
         return pais;
     }
 
@@ -672,14 +674,12 @@ public class Elastic {
             Query query = new MatchAllDocsQuery();
             TopDocs result = searcher.search(query, 25000);
             ScoreDoc[] hits = result.scoreDocs;
-            for(int j = 0; j < hits.length; j++){
+            for(int j = 0; j < 5000; j++){
                 Document doc = searcher.doc(hits[j].doc);
                 //System.out.println(doc.get("userScreenName"));
                 String hola = doc.get("userScreenName");
-                if(Integer.parseInt(doc.get("userFollowersCount")) > 2000000){
-                    if(!usuarios.contains(hola))
-                        usuarios.add(hola);
-                }
+                    if(!usuarios.contains(hola)){
+                        usuarios.add(hola);}
             }
             reader.close();
         }

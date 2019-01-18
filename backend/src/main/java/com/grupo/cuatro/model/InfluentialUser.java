@@ -36,4 +36,5 @@ public class InfluentialUser {
     @ManyToOne
     @JoinColumn(name = "country_id")
     private Country country;
+
 }

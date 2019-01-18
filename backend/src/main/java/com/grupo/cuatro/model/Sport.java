@@ -40,4 +40,8 @@ public class Sport {
     @JsonBackReference("influential_user-sports")
     private List<InfluentialUser> influentialUsers;
 
+    @ManyToMany(mappedBy = "sports")
+    @JsonBackReference("sports-country")
+    private List<Country> countries;
+
 }

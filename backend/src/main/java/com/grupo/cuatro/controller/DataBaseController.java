@@ -39,13 +39,41 @@ public class DataBaseController {
         for(String user: usersList) {
             Float influencia = Float.parseFloat(e.getUserInfluencia(user));
             ArrayList<String> pais = e.getUserPais(user);
+            List<String> deportesUsuario = e.usuarioHabla(user);
             Country country = countryRepository.getCountryByCountryNameIsLike(pais.get(0));
-
+            //long influenciaPais = e.getInfluenciaPais(country.getCountryName());
+            //country.setInfluenciaPais(influenciaPais);
             InfluentialUser influentialUser = new InfluentialUser();
             influentialUser.setUserName(user);
             influentialUser.setUserInfluence(influencia);
             influentialUser.setCountry(country);
+            ArrayList<Sport> listaDeportesUsuario = new ArrayList<>();
+            for(String dep : deportesUsuario){
+                System.out.println(dep);
+                Sport deporte = sportRepository.getSportBySportNameIsLike(dep);
+                listaDeportesUsuario.add(deporte);
+            }
+            influentialUser.setSports(listaDeportesUsuario);
             influentialUserRepository.save(influentialUser);
+        }
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/seed_sports", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity seedSports(){
+        List<Country> listaPaises = countryRepository.findAll();
+        ArrayList<Sport> listaDeportes = new ArrayList<>();
+        for (Country pais : listaPaises){
+            //System.out.println(pais.getCountryName());
+            ArrayList<String> listaDeportesAux = e.paisHabla(pais.getCountryName());
+            for(String dep : listaDeportesAux){
+                Sport deporte = sportRepository.getSportBySportNameIsLike(dep);
+                listaDeportes.add(deporte);
+                //System.out.println(listaDeportes);
+            }
+            pais.setSports(listaDeportes);
+            countryRepository.save(pais);
         }
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -120,10 +148,14 @@ public class DataBaseController {
         listaChile.add(shile);
         Country chile = new Country();
         chile.setCountryName("Chile");
+        chile.setCountryCode("CL");
+        chile.setCountryPopulation(18751405);
         santiago.setCountry(chile);
         iquique.setCountry(chile);
         shile.setCountry(chile);
         chile.setCountryKeywords(listaChile);
+        long influenciaChile = e.getInfluenciaPais(chile.getCountryName());
+        chile.setInfluenciaPais(influenciaChile);
         countryRepository.save(chile);
         //LLENANDO CHILE
 
@@ -140,10 +172,14 @@ public class DataBaseController {
         listaArgentina.add(rosario);
         Country argentina = new Country();
         argentina.setCountryName("Argentina");
+        argentina.setCountryCode("AR");
+        argentina.setCountryPopulation(44494512);
         buenosAires.setCountry(argentina);
         mendoza.setCountry(argentina);
         rosario.setCountry(argentina);
         argentina.setCountryKeywords(listaArgentina);
+        long influenciaArgentina = e.getInfluenciaPais(argentina.getCountryName());
+        argentina.setInfluenciaPais(influenciaArgentina);
         countryRepository.save(argentina);
         //LENANDO ARGENTINA
 
@@ -160,10 +196,14 @@ public class DataBaseController {
         listaMexico.add(guadalajara);
         Country Mexico = new Country();
         Mexico.setCountryName("México");
+        Mexico.setCountryCode("MX");
+        Mexico.setCountryPopulation(123982528);
         ciudadDeMexico.setCountry(Mexico);
         puebla.setCountry(Mexico);
         guadalajara.setCountry(Mexico);
         Mexico.setCountryKeywords(listaMexico);
+        long influenciaMexico = e.getInfluenciaPais(Mexico.getCountryName());
+        Mexico.setInfluenciaPais(influenciaMexico);
         countryRepository.save(Mexico);
        //LLENANDO MEXICO
 
@@ -180,10 +220,14 @@ public class DataBaseController {
         listaEspana.add(sevilla);
         Country espana = new Country();
         espana.setCountryName("España");
+        espana.setCountryCode("ES");
+        espana.setCountryPopulation(46659312);
         barcelona.setCountry(espana);
         madrid.setCountry(espana);
         sevilla.setCountry(espana);
         espana.setCountryKeywords(listaEspana);
+        long influenciaEspana = e.getInfluenciaPais(espana.getCountryName());
+        espana.setInfluenciaPais(influenciaEspana);
         countryRepository.save(espana);
         //LLENANDO ESPAÑA
 
@@ -200,10 +244,14 @@ public class DataBaseController {
         listaColombia.add(cali);
         Country colombia = new Country();
         colombia.setCountryName("Colombia");
+        colombia.setCountryCode("CO");
+        colombia.setCountryPopulation(4550000);
         medellin.setCountry(colombia);
         bogota.setCountry(colombia);
         cali.setCountry(colombia);
         colombia.setCountryKeywords(listaColombia);
+        long influenciaColombia = e.getInfluenciaPais(colombia.getCountryName());
+        colombia.setInfluenciaPais(influenciaColombia);
         countryRepository.save(colombia);
         //LLENANDO COLOMBIA
 
@@ -220,10 +268,14 @@ public class DataBaseController {
         listaUruguay.add(paysandu);
         Country uruguay = new Country();
         uruguay.setCountryName("Uruguay");
+        uruguay.setCountryCode("UY");
+        uruguay.setCountryPopulation(3519014);
         montevideo.setCountry(uruguay);
         salto.setCountry(uruguay);
         paysandu.setCountry(uruguay);
         uruguay.setCountryKeywords(listaUruguay);
+        long influenciaUruguay = e.getInfluenciaPais(uruguay.getCountryName());
+        uruguay.setInfluenciaPais(influenciaUruguay);
         countryRepository.save(uruguay);
         //LLENANDO URUGUAY
 
@@ -240,10 +292,14 @@ public class DataBaseController {
         listaParaguay.add(luque);
         Country paraguay = new Country();
         paraguay.setCountryName("Paraguay");
+        paraguay.setCountryCode("PY");
+        paraguay.setCountryPopulation(7152703);
         asuncion.setCountry(paraguay);
         ciudadDelEste.setCountry(paraguay);
         luque.setCountry(paraguay);
         paraguay.setCountryKeywords(listaParaguay);
+        long influenciaParaguay = e.getInfluenciaPais(paraguay.getCountryName());
+        paraguay.setInfluenciaPais(influenciaParaguay);
         countryRepository.save(paraguay);
         //LLENANDO PARAGUAY
 
@@ -260,10 +316,14 @@ public class DataBaseController {
         listaEcuador.add(santoDomingo);
         Country ecuador = new Country();
         ecuador.setCountryName("Ecuador");
+        ecuador.setCountryCode("EC");
+        ecuador.setCountryPopulation(17267986);
         quito.setCountry(ecuador);
         cuenca.setCountry(ecuador);
         santoDomingo.setCountry(ecuador);
         ecuador.setCountryKeywords(listaEcuador);
+        long influenciaEcuador = e.getInfluenciaPais(ecuador.getCountryName());
+        ecuador.setInfluenciaPais(influenciaEcuador);
         countryRepository.save(ecuador);
         //LLENANDO ECUADOR
 
@@ -280,10 +340,14 @@ public class DataBaseController {
         listaVenezuela.add(ciudadGuayana);
         Country venezuela = new Country();
         venezuela.setCountryName("Venezuela");
+        venezuela.setCountryCode("VE");
+        venezuela.setCountryPopulation(31828000);
         maracaibo.setCountry(venezuela);
         maracay.setCountry(venezuela);
         ciudadGuayana.setCountry(venezuela);
         venezuela.setCountryKeywords(listaVenezuela);
+        long influenciaVenezuela = e.getInfluenciaPais(venezuela.getCountryName());
+        venezuela.setInfluenciaPais(influenciaVenezuela);
         countryRepository.save(venezuela);
         //LLENANDO VENEZUELA
 
@@ -438,10 +502,10 @@ public class DataBaseController {
             auxiliar.setFechaCount(listaFechas.get(i));
             if(i <= 9){
 
-                auxiliar.setFechaValue("2018-12-"+"0"+(i+1));
+                auxiliar.setFechaValue("2019-01-"+"0"+(i+1));
             }
             else{
-                auxiliar.setFechaValue("2018-12-"+(i+1));
+                auxiliar.setFechaValue("2019-01-"+(i+1));
             }
             //auxiliar.setStatistic(st);
             fechas.add(auxiliar);

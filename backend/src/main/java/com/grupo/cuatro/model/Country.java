@@ -24,6 +24,15 @@ public class Country {
     @Column(name = "country_tweet_count")
     private Long countryTweetCount;
 
+    @Column(name = "influencia_pais")
+    private Long influenciaPais;
+
+    @Column(name = "country_code")
+    private String countryCode;
+
+    @Column(name = "country_population")
+    private Integer countryPopulation;
+
     /*@Column(name = "influencia")
     private Double influencia;*/
 
@@ -43,6 +52,12 @@ public class Country {
     @OneToMany(targetEntity = InfluentialUser.class, mappedBy = "country", cascade = CascadeType.ALL)
     @JsonBackReference("influential_user-country")
     private List<InfluentialUser> influentialUsers;
+
+    @ManyToMany
+    @JoinTable(name = "sport_country",
+            joinColumns = @JoinColumn(name = "sport_id"),
+            inverseJoinColumns = @JoinColumn(name = "country_id"))
+    private List<Sport> sports;
 
 
     //metodo para agregar estadistica
