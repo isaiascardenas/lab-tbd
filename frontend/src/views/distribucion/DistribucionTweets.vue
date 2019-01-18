@@ -10,7 +10,6 @@ import * as am4core from '@amcharts/amcharts4/core';
 import * as am4maps from '@amcharts/amcharts4/maps';
 import { DeportesResources } from './../../router/endpoints';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
-import * as am4geodata_usaLow from '@amcharts/amcharts4-geodata/usaLow';
 import * as am4geodata_worldLow from '@amcharts/amcharts4-geodata/worldLow';
 
 am4core.useTheme(am4themes_animated);
@@ -31,16 +30,31 @@ export default {
     setChart() {
       // set Chart
       let chart = am4core.create(this.$refs.chartdiv, am4maps.MapChart);
+      console.log('chart', chart);
+
+      //test
+      let value = 5;
+      _.each(['AR', 'EC', 'CO', 'UY', 'PY', 'ES', 'MX', 'CL', 'VE'], code => {
+        let index = _.findIndex(am4geodata_worldLow.default.features, data => {
+          return data.id == code;
+        });
+        let country = am4geodata_worldLow.default.features[index];
+        am4geodata_worldLow.default.features.splice(index, 1);
+        country.properties.value = value;
+        am4geodata_worldLow.default.features.push(country);
+
+        value = value + 10;
+      });
+
       chart.geodata = am4geodata_worldLow.default;
-      chart.projection = new am4maps.projections.Miller();
 
       // Series for World map
       var worldSeries = chart.series.push(new am4maps.MapPolygonSeries());
       worldSeries.include = [
-        'AR',
         'EC',
         'CO',
         'UY',
+        'AR',
         'PY',
         'ES',
         'MX',
@@ -49,12 +63,22 @@ export default {
       ];
       worldSeries.useGeodata = true;
 
+      worldSeries.heatRules.push({
+        property: 'fill',
+        target: worldSeries.mapPolygons.template,
+        min: am4core.color('#f7fcb9'),
+        max: am4core.color('#004529'),
+      });
+
+      console.log(worldSeries);
+      worldSeries.dataItems.events.on('hit', this.handleCountry);
+
       var polygonTemplate = worldSeries.mapPolygons.template;
-      polygonTemplate.tooltipText = '{name}';
-      polygonTemplate.fill = chart.colors.getIndex(0);
+      polygonTemplate.tooltipText = '{name}: {value} %';
+      // polygonTemplate.fill = chart.colors.getIndex(0);
       // Hover state
       var hs = polygonTemplate.states.create('hover');
-      hs.properties.fill = am4core.color('#367B25');
+      // hs.properties.fill = am4core.color('#367B25');
 
       // Other countries
       worldSeries = chart.series.push(new am4maps.MapPolygonSeries());
@@ -77,6 +101,10 @@ export default {
         'GT',
         // 'US',
         // 'CA',
+        'BE',
+        'CH',
+        'DE',
+        'NL',
         'PT',
         'FR',
         'IT',
@@ -84,12 +112,19 @@ export default {
         'IE',
       ];
       worldSeries.useGeodata = true;
-
       polygonTemplate.fill = chart.colors.getIndex(1);
+
+      // zoom control
+      chart.zoomControl = new am4maps.ZoomControl();
+      chart.zoomControl.slider.height = 100;
+      chart.projection = new am4maps.projections.Miller();
 
       //test
       this.chart = chart;
       this.loading = false;
+    },
+    handleCountry(e) {
+      console.log('clicked!', e.target.data);
     },
     getDeportes() {
       let self = this;
@@ -118,13 +153,14 @@ export default {
 <style>
 .chartdiv {
   width: 100%;
+  min-width: 650px;
   height: 550px;
 }
 
 .small {
   margin-top: 20px;
   margin-bottom: 20px;
-  max-width: 460px;
+  max-width: 650px;
   margin-left: auto;
   margin-right: auto;
 }
