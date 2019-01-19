@@ -27,6 +27,9 @@ public class CountryController {
     @ResponseBody
     public ResponseEntity getAll() {
         List<Country> countries = countryRepository.findAll();
+        for(Country country : countries) {
+            country.setIndex(Float.valueOf(country.getCountryTweetCount()/country.getCountryPopulation())*1000000);
+        }
         countries.sort(Comparator.comparing(Country::getCountryCode));
         return new ResponseEntity(countries, HttpStatus.OK);
     }

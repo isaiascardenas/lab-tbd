@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-let base = 'http://localhost:4040';
-//let base = 'http://204.48.18.31:8080/cuatro-0.0.1-SNAPSHOT';
-//let neo = 'http://204.48.18.31:8080/cuatro-0.0.1-SNAPSHOT/neo4j';
-let neo = 'http://localhost:4040/neo4j';
+// let base = 'http://localhost:4040';
+// let neo = 'http://localhost:4040/neo4j';
+let base = 'http://204.48.18.31:8080/cuatro-0.0.1-SNAPSHOT';
+let neo = 'http://204.48.18.31:8080/cuatro-0.0.1-SNAPSHOT/neo4j';
 
 var DeportesResources = {
   get: params => {
