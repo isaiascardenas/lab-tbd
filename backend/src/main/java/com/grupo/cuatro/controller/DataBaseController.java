@@ -498,19 +498,20 @@ public class DataBaseController {
         System.out.println(listaFechas);
         //Statistic st = new Statistic();
         for(int i = 0; i < 31; i++){
-            Fecha auxiliar = new Fecha();
-            auxiliar.setFechaCount(listaFechas.get(i));
-            if(i <= 9){
+            if(listaFechas.get(i) != 0){
+                Fecha auxiliar = new Fecha();
+                auxiliar.setFechaCount(listaFechas.get(i));
+                if(i <= 9){
 
-                auxiliar.setFechaValue("2019-01-"+"0"+(i+1));
+                    auxiliar.setFechaValue("2019-01-"+"0"+(i+1));
+                }
+                else{
+                    auxiliar.setFechaValue("2019-01-"+(i+1));
+                }
+                //auxiliar.setStatistic(st);
+                fechas.add(auxiliar);
+                fechaRepository.save(auxiliar);
             }
-            else{
-                auxiliar.setFechaValue("2019-01-"+(i+1));
-            }
-            //auxiliar.setStatistic(st);
-            fechas.add(auxiliar);
-            fechaRepository.save(auxiliar);
-
         }
         //st.setFechas(fechas);
         //statisticRepository.save(st);

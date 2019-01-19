@@ -389,7 +389,6 @@ public class Elastic {
     }
 
     public ArrayList<String> getUsers(){
-        String aux = "hola";
         ArrayList<String> usuarios = new ArrayList<>();
         try {
             IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
