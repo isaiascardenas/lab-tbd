@@ -1,5 +1,6 @@
 package com.grupo.cuatro.controller;
 
+import com.grupo.cuatro.Elastic;
 import com.grupo.cuatro.model.Country;
 import com.grupo.cuatro.model.Statistic;
 import com.grupo.cuatro.repository.CountryRepository;
@@ -22,13 +23,19 @@ public class CountryController {
     @Autowired
     private StatisticRepository statisticRepository;
 
+    private Elastic e = new Elastic();
+
     //obtener todos los paises ordenados por su codigo
     @RequestMapping(value="/all", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity getAll() {
         List<Country> countries = countryRepository.findAll();
         for(Country country : countries) {
-            country.setIndex(Float.valueOf(country.getCountryTweetCount()/country.getCountryPopulation())*1000000);
+            Float aux = new Long(country.getCountryPopulation()).floatValue();
+            Float aux2 = country.getCountryTweetCount().floatValue();
+            Float resultado = (aux2/aux)*1000000;
+            country.setIndex(resultado);
+            country.setInfluentialUsersCount(e.influentialUsersPais(country.getCountryName()));
         }
         countries.sort(Comparator.comparing(Country::getCountryCode));
         return new ResponseEntity(countries, HttpStatus.OK);

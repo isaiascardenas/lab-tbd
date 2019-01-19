@@ -718,4 +718,36 @@ public class Elastic {
         return i;
     }
 
+    public int influentialUsersPais(String pais){
+        int cantidadUsuariosInfluyentes = 0;
+        ArrayList<String> deportes = new ArrayList<>();
+        try {
+            IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("indice/")));
+            IndexSearcher searcher = new IndexSearcher(reader);
+
+            Analyzer analyzer = new StandardAnalyzer();
+            QueryParser parser = new QueryParser("location", analyzer);
+            Query query = parser.parse("(location:"+pais+")");
+            TopDocs result = searcher.search(query, 100000);
+            ScoreDoc[] hits = result.scoreDocs;
+            for(int j = 0; j < hits.length; j++){
+                //System.out.println("Entre al for");
+                Document doc = searcher.doc(hits[j].doc);
+                String followers = doc.get("userFollowersCount");
+                int aux = Integer.parseInt(followers);
+                if(aux > 10000) {
+                    cantidadUsuariosInfluyentes++;
+                }
+            }
+            reader.close();
+        }
+        catch(IOException | ParseException ex)
+        {
+            Logger.getLogger(Elastic.class.getName()).log(Level.SEVERE,null,ex);
+
+        }
+        //System.out.println(deportes);
+        return cantidadUsuariosInfluyentes;
+    }
+
     }
