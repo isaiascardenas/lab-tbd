@@ -36,7 +36,7 @@ public class Country {
     @Transient
     private Float index;
 
-    @Transient
+    @Column(name = "influential_users_count")
     private Integer influentialUsersCount;
 
     /*@Column(name = "influencia")
