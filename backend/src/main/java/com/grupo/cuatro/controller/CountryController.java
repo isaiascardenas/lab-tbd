@@ -23,8 +23,6 @@ public class CountryController {
     @Autowired
     private StatisticRepository statisticRepository;
 
-    private Elastic e = new Elastic();
-
     //obtener todos los paises ordenados por su codigo
     @RequestMapping(value="/all", method = RequestMethod.GET)
     @ResponseBody
@@ -35,7 +33,6 @@ public class CountryController {
             Float aux2 = country.getCountryTweetCount().floatValue();
             Float resultado = (aux2/aux)*1000000;
             country.setIndex(resultado);
-            country.setInfluentialUsersCount(e.influentialUsersPais(country.getCountryName()));
         }
         countries.sort(Comparator.comparing(Country::getCountryCode));
         return new ResponseEntity(countries, HttpStatus.OK);

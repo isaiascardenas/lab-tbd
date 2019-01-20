@@ -157,6 +157,10 @@ public class DataBaseController {
         chile.setCountryKeywords(listaChile);
         long influenciaChile = e.getInfluenciaPais("Chile");
         chile.setInfluenciaPais(influenciaChile);
+
+        int influentialUserChile = e.influentialUsersPais("Chile");
+        chile.setInfluentialUsersCount(influentialUserChile);
+
         countryRepository.save(chile);
         //LLENANDO CHILE
 
@@ -181,6 +185,10 @@ public class DataBaseController {
         argentina.setCountryKeywords(listaArgentina);
         long influenciaArgentina = e.getInfluenciaPais("Argentina");
         argentina.setInfluenciaPais(influenciaArgentina);
+
+        int influentialUserArgentina = e.influentialUsersPais("Argentina");
+        argentina.setInfluentialUsersCount(influentialUserArgentina);
+
         countryRepository.save(argentina);
         //LENANDO ARGENTINA
 
@@ -205,6 +213,10 @@ public class DataBaseController {
         Mexico.setCountryKeywords(listaMexico);
         long influenciaMexico = e.getInfluenciaPais("México");
         Mexico.setInfluenciaPais(influenciaMexico);
+
+        int influentialUserMexico = e.influentialUsersPais("México");
+        Mexico.setInfluentialUsersCount(influentialUserMexico);
+
         countryRepository.save(Mexico);
        //LLENANDO MEXICO
 
@@ -229,6 +241,10 @@ public class DataBaseController {
         espana.setCountryKeywords(listaEspana);
         long influenciaEspana = e.getInfluenciaPais("España");
         espana.setInfluenciaPais(influenciaEspana);
+
+        int influentialUserEspana = e.influentialUsersPais("España");
+        espana.setInfluentialUsersCount(influentialUserEspana);
+
         countryRepository.save(espana);
         //LLENANDO ESPAÑA
 
@@ -253,6 +269,10 @@ public class DataBaseController {
         colombia.setCountryKeywords(listaColombia);
         long influenciaColombia = e.getInfluenciaPais("Colombia");
         colombia.setInfluenciaPais(influenciaColombia);
+
+        int influentialUserColombia = e.influentialUsersPais("Colombia");
+        colombia.setInfluentialUsersCount(influentialUserColombia);
+
         countryRepository.save(colombia);
         //LLENANDO COLOMBIA
 
@@ -277,6 +297,10 @@ public class DataBaseController {
         uruguay.setCountryKeywords(listaUruguay);
         long influenciaUruguay = e.getInfluenciaPais("Uruguay");
         uruguay.setInfluenciaPais(influenciaUruguay);
+
+        int influentialUserUruguay = e.influentialUsersPais("Uruguay");
+        uruguay.setInfluentialUsersCount(influentialUserUruguay);
+
         countryRepository.save(uruguay);
         //LLENANDO URUGUAY
 
@@ -301,6 +325,10 @@ public class DataBaseController {
         paraguay.setCountryKeywords(listaParaguay);
         long influenciaParaguay = e.getInfluenciaPais("Paraguay");
         paraguay.setInfluenciaPais(influenciaParaguay);
+
+        int influentialUserParaguay = e.influentialUsersPais("Paraguay");
+        paraguay.setInfluentialUsersCount(influentialUserParaguay);
+
         countryRepository.save(paraguay);
         //LLENANDO PARAGUAY
 
@@ -325,6 +353,10 @@ public class DataBaseController {
         ecuador.setCountryKeywords(listaEcuador);
         long influenciaEcuador = e.getInfluenciaPais("Ecuador");
         ecuador.setInfluenciaPais(influenciaEcuador);
+
+        int influentialUserEcuador = e.influentialUsersPais("Ecuador");
+        ecuador.setInfluentialUsersCount(influentialUserEcuador);
+
         countryRepository.save(ecuador);
         //LLENANDO ECUADOR
 
@@ -349,6 +381,10 @@ public class DataBaseController {
         venezuela.setCountryKeywords(listaVenezuela);
         long influenciaVenezuela = e.getInfluenciaPais("Venezuela");
         venezuela.setInfluenciaPais(influenciaVenezuela);
+
+        int influentialUserVenezuela = e.influentialUsersPais("Venezuela");
+        venezuela.setInfluentialUsersCount(influentialUserVenezuela);
+
         countryRepository.save(venezuela);
         //LLENANDO VENEZUELA
 
