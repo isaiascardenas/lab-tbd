@@ -17,11 +17,10 @@
           </el-button>
         </div>
         <div class="node-detail">
-          Tweets por millones de persona: <b> {{ details.index }} </b>
+          Usuaios influyentes según población: <b> {{ details.index }} </b>
         </div>
         <div class="node-detail">
-          Porcentaje de Tweets:
-          <b> {{ parseFloat(details.percent / total).toFixed(2) }} %</b>
+          Porcentaje de Tweets: <b> {{ details.percent }} %</b>
         </div>
       </el-card>
     </el-col>
@@ -74,10 +73,14 @@ export default {
             return c.countryCode == country.id;
           });
 
-          country.properties.value = parseFloat(
-            (dbData.influentialUsersCount /
-              (dbData.countryPopulation / 10000)) *
-              100
+          country.properties.value = (
+            (parseFloat(
+              (dbData.influentialUsersCount /
+                (dbData.countryPopulation / 10000)) *
+                100
+            ) /
+              this.total) *
+            100.0
           ).toFixed(2);
 
           am4geodata_worldLow.default.features.push(country);
@@ -176,7 +179,10 @@ export default {
       });
       ev.target.isActive = !ev.target.isActive;
       this.details.title = ev.target.dataItem._dataContext.name;
-      this.details.index = ev.target.dataItem._dataContext.value;
+      this.details.index = (
+        (ev.target.dataItem._dataContext.value / 100.0) *
+        this.total
+      ).toFixed(2);
       this.details.percent = ev.target.dataItem._dataContext.value;
       this.detailsVisible = true;
     },
@@ -196,6 +202,7 @@ export default {
           self.total = _.reduce(
             self.countries,
             (sum, c) => {
+              console.log(c.influentialUsersCount, c.countryName);
               return (
                 sum +
                 (c.influentialUsersCount / (c.countryPopulation / 10000)) * 100
@@ -203,7 +210,7 @@ export default {
             },
             0.0
           ).toFixed(2);
-          console.log(self.total);
+          console.log('total', self.total);
           self.setChart();
         })
         .catch(error => {
