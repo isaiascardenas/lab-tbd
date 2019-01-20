@@ -20,13 +20,7 @@
           Tweets por millones de persona: <b> {{ details.index }} </b>
         </div>
         <div class="node-detail">
-          Porcentaje de Tweets:
-          <b>
-            {{
-              (parseFloat(details.percent / total) * parseFloat(100)).toFixed(2)
-            }}
-            %</b
-          >
+          Porcentaje de Tweets: <b> {{ details.percent }} %</b>
         </div>
       </el-card>
     </el-col>
@@ -75,11 +69,14 @@ export default {
         if (index >= 0) {
           let country = am4geodata_worldLow.default.features[index];
           am4geodata_worldLow.default.features.splice(index, 1);
-          country.properties.value = parseFloat(
-            _.find(this.countries, c => {
-              return c.countryCode == country.id;
-            }).index
-          ).toFixed(2);
+          country.properties.value =
+            (
+              parseFloat(
+                _.find(this.countries, c => {
+                  return c.countryCode == country.id;
+                }).index
+              ) / this.total
+            ).toFixed(4) * 100;
           am4geodata_worldLow.default.features.push(country);
         }
       });
@@ -170,14 +167,16 @@ export default {
     handleCountry(ev) {
       _.each(this.chart.series.values[0].children.values, m => {
         if (m.className == 'MapPolygon') {
-          // console.log(m.dataItem.dataContext.name, m.isActive);
           m.isActive = false;
         }
       });
       ev.target.isActive = !ev.target.isActive;
       this.details.title = ev.target.dataItem._dataContext.name;
-      this.details.index = ev.target.dataItem._dataContext.value;
-      this.details.percent = ev.target.dataItem._dataContext.value;
+      this.details.index = (
+        (ev.target.dataItem._dataContext.value / 100.0) *
+        this.total
+      ).toFixed(2);
+      this.details.percent = ev.target.dataItem._dataContext.value.toFixed(2);
       this.detailsVisible = true;
     },
     closeDetails() {
