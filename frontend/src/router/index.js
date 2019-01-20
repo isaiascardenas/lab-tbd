@@ -10,6 +10,8 @@ import PaisesUsuarios from '@/views/influencias/PaisesUsuarios';
 import DeportesUsuarios from '@/views/influencias/DeportesUsuarios';
 import EstadisticasPais from '@/views/popularidad/EstadisticasPais';
 import DistribucionTweets from '@/views/distribucion/DistribucionTweets';
+import DistribucionUsuarios from '@/views/distribucion/DistribucionUsuarios';
+import DistribucionDeportes from '@/views/distribucion/DistribucionDeportes';
 
 Vue.use(Router);
 
@@ -79,9 +81,19 @@ let routes = [
               },
               // sprint 3
               {
-                path: 'tweets',
+                path: 'tweets-map',
                 name: 'Distribucion Tweets',
                 component: DistribucionTweets,
+              },
+              {
+                path: 'usuarios-map',
+                name: 'Distribucion Usuarios',
+                component: DistribucionUsuarios,
+              },
+              {
+                path: 'deportes-map/:id',
+                name: 'Distribucion Deportes',
+                component: DistribucionDeportes,
               },
             ],
           },

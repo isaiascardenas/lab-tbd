@@ -38,7 +38,7 @@ export default {
         },
         {
           id: '3',
-          name: 'Distribución',
+          name: 'distribucion',
           routeName: 'Distribucion Tweets',
           icon: 'el-icon-location',
         },
@@ -112,11 +112,11 @@ export default {
             name: 'Distribución de Usuarios',
             routeName: 'Distribucion Usuarios',
           },
-          {
-            id: '3',
-            name: 'Distribución de Deportes',
-            routeName: 'Distribucion Deportes',
-          },
+          // {
+          // id: '3',
+          // name: 'Distribución de Deportes',
+          // routeName: 'Distribucion Deportes',
+          // },
         ];
       }
     },

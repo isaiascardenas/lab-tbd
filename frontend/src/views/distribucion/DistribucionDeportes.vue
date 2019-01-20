@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="map" v-loading="loading">
-      <div class="text">Cantidad de tweets por país</div>
+      <div class="text">Cantidad de tweets sobre deportes por país</div>
       <div class="chartdiv" ref="chartdiv"></div>
     </div>
     <el-col :span="7" class="map-details-container">
@@ -55,8 +55,8 @@ export default {
       },
       total: 1,
       detailsVisible: false,
-      minColor: '#f7fcb9',
-      maxColor: '#004529',
+      minColor: '#fa9fb5',
+      maxColor: '#49006a',
     };
   },
   mounted() {
@@ -193,6 +193,9 @@ export default {
       PaisesResources.get({})
         .then(response => {
           self.countries = response.data;
+          _.each(self.countries, c => {
+            c.sports = _.uniqBy(c.sports, 'sportId');
+          });
           self.total = _.reduce(
             self.countries,
             (sum, c) => {
@@ -200,6 +203,7 @@ export default {
             },
             0
           );
+          console.log(self.countries);
           self.setChart();
         })
         .catch(error => {

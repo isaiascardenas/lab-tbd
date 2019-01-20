@@ -26,6 +26,26 @@
             </el-dropdown-menu>
           </el-dropdown>
         </el-menu-item>
+
+        <el-menu-item
+          index="4"
+          v-else-if="$route.params.sprint == 'distribucion'"
+        >
+          <el-dropdown @command="handleCommand">
+            <span class="el-dropdown-link">
+              Distribución de Deportes
+              <i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item
+                v-for="pais in paises"
+                :key="pais.countryId"
+                :command="pais.countryId"
+                >{{ pais.countryName }}</el-dropdown-item
+              >
+            </el-dropdown-menu>
+          </el-dropdown>
+        </el-menu-item>
       </el-menu>
     </el-row>
 
@@ -62,8 +82,15 @@ export default {
       }
     },
     handleCommand(countryId) {
+      if (this.$route.params.sprint == 'popularidad') {
+        this.$router.push({
+          name: 'Estadisticas Pais',
+          params: { id: countryId, sprint: this.$route.params.sprint },
+        });
+        return;
+      }
       this.$router.push({
-        name: 'Estadisticas Pais',
+        name: 'Distribucion Deportes',
         params: { id: countryId, sprint: this.$route.params.sprint },
       });
     },

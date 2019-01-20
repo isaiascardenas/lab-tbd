@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="map" v-loading="loading">
-      <div class="text">Cantidad de tweets por país</div>
+      <div class="text">Cantidad de usuarios por país</div>
       <div class="chartdiv" ref="chartdiv"></div>
     </div>
     <el-col :span="7" class="map-details-container">
@@ -21,12 +21,7 @@
         </div>
         <div class="node-detail">
           Porcentaje de Tweets:
-          <b>
-            {{
-              (parseFloat(details.percent / total) * parseFloat(100)).toFixed(2)
-            }}
-            %</b
-          >
+          <b> {{ parseFloat(details.percent / total).toFixed(2) }} %</b>
         </div>
       </el-card>
     </el-col>
@@ -55,8 +50,8 @@ export default {
       },
       total: 1,
       detailsVisible: false,
-      minColor: '#f7fcb9',
-      maxColor: '#004529',
+      minColor: '#fdbb84',
+      maxColor: '#7f0000',
     };
   },
   mounted() {
@@ -75,11 +70,16 @@ export default {
         if (index >= 0) {
           let country = am4geodata_worldLow.default.features[index];
           am4geodata_worldLow.default.features.splice(index, 1);
+          let dbData = _.find(this.countries, c => {
+            return c.countryCode == country.id;
+          });
+
           country.properties.value = parseFloat(
-            _.find(this.countries, c => {
-              return c.countryCode == country.id;
-            }).index
+            (dbData.influentialUsersCount /
+              (dbData.countryPopulation / 10000)) *
+              100
           ).toFixed(2);
+
           am4geodata_worldLow.default.features.push(country);
         }
       });
@@ -196,10 +196,14 @@ export default {
           self.total = _.reduce(
             self.countries,
             (sum, c) => {
-              return parseFloat(sum) + parseFloat(c.index);
+              return (
+                sum +
+                (c.influentialUsersCount / (c.countryPopulation / 10000)) * 100
+              );
             },
-            0
-          );
+            0.0
+          ).toFixed(2);
+          console.log(self.total);
           self.setChart();
         })
         .catch(error => {
