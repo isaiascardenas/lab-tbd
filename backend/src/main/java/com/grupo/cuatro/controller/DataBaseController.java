@@ -31,7 +31,7 @@ public class DataBaseController {
     private InfluentialUserRepository influentialUserRepository;
 
     private Elastic e = new Elastic();
-    
+
     @RequestMapping(value="/seed_users", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity seedUsers() {
