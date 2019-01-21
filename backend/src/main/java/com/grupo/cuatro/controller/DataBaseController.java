@@ -135,6 +135,10 @@ public class DataBaseController {
     @ResponseBody
     public ResponseEntity seedData(){
 
+        java.sql.Date sqlDate;
+        sqlDate = new java.sql.Date(System.currentTimeMillis());
+        ArrayList<Country> listaDePaises = new ArrayList<>();
+        ArrayList<Sport> listaDeDeportes = new ArrayList<>();
         System.out.println("Entre a seed data");
         //LLENANDO CHILE
         CountryKeyword santiago = new CountryKeyword();
@@ -160,8 +164,8 @@ public class DataBaseController {
 
         int influentialUserChile = e.influentialUsersPais("Chile");
         chile.setInfluentialUsersCount(influentialUserChile);
-
-        countryRepository.save(chile);
+        listaDePaises.add(chile);
+        //countryRepository.save(chile);
         //LLENANDO CHILE
 
         //LENANDO ARGENTINA
@@ -188,8 +192,8 @@ public class DataBaseController {
 
         int influentialUserArgentina = e.influentialUsersPais("Argentina");
         argentina.setInfluentialUsersCount(influentialUserArgentina);
-
-        countryRepository.save(argentina);
+        listaDePaises.add(argentina);
+        //countryRepository.save(argentina);
         //LENANDO ARGENTINA
 
         //LENANDO MEXICO
@@ -216,8 +220,8 @@ public class DataBaseController {
 
         int influentialUserMexico = e.influentialUsersPais("México");
         Mexico.setInfluentialUsersCount(influentialUserMexico);
-
-        countryRepository.save(Mexico);
+        listaDePaises.add(Mexico);
+        //countryRepository.save(Mexico);
        //LLENANDO MEXICO
 
         //LLENANDO ESPAÑA
@@ -244,8 +248,8 @@ public class DataBaseController {
 
         int influentialUserEspana = e.influentialUsersPais("España");
         espana.setInfluentialUsersCount(influentialUserEspana);
-
-        countryRepository.save(espana);
+        listaDePaises.add(espana);
+        //countryRepository.save(espana);
         //LLENANDO ESPAÑA
 
         //LLENANDO COLOMBIA
@@ -272,8 +276,8 @@ public class DataBaseController {
 
         int influentialUserColombia = e.influentialUsersPais("Colombia");
         colombia.setInfluentialUsersCount(influentialUserColombia);
-
-        countryRepository.save(colombia);
+        listaDePaises.add(colombia);
+        //countryRepository.save(colombia);
         //LLENANDO COLOMBIA
 
         //LLENANDO URUGUAY
@@ -300,8 +304,8 @@ public class DataBaseController {
 
         int influentialUserUruguay = e.influentialUsersPais("Uruguay");
         uruguay.setInfluentialUsersCount(influentialUserUruguay);
-
-        countryRepository.save(uruguay);
+        listaDePaises.add(uruguay);
+        //countryRepository.save(uruguay);
         //LLENANDO URUGUAY
 
         //LLENANDO PARAGUAY
@@ -328,8 +332,8 @@ public class DataBaseController {
 
         int influentialUserParaguay = e.influentialUsersPais("Paraguay");
         paraguay.setInfluentialUsersCount(influentialUserParaguay);
-
-        countryRepository.save(paraguay);
+        listaDePaises.add(paraguay);
+        //countryRepository.save(paraguay);
         //LLENANDO PARAGUAY
 
         //LLENANDO ECUADOR
@@ -356,8 +360,8 @@ public class DataBaseController {
 
         int influentialUserEcuador = e.influentialUsersPais("Ecuador");
         ecuador.setInfluentialUsersCount(influentialUserEcuador);
-
-        countryRepository.save(ecuador);
+        listaDePaises.add(ecuador);
+        //countryRepository.save(ecuador);
         //LLENANDO ECUADOR
 
         //LLENANDO VENEZUELA
@@ -384,8 +388,8 @@ public class DataBaseController {
 
         int influentialUserVenezuela = e.influentialUsersPais("Venezuela");
         venezuela.setInfluentialUsersCount(influentialUserVenezuela);
-
-        countryRepository.save(venezuela);
+        listaDePaises.add(venezuela);
+        //countryRepository.save(venezuela);
         //LLENANDO VENEZUELA
 
         //LLENANDO RUGBY
@@ -397,7 +401,8 @@ public class DataBaseController {
         listaRugby.add(rugbista);
         rugbista.setSport(rugby);
         rugby.setSportKeywords(listaRugby);
-        sportRepository.save(rugby);
+        listaDeDeportes.add(rugby);
+        //sportRepository.save(rugby);
         //LLENANDO RUGBY
 
         //LLENANDO BASKET
@@ -425,7 +430,8 @@ public class DataBaseController {
         basquetbolista.setSport(basketball);
         koby.setSport(basketball);
         basketball.setSportKeywords(listaBasketball);
-        sportRepository.save(basketball);
+        listaDeDeportes.add(basketball);
+        //sportRepository.save(basketball);
         //LLENANDO BASKET
 
         //LLENANDO TENIS
@@ -449,7 +455,8 @@ public class DataBaseController {
         martin.setSport(tenis);
         chinoDos.setSport(tenis);
         tenis.setSportKeywords(listaTenis);
-        sportRepository.save(tenis);
+        listaDeDeportes.add(tenis);
+        //sportRepository.save(tenis);
         //LLENANDO TENIS
 
         //LLENANDO BOXEO
@@ -477,7 +484,8 @@ public class DataBaseController {
         boxeador.setSport(boxeo);
         boxista.setSport(boxeo);
         boxeo.setSportKeywords(listaBoxeo);
-        sportRepository.save(boxeo);
+        listaDeDeportes.add(boxeo);
+        //sportRepository.save(boxeo);
         //LLENANDO BOXEO
 
         //LLENANDO VOLLEYBALL
@@ -489,7 +497,8 @@ public class DataBaseController {
         listaVolley.add(volley);
         volley.setSport(volleyball);
         volleyball.setSportKeywords(listaVolley);
-        sportRepository.save(volleyball);
+        listaDeDeportes.add(volleyball);
+        //sportRepository.save(volleyball);
         //LLENANDO VOLLEYBALL
 
         //LLENANDO NATACION
@@ -505,7 +514,8 @@ public class DataBaseController {
         nadador.setSport(natacion);
         phelps.setSport(natacion);
         natacion.setSportKeywords(listaNatacion);
-        sportRepository.save(natacion);
+        listaDeDeportes.add(natacion);
+        //sportRepository.save(natacion);
         //LLENANDO NATACION
 
         //LLENANDO FUTBOL FEMENINO
@@ -525,15 +535,14 @@ public class DataBaseController {
         ccFemDos.setSport(femenino);
         femenino2.setSport(femenino);
         femenino.setSportKeywords(listaFemenino);
-        sportRepository.save(femenino);
+        listaDeDeportes.add(femenino);
+        //sportRepository.save(femenino);
         //LLENANDO FUTBOL FEMENINO
 
-        Elastic e = new Elastic();
+        //Elastic e = new Elastic();
         List<Fecha> fechas = fechaRepository.findAll();
         ArrayList<Long> listaFechas = new ArrayList<>();
         listaFechas = e.getCantidadFecha();
-        System.out.println(listaFechas);
-        //Statistic st = new Statistic();
         for(int i = 0; i < 31; i++){
             if(listaFechas.get(i) != 0){
                 Fecha auxiliar = new Fecha();
@@ -550,9 +559,69 @@ public class DataBaseController {
                 fechaRepository.save(auxiliar);
             }
         }
-        //st.setFechas(fechas);
-        //statisticRepository.save(st);
-        System.out.println("Sali de seed data");
+
+        for (Sport sport : listaDeDeportes) {
+            Long sportTweetCount = 0L;
+            sportTweetCount += e.getCantidad(sport.getSportName());
+            for (SportKeyword sportKeyword : sport.getSportKeywords()) {
+                sportTweetCount += e.getCantidad(sportKeyword.getSportKeywordWord());
+            }
+            sport.setSportTweetCount(sportTweetCount);
+            sportRepository.save(sport);
+        }
+
+        for (Country country : listaDePaises) {
+            Long countryTweetCount = 0L;
+            countryTweetCount += e.getCantidadPais(country.getCountryName());
+            for (CountryKeyword countryKeyword : country.getCountryKeywords()) {
+                countryTweetCount += e.getCantidadPais(countryKeyword.getCountryKeywordWord());
+            }
+            country.setCountryTweetCount(countryTweetCount);
+            //countryRepository.save(country);
+        }
+
+        //System.out.println("Sali de seed data");
+        //List<Country> listaPaises = countryRepository.findAll();
+        //ArrayList<Sport> listaDeportes = new ArrayList<>();
+        for (Country pais : listaDePaises){
+            //System.out.println(pais.getCountryName());
+            //ArrayList<String> listaDeportesAux = e.paisHabla(pais.getCountryName());
+            //System.out.println(listaDeportesAux);
+            //for(String dep : listaDeportesAux){
+                //Sport deporte = sportRepository.getSportBySportNameIsLike(dep);
+                //listaDeportes.add(deporte);
+                //System.out.println(listaDeportes);
+            //}
+            //pais.setSports(listaDeportes);
+            countryRepository.save(pais);
+        }
+
+        List<Sport> sports = sportRepository.findAll();
+        List<Country> countries = countryRepository.findAll();
+
+        for (Sport sport : sports) {
+            for (Country country : countries) {
+                Statistic statistic = new Statistic();
+                statistic.setStatisticDate(sqlDate);
+                statistic.setStatisticQuery("tweetCountBySportByCountry");
+                statistic.setSport(sport);
+                statistic.setCountry(country);
+                Long statisticCount = 0L;
+
+                //primero se acumula el contador por su nombre
+                statisticCount += e.getCantidadDeportePais(sport.getSportName(), country.getCountryName());
+
+                //luego por cada keyword
+                for(CountryKeyword countryKeyword : country.getCountryKeywords()) {
+                    for(SportKeyword sportKeyword : sport.getSportKeywords()) {
+                        statisticCount += e.getCantidadDeportePais(sportKeyword.getSportKeywordWord(), countryKeyword.getCountryKeywordWord());
+                    }
+                }
+                statistic.setStatisticCount(statisticCount);
+                statisticRepository.save(statistic);
+            }
+        }
+
         return new ResponseEntity(HttpStatus.OK);
     }
 

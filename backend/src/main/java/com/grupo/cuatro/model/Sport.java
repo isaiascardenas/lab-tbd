@@ -36,12 +36,12 @@ public class Sport {
     private List<SportKeyword> sportKeywords;
 
     //muchos deportes son comentado por muchos usuarios
-    @ManyToMany(mappedBy = "sports")
+    @ManyToMany(targetEntity = InfluentialUser.class, mappedBy = "sports", cascade = CascadeType.ALL)
     @JsonBackReference("influential_user-sports")
     private List<InfluentialUser> influentialUsers;
 
-    @ManyToMany(mappedBy = "sports")
-    @JsonBackReference("sports-country")
+    @ManyToMany(targetEntity = Country.class, mappedBy = "sports", cascade = CascadeType.ALL)
+    @JsonBackReference("sports-countries")
     private List<Country> countries;
 
 }
