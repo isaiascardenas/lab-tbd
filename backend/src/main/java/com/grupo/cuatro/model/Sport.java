@@ -24,6 +24,9 @@ public class Sport {
     @Column(name="sport_tweet_count")
     private Long sportTweetCount;
 
+    @Column(name="sport_code")
+    private String sportCode;
+
     //relaciones
     //un deporte pertenece a muchas estadisticas
     @OneToMany(targetEntity = Statistic.class, mappedBy = "sport", cascade = CascadeType.ALL)

@@ -135,12 +135,13 @@ public class NeoController {
         List<Map<String, Object>> rels = new ArrayList<>();
         int i = 0;
         for(Country pais : paiseeees){
+            ArrayList<String> listDep = e.paisHabla(pais.getCountryName());
             List<Sport> listaDeportes = pais.getSports();
             nodes.add(grafoDB.mapTriple("name", pais.getCountryName(), "label", "Pais", "influencia", pais.getInfluenciaPais()));
             int target = i;
             i++;
-            for(Sport sport : listaDeportes){
-                Map<String, Object> deporte = grafoDB.map("name", sport.getSportName(), "label", "Deporte");
+            for(String sport : listDep){
+                Map<String, Object> deporte = grafoDB.map("name", sport, "label", "Deporte");
                 int source = nodes.indexOf(deporte);
                 if(source == -1){
                     nodes.add(deporte);
