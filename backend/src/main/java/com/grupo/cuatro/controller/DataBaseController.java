@@ -165,7 +165,7 @@ public class DataBaseController {
         int influentialUserChile = e.influentialUsersPais("Chile");
         chile.setInfluentialUsersCount(influentialUserChile);
         listaDePaises.add(chile);
-        //countryRepository.save(chile);
+        countryRepository.save(chile);
         //LLENANDO CHILE
 
         //LENANDO ARGENTINA
@@ -193,7 +193,7 @@ public class DataBaseController {
         int influentialUserArgentina = e.influentialUsersPais("Argentina");
         argentina.setInfluentialUsersCount(influentialUserArgentina);
         listaDePaises.add(argentina);
-        //countryRepository.save(argentina);
+        countryRepository.save(argentina);
         //LENANDO ARGENTINA
 
         //LENANDO MEXICO
@@ -221,7 +221,7 @@ public class DataBaseController {
         int influentialUserMexico = e.influentialUsersPais("México");
         Mexico.setInfluentialUsersCount(influentialUserMexico);
         listaDePaises.add(Mexico);
-        //countryRepository.save(Mexico);
+        countryRepository.save(Mexico);
        //LLENANDO MEXICO
 
         //LLENANDO ESPAÑA
@@ -249,7 +249,7 @@ public class DataBaseController {
         int influentialUserEspana = e.influentialUsersPais("España");
         espana.setInfluentialUsersCount(influentialUserEspana);
         listaDePaises.add(espana);
-        //countryRepository.save(espana);
+        countryRepository.save(espana);
         //LLENANDO ESPAÑA
 
         //LLENANDO COLOMBIA
@@ -277,7 +277,7 @@ public class DataBaseController {
         int influentialUserColombia = e.influentialUsersPais("Colombia");
         colombia.setInfluentialUsersCount(influentialUserColombia);
         listaDePaises.add(colombia);
-        //countryRepository.save(colombia);
+        countryRepository.save(colombia);
         //LLENANDO COLOMBIA
 
         //LLENANDO URUGUAY
@@ -305,7 +305,7 @@ public class DataBaseController {
         int influentialUserUruguay = e.influentialUsersPais("Uruguay");
         uruguay.setInfluentialUsersCount(influentialUserUruguay);
         listaDePaises.add(uruguay);
-        //countryRepository.save(uruguay);
+        countryRepository.save(uruguay);
         //LLENANDO URUGUAY
 
         //LLENANDO PARAGUAY
@@ -333,7 +333,7 @@ public class DataBaseController {
         int influentialUserParaguay = e.influentialUsersPais("Paraguay");
         paraguay.setInfluentialUsersCount(influentialUserParaguay);
         listaDePaises.add(paraguay);
-        //countryRepository.save(paraguay);
+        countryRepository.save(paraguay);
         //LLENANDO PARAGUAY
 
         //LLENANDO ECUADOR
@@ -361,7 +361,7 @@ public class DataBaseController {
         int influentialUserEcuador = e.influentialUsersPais("Ecuador");
         ecuador.setInfluentialUsersCount(influentialUserEcuador);
         listaDePaises.add(ecuador);
-        //countryRepository.save(ecuador);
+        countryRepository.save(ecuador);
         //LLENANDO ECUADOR
 
         //LLENANDO VENEZUELA
@@ -389,7 +389,7 @@ public class DataBaseController {
         int influentialUserVenezuela = e.influentialUsersPais("Venezuela");
         venezuela.setInfluentialUsersCount(influentialUserVenezuela);
         listaDePaises.add(venezuela);
-        //countryRepository.save(venezuela);
+        countryRepository.save(venezuela);
         //LLENANDO VENEZUELA
 
         //LLENANDO RUGBY
@@ -584,22 +584,23 @@ public class DataBaseController {
                 countryTweetCount += e.getCantidadPais(countryKeyword.getCountryKeywordWord());
             }
             country.setCountryTweetCount(countryTweetCount);
-            //countryRepository.save(country);
+            countryRepository.save(country);
         }
 
         //System.out.println("Sali de seed data");
-        //List<Country> listaPaises = countryRepository.findAll();
-        //ArrayList<Sport> listaDeportes = new ArrayList<>();
-        for (Country pais : listaDePaises){
-            //System.out.println(pais.getCountryName());
-            //ArrayList<String> listaDeportesAux = e.paisHabla(pais.getCountryName());
-            //System.out.println(listaDeportesAux);
-            //for(String dep : listaDeportesAux){
-                //Sport deporte = sportRepository.getSportBySportNameIsLike(dep);
-                //listaDeportes.add(deporte);
-                //System.out.println(listaDeportes);
-            //}
-            //pais.setSports(listaDeportes);
+        List<Country> listaPaises = countryRepository.findAll();
+
+        for (Country pais : listaPaises){
+            ArrayList<Sport> listaDeportes = new ArrayList<>();
+            System.out.println(pais.getCountryName());
+            ArrayList<String> listaDeportesAux = e.paisHabla(pais.getCountryName());
+            System.out.println(listaDeportesAux);
+            for(String dep : listaDeportesAux){
+                Sport deporte = sportRepository.getSportBySportNameIsLike(dep);
+                listaDeportes.add(deporte);
+                System.out.println(listaDeportes);
+            }
+            pais.setSports(listaDeportes);
             countryRepository.save(pais);
         }
 

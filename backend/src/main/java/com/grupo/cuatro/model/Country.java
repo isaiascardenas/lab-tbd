@@ -58,8 +58,8 @@ public class Country {
 
     @ManyToMany
     @JoinTable(name = "sport_country",
-            joinColumns = @JoinColumn(name = "sport_id"),
-            inverseJoinColumns = @JoinColumn(name = "country_id"))
+            joinColumns = @JoinColumn(name = "country_id"),
+            inverseJoinColumns = @JoinColumn(name = "sport_id"))
     private List<Sport> sports;
 
 
