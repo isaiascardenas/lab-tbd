@@ -140,8 +140,8 @@ public class NeoController {
             nodes.add(grafoDB.mapTriple("name", pais.getCountryName(), "label", "Pais", "influencia", pais.getInfluenciaPais()));
             int target = i;
             i++;
-            for(String sport : listDep){
-                Map<String, Object> deporte = grafoDB.map("name", sport, "label", "Deporte");
+            for(Sport sport : listaDeportes){
+                Map<String, Object> deporte = grafoDB.map("name", sport.getSportName(), "label", "Deporte");
                 int source = nodes.indexOf(deporte);
                 if(source == -1){
                     nodes.add(deporte);
