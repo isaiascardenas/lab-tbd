@@ -17,7 +17,7 @@
           </el-button>
         </div>
         <div class="node-detail">
-          Usuaios influyentes según población: <b> {{ details.index }} </b>
+          Usuarios influyentes según población: <b> {{ details.index }} </b>
         </div>
         <div class="node-detail">
           Porcentaje de Tweets: <b> {{ details.percent }} %</b>

@@ -1,7 +1,7 @@
 <template>
   <el-aside width="200px">
     <el-col class="sidebar">
-      <el-header class="sidebar-header"> <span>MI WEBSITE</span> </el-header>
+      <el-header class="sidebar-header"> <span>SportTweet</span> </el-header>
       <el-row class="menu-sidebar">
         <el-menu
           default-active="1"

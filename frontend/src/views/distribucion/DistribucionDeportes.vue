@@ -19,7 +19,7 @@
           </el-button>
         </div>
         <div class="node-detail">
-          Tweets por millones de persona: <b> {{ details.index }} </b>
+          Tweets: <b> {{ details.index }} </b>
         </div>
         <div class="node-detail">
           Porcentaje de Tweets: <b> {{ details.percent }} %</b>

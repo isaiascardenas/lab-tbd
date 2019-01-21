@@ -135,7 +135,7 @@ public class NeoController {
         List<Map<String, Object>> rels = new ArrayList<>();
         int i = 0;
         for(Country pais : paiseeees){
-            ArrayList<String> listDep = e.paisHabla(pais.getCountryName());
+            //ArrayList<String> listDep = e.paisHabla(pais.getCountryName());
             List<Sport> listaDeportes = pais.getSports();
             nodes.add(grafoDB.mapTriple("name", pais.getCountryName(), "label", "Pais", "influencia", pais.getInfluenciaPais()));
             int target = i;
