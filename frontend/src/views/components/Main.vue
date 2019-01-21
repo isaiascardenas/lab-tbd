@@ -38,10 +38,10 @@
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
-                v-for="pais in paises"
-                :key="pais.countryId"
-                :command="pais.countryId"
-                >{{ pais.countryName }}</el-dropdown-item
+                v-for="sport in sports"
+                :key="sport.sportId"
+                :command="sport.sportId"
+                >{{ sport.sportName }}</el-dropdown-item
               >
             </el-dropdown-menu>
           </el-dropdown>
@@ -58,7 +58,11 @@
 </template>
 
 <script>
-import { PaisesResources } from './../../router/endpoints';
+import {
+  PaisesResources,
+  DeportesResources,
+  multipleRequest,
+} from './../../router/endpoints';
 
 export default {
   name: 'Main',
@@ -66,10 +70,11 @@ export default {
   data() {
     return {
       paises: [],
+      sports: [],
     };
   },
   mounted() {
-    this.getDeportes();
+    this.getData();
   },
   methods: {
     handleMenu(index) {
@@ -81,23 +86,30 @@ export default {
         });
       }
     },
-    handleCommand(countryId) {
+    handleCommand(dataId) {
       if (this.$route.params.sprint == 'popularidad') {
         this.$router.push({
           name: 'Estadisticas Pais',
-          params: { id: countryId, sprint: this.$route.params.sprint },
+          params: { id: dataId, sprint: this.$route.params.sprint },
         });
         return;
       }
       this.$router.push({
         name: 'Distribucion Deportes',
-        params: { id: countryId, sprint: this.$route.params.sprint },
+        params: { id: dataId, sprint: this.$route.params.sprint },
       });
     },
-    getDeportes() {
-      PaisesResources.get({}).then(response => {
-        this.paises = response.data;
-      });
+    getData() {
+      let promises = [PaisesResources.get({}), DeportesResources.get({})];
+      multipleRequest
+        .all(promises)
+        .then(response => {
+          this.paises = response[0].data;
+          this.sports = response[1].data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
   },
 };

@@ -30,7 +30,7 @@ var EstadisticasResources = {
     });
   },
   getDeportes: params => {
-    return axios.get(`${base}/statistic/${params.statistic_id}/sport`, {
+    return axios.get(`${base}/sport/${params.sport_id}/statistics`, {
       params: params,
     });
   },

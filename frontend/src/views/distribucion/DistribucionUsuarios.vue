@@ -173,7 +173,6 @@ export default {
     handleCountry(ev) {
       _.each(this.chart.series.values[0].children.values, m => {
         if (m.className == 'MapPolygon') {
-          // console.log(m.dataItem.dataContext.name, m.isActive);
           m.isActive = false;
         }
       });
@@ -202,7 +201,6 @@ export default {
           self.total = _.reduce(
             self.countries,
             (sum, c) => {
-              console.log(c.influentialUsersCount, c.countryName);
               return (
                 sum +
                 (c.influentialUsersCount / (c.countryPopulation / 10000)) * 100
@@ -210,7 +208,6 @@ export default {
             },
             0.0
           ).toFixed(2);
-          console.log('total', self.total);
           self.setChart();
         })
         .catch(error => {

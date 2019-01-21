@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="map" v-loading="loading">
-      <div class="text">Cantidad de tweets sobre deportes por país</div>
+      <div class="text">
+        Cantidad de tweets sobre {{ current.sportName }} por país
+      </div>
       <div class="chartdiv" ref="chartdiv"></div>
     </div>
     <el-col :span="7" class="map-details-container">
@@ -20,13 +22,7 @@
           Tweets por millones de persona: <b> {{ details.index }} </b>
         </div>
         <div class="node-detail">
-          Porcentaje de Tweets:
-          <b>
-            {{
-              (parseFloat(details.percent / total) * parseFloat(100)).toFixed(2)
-            }}
-            %</b
-          >
+          Porcentaje de Tweets: <b> {{ details.percent }} %</b>
         </div>
       </el-card>
     </el-col>
@@ -36,7 +32,7 @@
 <script>
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4maps from '@amcharts/amcharts4/maps';
-import { PaisesResources } from './../../router/endpoints';
+import { EstadisticasResources } from './../../router/endpoints';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 import * as am4geodata_worldLow from '@amcharts/amcharts4-geodata/worldLow';
 
@@ -46,17 +42,54 @@ export default {
   data() {
     return {
       chart: {},
-      countries: [],
+      statistics: [],
       loading: true,
       details: {
         title: '',
         index: 0,
         percent: 0,
       },
+      current: 'CL',
       total: 1,
       detailsVisible: false,
-      minColor: '#fa9fb5',
-      maxColor: '#49006a',
+      colors: {
+        EC: {
+          minColor: '#fa9fb5',
+          maxColor: '#49006a',
+        },
+        CO: {
+          minColor: '#7fcdbb',
+          maxColor: '#081d58',
+        },
+        UY: {
+          minColor: '#a6bddb',
+          maxColor: '#014636',
+        },
+        AR: {
+          minColor: '#fec44f',
+          maxColor: '#662506',
+        },
+        PY: {
+          minColor: '#fc9272',
+          maxColor: '#67000d',
+        },
+        ES: {
+          minColor: '#bdbdbd',
+          maxColor: '#000000',
+        },
+        MX: {
+          minColor: '#fa9fb5',
+          maxColor: '#49006a',
+        },
+        CL: {
+          minColor: '#9ecae1',
+          maxColor: '#08306b',
+        },
+        VE: {
+          minColor: '#fec44f',
+          maxColor: '#662506',
+        },
+      },
     };
   },
   mounted() {
@@ -72,14 +105,19 @@ export default {
         let index = _.findIndex(am4geodata_worldLow.default.features, data => {
           return data.id == code;
         });
+
         if (index >= 0) {
           let country = am4geodata_worldLow.default.features[index];
           am4geodata_worldLow.default.features.splice(index, 1);
+
           country.properties.value = parseFloat(
-            _.find(this.countries, c => {
-              return c.countryCode == country.id;
-            }).index
+            (_.find(this.statistics, s => {
+              return s.country.countryCode == country.id;
+            }).statisticCount /
+              this.total) *
+              100
           ).toFixed(2);
+
           am4geodata_worldLow.default.features.push(country);
         }
       });
@@ -104,8 +142,9 @@ export default {
       worldSeries.heatRules.push({
         property: 'fill',
         target: worldSeries.mapPolygons.template,
-        min: am4core.color(this.minColor),
-        max: am4core.color(this.maxColor),
+        // todo change this later
+        min: am4core.color(this.colors.CL.minColor),
+        max: am4core.color(this.colors.CL.maxColor),
       });
 
       var polygonTemplate = worldSeries.mapPolygons.template;
@@ -176,7 +215,9 @@ export default {
       });
       ev.target.isActive = !ev.target.isActive;
       this.details.title = ev.target.dataItem._dataContext.name;
-      this.details.index = ev.target.dataItem._dataContext.value;
+      this.details.index = parseFloat(
+        (ev.target.dataItem._dataContext.value / 100) * this.total
+      ).toFixed(2);
       this.details.percent = ev.target.dataItem._dataContext.value;
       this.detailsVisible = true;
     },
@@ -189,27 +230,25 @@ export default {
       this.detailsVisible = false;
     },
     getCountries() {
-      let self = this;
-      PaisesResources.get({})
+      this.loading = true;
+      EstadisticasResources.getDeportes({ sport_id: this.$route.params.id })
         .then(response => {
-          self.countries = response.data;
-          _.each(self.countries, c => {
-            c.sports = _.uniqBy(c.sports, 'sportId');
-          });
-          self.total = _.reduce(
-            self.countries,
-            (sum, c) => {
-              return parseFloat(sum) + parseFloat(c.index);
+          this.statistics = response.data;
+
+          this.total = _.reduce(
+            this.statistics,
+            (sum, s) => {
+              return parseFloat(sum) + parseFloat(s.statisticCount);
             },
             0
           );
-          console.log(self.countries);
-          self.setChart();
+          this.setChart();
+          this.current = this.statistics[0].sport;
+          console.log('current', this.current);
+          this.loading = false;
         })
         .catch(error => {
           console.log(error);
-        })
-        .finally(() => {
           this.loading = false;
         });
     },
