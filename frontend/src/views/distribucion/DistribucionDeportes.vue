@@ -53,41 +53,33 @@ export default {
       total: 1,
       detailsVisible: false,
       colors: {
-        EC: {
+        RG: {
           minColor: '#fa9fb5',
           maxColor: '#49006a',
         },
-        CO: {
+        BB: {
           minColor: '#7fcdbb',
           maxColor: '#081d58',
         },
-        UY: {
+        TN: {
           minColor: '#a6bddb',
           maxColor: '#014636',
         },
-        AR: {
+        BX: {
           minColor: '#fec44f',
           maxColor: '#662506',
         },
-        PY: {
+        VB: {
           minColor: '#fc9272',
           maxColor: '#67000d',
         },
-        ES: {
+        NT: {
           minColor: '#bdbdbd',
           maxColor: '#000000',
         },
-        MX: {
+        FF: {
           minColor: '#fa9fb5',
           maxColor: '#49006a',
-        },
-        CL: {
-          minColor: '#9ecae1',
-          maxColor: '#08306b',
-        },
-        VE: {
-          minColor: '#fec44f',
-          maxColor: '#662506',
         },
       },
     };
@@ -143,8 +135,10 @@ export default {
         property: 'fill',
         target: worldSeries.mapPolygons.template,
         // todo change this later
-        min: am4core.color(this.colors.CL.minColor),
-        max: am4core.color(this.colors.CL.maxColor),
+        // min: am4core.color(this.colors[this.current.sportCode].minColor),
+        // max: am4core.color(this.colors[this.current.sportCode].maxColor),
+        min: am4core.color(this.colors.FF.minColor),
+        max: am4core.color(this.colors.FF.maxColor),
       });
 
       var polygonTemplate = worldSeries.mapPolygons.template;
