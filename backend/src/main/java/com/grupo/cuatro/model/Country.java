@@ -39,9 +39,6 @@ public class Country {
     @Column(name = "influential_users_count")
     private Integer influentialUsersCount;
 
-    /*@Column(name = "influencia")
-    private Double influencia;*/
-
     //relaciones
     //un pais pertenece a muchas estadisticas
     //fetch = eager

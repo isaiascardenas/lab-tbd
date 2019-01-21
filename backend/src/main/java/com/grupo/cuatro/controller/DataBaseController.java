@@ -395,6 +395,7 @@ public class DataBaseController {
         //LLENANDO RUGBY
         Sport rugby = new Sport();
         rugby.setSportName("Rugby");
+        rugby.setSportCode("RG");
         SportKeyword rugbista = new SportKeyword();
         rugbista.setSportKeywordWord("rugbista");
         ArrayList<SportKeyword> listaRugby = new ArrayList<>();
@@ -408,6 +409,7 @@ public class DataBaseController {
         //LLENANDO BASKET
         Sport basketball = new Sport();
         basketball.setSportName("Basketball");
+        basketball.setSportCode("BB");
         SportKeyword basket = new SportKeyword();
         SportKeyword basquet = new SportKeyword();
         SportKeyword basquetball = new SportKeyword();
@@ -437,6 +439,7 @@ public class DataBaseController {
         //LLENANDO TENIS
         Sport tenis = new Sport();
         tenis.setSportName("Tenis");
+        tenis.setSportCode("TN");
         SportKeyword tenista = new SportKeyword();
         SportKeyword chino = new SportKeyword();
         SportKeyword martin = new SportKeyword();
@@ -462,6 +465,7 @@ public class DataBaseController {
         //LLENANDO BOXEO
         Sport boxeo = new Sport();
         boxeo.setSportName("Boxeo");
+        boxeo.setSportCode("BX");
         SportKeyword myke = new SportKeyword();
         SportKeyword floyd = new SportKeyword();
         SportKeyword ali = new SportKeyword();
@@ -491,6 +495,7 @@ public class DataBaseController {
         //LLENANDO VOLLEYBALL
         Sport volleyball = new Sport();
         volleyball.setSportName("Volleyball");
+        volleyball.setSportCode("VB");
         SportKeyword volley = new SportKeyword();
         volley.setSportKeywordWord("volley");
         ArrayList<SportKeyword> listaVolley = new ArrayList<>();
@@ -504,6 +509,7 @@ public class DataBaseController {
         //LLENANDO NATACION
         Sport natacion = new Sport();
         natacion.setSportName("Natación");
+        natacion.setSportCode("NT");
         SportKeyword nadador = new SportKeyword();
         SportKeyword phelps = new SportKeyword();
         nadador.setSportKeywordWord("nadador");
@@ -521,6 +527,7 @@ public class DataBaseController {
         //LLENANDO FUTBOL FEMENINO
         Sport femenino = new Sport();
         femenino.setSportName("Futbol Femenino");
+        femenino.setSportCode("FF");
         SportKeyword ccFem = new SportKeyword();
         SportKeyword ccFemDos = new SportKeyword();
         SportKeyword femenino2 = new SportKeyword();
