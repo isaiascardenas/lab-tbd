@@ -134,11 +134,8 @@ export default {
       worldSeries.heatRules.push({
         property: 'fill',
         target: worldSeries.mapPolygons.template,
-        // todo change this later
-        // min: am4core.color(this.colors[this.current.sportCode].minColor),
-        // max: am4core.color(this.colors[this.current.sportCode].maxColor),
-        min: am4core.color(this.colors.FF.minColor),
-        max: am4core.color(this.colors.FF.maxColor),
+        min: am4core.color(this.colors[this.current.sportCode].minColor),
+        max: am4core.color(this.colors[this.current.sportCode].maxColor),
       });
 
       var polygonTemplate = worldSeries.mapPolygons.template;
@@ -203,7 +200,6 @@ export default {
     handleCountry(ev) {
       _.each(this.chart.series.values[0].children.values, m => {
         if (m.className == 'MapPolygon') {
-          // console.log(m.dataItem.dataContext.name, m.isActive);
           m.isActive = false;
         }
       });
@@ -236,9 +232,8 @@ export default {
             },
             0
           );
-          this.setChart();
           this.current = this.statistics[0].sport;
-          console.log('current', this.current);
+          this.setChart();
           this.loading = false;
         })
         .catch(error => {
